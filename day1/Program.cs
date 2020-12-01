@@ -12,14 +12,15 @@ for (int i = 0; i < input.Length - 1; i++)
     {
         for (int k = 1; k < input.Length - 1; k++)
         {
-
             if (i == j || j == k || i == k) continue;
+
             var first = Int32.Parse(input[i]);
             var second = Int32.Parse(input[j]);
             var third = Int32.Parse(input[k]);
             if (first + second + third == 2020)
             {
                 Console.WriteLine(first * second * third);
+                i = j = k = input.Length;
                 break;
             }
         }
