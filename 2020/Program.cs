@@ -1,16 +1,18 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using AOC;
-const string COOKIE = "session=yourcookie";
-const string DAY = "2";
 
-DayModule day = new DayTwo() { Day = DAY, Cookie = COOKIE };
+string COOKIE = File.ReadAllText("./.cookie"); //add this to gitignore next round
+const int DAY = 3;
+
+DayModule day = new DayThree() { Day = DAY, Cookie = COOKIE };
 var input = day.GetInput();
 
-//Console.WriteLine(day.Level1(input));
+Console.WriteLine(day.Level1(input));
 //day.PostL1Answer();
+Task.Delay(5000);
 //Console.WriteLine(day.Level2(input));
-day.PostL2Answer();
-var result = DayTwo.IsValid("1-3 a: abcde");
-Console.WriteLine(result);
+//day.PostL2Answer();

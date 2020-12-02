@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AOC
 {
@@ -20,14 +21,6 @@ namespace AOC
             }
 
             return ctr.ToString();
-
-        }
-
-        private static Entry GetEntry(string entry)
-        {
-            var buffer = entry.Split(' ');
-            var text = buffer[0].Split('-');
-            return new Entry(Convert.ToInt32(text[0]), Convert.ToInt32(text[1]), buffer[1][0], buffer[2]);
         }
 
         public override string Level2(string[] input)
@@ -45,17 +38,28 @@ namespace AOC
 
             return ctr.ToString();
         }
-        public static bool IsValid(string entry)
-        {
-            return IsValid(GetEntry(entry));
-        }
 
         public static bool IsValid(Entry entry)
         {
-            var isValid  =  (entry.min <= entry.password.Length ? entry.password[entry.min-1] == entry.target : false) ^
-                                (entry.max <= entry.password.Length ? entry.password[entry.max-1] == entry.target : false);
+            var isValid = (entry.min <= entry.password.Length ? entry.password[entry.min - 1] == entry.target : false) ^
+                                (entry.max <= entry.password.Length ? entry.password[entry.max - 1] == entry.target : false);
             return isValid;
         }
+
+        private static Entry GetEntry(string entry)
+        {
+            var pattern = @"(\d+)-(\d+)\s(\w):\s(\w*)";
+            var r = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match m = r.Match(entry);
+            if (m.Success)
+            {
+                return new Entry(Convert.ToInt32(m.Groups[1].Value), Convert.ToInt32(m.Groups[2].Value), Convert.ToChar(m.Groups[3].Value), m.Groups[4].Value);
+            }
+
+            return null;
+        }
+
+
     }
     public record Entry(int min, int max, char target, string password);
 }

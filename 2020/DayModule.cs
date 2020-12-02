@@ -7,7 +7,7 @@ namespace AOC
 
     public abstract class DayModule
     {
-        public string Day { get; set; }
+        public int Day { get; set; }
         public string Cookie { get; set; }
         public string[] Input { get; set; }
         public abstract string Level1(string[] input);
