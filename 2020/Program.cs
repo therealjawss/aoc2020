@@ -14,5 +14,5 @@ var input = day.GetInput();
 Console.WriteLine(day.Level1(input));
 //day.PostL1Answer();
 Task.Delay(5000);
-//Console.WriteLine(day.Level2(input));
+Console.WriteLine(day.Level2(input));
 //day.PostL2Answer();
