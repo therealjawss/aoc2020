@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AOC2020.Days
 {
     public class Day3 : Christmas
     {
         public override int Day => 3;
-		public override string Level1(string[] input)
+        public override string Level1(string[] input)
         {
             int i = 0;
             int ctr = 0;
@@ -22,19 +25,17 @@ namespace AOC2020.Days
 
         public override string Level2(string[] input)
         {
-            Slope[] slopes = {
-                new Slope(1,1),
-                new Slope(3,1),
-                new Slope(5,1),
-                new Slope(7,1),
-                new Slope(1,2)
-            };
-            double result = 1;
-
-            foreach (var slope in slopes)
+            List<Slope> slopes = new List<Slope>
             {
-                result = result * GetTreesForSlope(input, slope);
-            }
+                new Slope(1, 1),
+                new Slope(3, 1),
+                new Slope(5, 1),
+                new Slope(7, 1),
+                new Slope(1, 2)
+            };
+
+            //thanks for the tip on Aggregate Anders :D
+            ulong result = slopes.Aggregate((ulong)1, (val, next) => val * (ulong)GetTreesForSlope(input, next));
 
             return result.ToString();
         }
