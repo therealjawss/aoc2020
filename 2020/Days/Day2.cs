@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AOC
+namespace AOC2020.Days
 {
 
-    public class DayTwo : DayModule
+    public class Day2 : Christmas
     {
-        public override string Level1(string[] input)
+        public override int Day => 2;
+		public override string Level1(string[] input)
         {
             int ctr = 0;
             foreach (var line in input)

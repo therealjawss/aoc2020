@@ -1,11 +1,13 @@
 using System;
 
-namespace AOC
+namespace AOC2020.Days
 {
 
-    public class DayOne : DayModule
+    public class Day1 : Christmas
     {
-        public override string Level1(string[] input)
+        public override int Day => 1;
+
+		public override string Level1(string[] input)
         {
             for (int i = 0; i < input.Length; i++)
             {

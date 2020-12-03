@@ -1,17 +1,28 @@
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace AOC
+namespace AOC2020.Days
 {
 
-    public abstract class DayModule
+    public class Christmas
     {
-        public int Day { get; set; }
+        public virtual int Day { get; }
         public string Cookie { get; set; }
         public string[] Input { get; set; }
-        public abstract string Level1(string[] input);
-        public abstract string Level2(string[] input);
+		public Christmas()
+		{
+            Cookie = File.ReadAllText("./.cookie");
+        }
+        public virtual string Level1(string[] input)
+		{
+            return "todo";
+		}
+        public virtual string Level2(string[] input)
+		{
+            return "todo";
+		}
 
         public void PostL1Answer()
         {
