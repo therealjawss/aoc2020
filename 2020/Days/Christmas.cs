@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AOC2020.Days
 {
@@ -11,18 +12,18 @@ namespace AOC2020.Days
         public virtual int Day { get; }
         public string Cookie { get; set; }
         public string[] Input { get; set; }
-		public Christmas()
-		{
+        public Christmas()
+        {
             Cookie = File.ReadAllText("./.cookie");
         }
         public virtual string Level1(string[] input)
-		{
+        {
             return "todo";
-		}
+        }
         public virtual string Level2(string[] input)
-		{
+        {
             return "todo";
-		}
+        }
 
         public void PostL1Answer()
         {
@@ -44,18 +45,43 @@ namespace AOC2020.Days
                 var result = client.UploadString(answerURL, postData);
             }
         }
-        public string[] GetInput()
+        public string[] GetInput(string file = null, string pattern = null)
+        {
+            string buffer = ReadBuffer(file);
+            if (pattern == null)
+            {
+                Input = buffer.Split("\n").Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            }
+            else
+            {
+
+                Input = buffer.Split(pattern).ToArray();
+                //var r = new Regex(pattern);
+                // Input = Regex.Matches(buffer, pattern).Cast<Match>().Select(m => m.Value).ToArray();
+            }
+            return Input;
+        }
+
+        private string ReadBuffer(string file)
         {
             string url = $"https://adventofcode.com/2020/day/{Day}/input";
-            using (WebClient client = new WebClient())
+            string result;
+            if (file == null)
             {
-                client.Headers.Add(HttpRequestHeader.Cookie, Cookie);
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.Cookie, Cookie);
 
-                var result = client.DownloadData(url);
-                Input = Encoding.UTF8.GetString(result).Split("\n").Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                    result = Encoding.UTF8.GetString(client.DownloadData(url));
 
-                return Input;
+                }
             }
+            else
+            {
+                result = File.ReadAllText(file);
+            }
+            return result;
         }
+
     }
 }
