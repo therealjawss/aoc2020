@@ -12,4 +12,4 @@ Console.WriteLine(day.Level1(day.Input));
 Task.Delay(5000);
 Console.WriteLine(day.Level2(day.Input));
 //day.PostL2Answer();
-Console.ReadLine();
+
