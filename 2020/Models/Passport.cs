@@ -18,7 +18,7 @@ namespace AOC2020.Models
                 PassportValidator.ValidateHeight(Extract("hgt")) &&
                 PassportValidator.ValidateHairColor(Extract("hcl")) &&
                 PassportValidator.ValidatePattern(Extract("ecl"), "^(amb|blu|brn|gry|grn|hzl|oth)$") &&
-                PassportValidator.ValidatePattern(Extract("pid"), @"^\d{9}$");
+                PassportValidator.ValidatePattern(Extract("pid"), @"\d{9}");
         }
         private string Extract(string key)
         {

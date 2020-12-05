@@ -54,7 +54,7 @@ namespace AOC2020.Tools
 
         public static bool ValidateHeight(string input)
         {
-            var pattern = @"^(\d+)(in|cm)$";
+            var pattern = @"(\d+)(in|cm)";
             var m = Regex.Match(input, pattern);
             bool result = m.Success;
             if (m.Success)

@@ -1,4 +1,5 @@
 using AOC2020.Days;
+using AOC2020.Models;
 using AOC2020.Tools;
 using FluentAssertions;
 using System;
@@ -26,7 +27,7 @@ namespace AOCTest
                 }
             };
 
-            bool result = Validator.SimpleValidate(passport);
+            bool result = PassportValidator.SimpleValidate(passport);
 
             result.Should().Be(true);
         }
@@ -47,7 +48,7 @@ namespace AOCTest
                 }
             };
 
-            bool result = Validator.SimpleValidate(passport);
+            bool result = PassportValidator.SimpleValidate(passport);
 
             result.Should().Be(true);
         }
@@ -59,7 +60,7 @@ namespace AOCTest
         [InlineData("2003", false)]
         public void ValidBirthYear(string input, bool expected)
 		{
-            bool result = Validator.ValidateBYR(input);
+            bool result = PassportValidator.ValidateBYR(input);
 
             result.Should().Be(expected);
 		}
@@ -73,7 +74,7 @@ namespace AOCTest
         [InlineData("2oeu", false)]
         public void ValidIssueYear(string input, bool expected)
 		{
-            bool result = Validator.ValidateIYR(input);
+            bool result = PassportValidator.ValidateIYR(input);
             result.Should().Be(expected);
 		}
         [Theory]
@@ -83,7 +84,7 @@ namespace AOCTest
         [InlineData("2031", false)]
         public void ValidExpirationYear(string input, bool expected)
 		{
-            bool result = Validator.ValidateEYR(input);
+            bool result = PassportValidator.ValidateEYR(input);
             result.Should().Be(expected);
         }
 
@@ -95,7 +96,7 @@ namespace AOCTest
 		[InlineData("1incm", false)]
 		public void ValidHeight(string input, bool expected)
 		{
-            bool result = Validator.ValidateHeight(input);
+            bool result = PassportValidator.ValidateHeight(input);
             result.Should().Be(expected);
 		}
     }

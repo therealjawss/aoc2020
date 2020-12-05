@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AOC2020.Days;
 
-Christmas day = new Day4();
-day.GetInput("test.txt", "\r\n\r\n");
+Christmas day = new Day5();
+day.GetInput();
 Console.WriteLine(day.Level1(day.Input));
 //day.PostL1Answer();
 Task.Delay(5000);

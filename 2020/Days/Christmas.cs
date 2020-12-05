@@ -55,7 +55,7 @@ namespace AOC2020.Days
             else
             {
 
-                Input = buffer.Split(pattern).ToArray();
+                Input = buffer.Split(pattern).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
                 //var r = new Regex(pattern);
                 // Input = Regex.Matches(buffer, pattern).Cast<Match>().Select(m => m.Value).ToArray();
             }
