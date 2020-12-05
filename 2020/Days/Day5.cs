@@ -38,6 +38,7 @@ namespace AOC2020.Days
 			{
 				if (seatQueue[i + 1] - seatQueue[i] == 2) return (seatQueue[i] + 1).ToString();
 			}
+
 			return base.Level2(input);
 		}
 
@@ -48,7 +49,6 @@ namespace AOC2020.Days
 
 		private void Insert(int seatNumber, int startindex, int endIndex)
 		{
-
 			if (startindex != endIndex && seatNumber > seatQueue[startindex])
 			{
 				Insert(seatNumber, startindex + 1, endIndex);
@@ -68,27 +68,23 @@ namespace AOC2020.Days
 			var result = Traverse(row, 0, 127, 'F') * 8 + Traverse(column, 0, 7, 'L');
 			return result;
 		}
+
 		public int Traverse(string inst, int bottom, int top, char lowerCode)
 		{
-			var code = inst[0];
-			if (inst.Length == 1)
+			if (bottom == top)
 			{
-				if (code == lowerCode)
-				{
-					return bottom;
-				}
-				else
-				{
-					return top;
-				}
+				return bottom;
 			}
-			if (code == lowerCode)
+
+			var midpoint = (int)((top - bottom) / 2) + bottom;
+
+			if (inst[0] == lowerCode)
 			{
-				return Traverse(inst.Substring(1), bottom, (int)(top - bottom) / 2 + bottom, lowerCode);
+				return Traverse(inst.Substring(1), bottom, midpoint, lowerCode);
 			}
 			else
 			{
-				return Traverse(inst.Substring(1), (int)(top - bottom) / 2 + bottom + 1, top, lowerCode);
+				return Traverse(inst.Substring(1), midpoint + 1, top, lowerCode);
 			}
 
 		}
