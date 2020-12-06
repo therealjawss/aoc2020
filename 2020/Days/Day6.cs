@@ -10,81 +10,87 @@ using System.Threading.Tasks;
 
 namespace AOC2020.Days
 {
-    public class Day6 : Christmas
-    {
-        public override int Day => 6;
+	public class Day6 : Christmas
+	{
+		public override int Day => 6;
 
-        public override string Level1(string[] input)
-        {
-            var toAdd = new HashSet<char>();
-            long counter = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i].Length > 0)
-                {
-                    for (int j = 0; j < input[i].Length; j++)
-                    {
-                        toAdd.Add(input[i][j]);
-                    }
-                }
-                else
-                {
-                    counter += toAdd.Count;
-                    toAdd = new HashSet<char>();
-                }
+		public static void Run()
+		{
+			Christmas day = new Day6();
+			day.GetInput();
+			Console.WriteLine(day.Level1(day.Input));
+			//day.PostL1Answer();
+			Task.Delay(60000);
+			Console.WriteLine(day.Level2(day.Input));
+			//day.PostL2Answer();
 
-            }
-            counter += toAdd.Count;
-            return counter.ToString();
-        }
+		}
+		public override string Level1(string[] input)
+		{
+			var toAdd = new HashSet<char>();
+			long counter = 0;
+			for (int i = 0; i < input.Length; i++)
+			{
+				foreach( var c in input[i])
+				{
+					if (Char.IsLetter(c))
+					{
+						toAdd.Add(c);
+					}
+				}
+				counter += toAdd.Count;
+				toAdd = new HashSet<char>();
+			}
 
-        public override string Level2(string[] input)
-        {
-            List<char> answers = new List<char>();
-            var groupAnswers = new List<List<char>>();
-            long counter = 0;
-            int peopleCtr = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i].Length > 0)
-                {
-                    peopleCtr++;
-                    for (int j = 0; j < input[i].Length; j++)
-                    {
-                        answers.Add(input[i][j]);
-                    }
-                }
-                else
-                {
-                    counter += processGroupAnswers(answers, peopleCtr);
-                    answers = new List<char>();
-                    peopleCtr = 0;
+			return counter.ToString();
+		}
 
-                }
+		public override string Level2(string[] input)
+		{
+			var toAdd = new List<char>();
+			long counter = 0;
+			int peopleCtr = 0;
 
-            }
-            counter += processGroupAnswers(answers, peopleCtr);
-            return counter.ToString();
-        }
+			for (int i = 0; i < input.Length; i++)
+			{
+				foreach (var c in input[i])
+				{
+					if (Char.IsLetter(c))
+					{
+						toAdd.Add(c);
+					} else if (c=='\n')
+					{
+						peopleCtr++;
+					}
+				}
+				peopleCtr = i == input.Length-1 ? peopleCtr : peopleCtr+1;
+				counter += processGroupAnswers(toAdd, peopleCtr);
+				toAdd = new List<char>();
 
-        private int processGroupAnswers(List<char> answers, int peopleCtr)
-        {
-            int counter = 0;
-            var result = answers.GroupBy(x => x);
-            foreach (var r in result)
-            {
-                if (r.Count() == peopleCtr)
-                {
-                    counter++;
-                }
-            }
-            return counter;
-        }
+				peopleCtr = 0;	
+			}
 
-        public override string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
-        {
-            return base.GetInput(file, pattern: "\n", x => true); ;
-        }
+			return counter.ToString();
+		}
 
-    }
+		private int processGroupAnswers(List<char> answers, int peopleCtr)
+		{
+			int counter = 0;
+			var result = answers.GroupBy(x => x);
+			foreach (var r in result)
+			{
+				if (r.Count() == peopleCtr)
+				{
+					counter++;
+				}
+			}
+			return counter;
+		}
+
+		public override string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
+		{
+			return base.GetInput(file, pattern: "\n\n", x => true); ;
+		}
+
+	}
 }
