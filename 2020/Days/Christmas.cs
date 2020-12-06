@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -45,17 +46,22 @@ namespace AOC2020.Days
                 var result = client.UploadString(answerURL, postData);
             }
         }
-        public virtual string[] GetInput(string file = null, string pattern = null)
+        public virtual string[] GetInput(string file = null, string pattern = null, Func<string,bool> predicate = null)
         {
+            if (predicate == null)
+            {
+                predicate = x => !string.IsNullOrWhiteSpace(x);
+            }
+
             string buffer = ReadBuffer(file);
             if (pattern == null)
             {
-                Input = buffer.Split("\n").Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                Input = buffer.Split("\n").Where(predicate).ToArray();
             }
             else
             {
 
-                Input = buffer.Split(pattern).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                Input = buffer.Split(pattern).Where(predicate).ToArray();
             }
             return Input;
         }

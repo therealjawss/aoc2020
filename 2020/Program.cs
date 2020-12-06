@@ -7,10 +7,10 @@ using AOC2020.Days;
 
 Christmas day = new Day6();
 //day.GetInput("test.txt", "\r\n");
-day.GetInput(pattern: "\n");
+day.GetInput();
 Console.WriteLine(day.Level1(day.Input));
-day.PostL1Answer();
+//day.PostL1Answer();
 Task.Delay(60000);
 Console.WriteLine(day.Level2(day.Input));
-day.PostL2Answer();
+//day.PostL2Answer();
 

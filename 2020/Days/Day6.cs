@@ -81,21 +81,9 @@ namespace AOC2020.Days
             return counter;
         }
 
-        public override string[] GetInput(string file = null, string pattern = null)
+        public override string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
         {
-            string buffer = base.ReadBuffer(file);
-            if (pattern == null)
-            {
-                Input = buffer.Split("\n").ToArray();
-            }
-            else
-            {
-
-                Input = buffer.Split(pattern).ToArray();
-                //var r = new Regex(pattern);
-                // Input = Regex.Matches(buffer, pattern).Cast<Match>().Select(m => m.Value).ToArray();
-            }
-            return Input;
+            return base.GetInput(file, pattern: "\n", x => true); ;
         }
 
     }

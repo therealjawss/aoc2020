@@ -13,7 +13,8 @@ namespace AOCTest
         [Fact]
         public void CompleteProperties()
         {
-            var passport = new Passport {
+            var passport = new Passport
+            {
                 Properties = new KeyValuePair<string, string>[]
                 {
                     new KeyValuePair<string, string>("byr", "2002"),
@@ -59,11 +60,11 @@ namespace AOCTest
         [InlineData("2002", true)]
         [InlineData("2003", false)]
         public void ValidBirthYear(string input, bool expected)
-		{
+        {
             bool result = PassportValidator.ValidateBYR(input);
 
             result.Should().Be(expected);
-		}
+        }
 
         [Theory]
         [InlineData("1920", false)]
@@ -73,33 +74,33 @@ namespace AOCTest
         [InlineData("2021", false)]
         [InlineData("2oeu", false)]
         public void ValidIssueYear(string input, bool expected)
-		{
+        {
             bool result = PassportValidator.ValidateIYR(input);
             result.Should().Be(expected);
-		}
+        }
         [Theory]
         [InlineData("1920", false)]
         [InlineData("2020", true)]
         [InlineData("2030", true)]
         [InlineData("2031", false)]
         public void ValidExpirationYear(string input, bool expected)
-		{
+        {
             bool result = PassportValidator.ValidateEYR(input);
             result.Should().Be(expected);
         }
 
         [Theory]
         [InlineData("60in", true)]
-		[InlineData("60", false)]
-		[InlineData("60cm", false)]
-		[InlineData("cm", false)]
-		[InlineData("1incm", false)]
-		public void ValidHeight(string input, bool expected)
-		{
+        [InlineData("60", false)]
+        [InlineData("60cm", false)]
+        [InlineData("cm", false)]
+        [InlineData("1incm", false)]
+        public void ValidHeight(string input, bool expected)
+        {
             bool result = PassportValidator.ValidateHeight(input);
             result.Should().Be(expected);
-		}
+        }
     }
 
-    
+
 }
