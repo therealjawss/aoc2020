@@ -27,19 +27,11 @@ namespace AOC2020.Days
 		}
 		public override string Level1(string[] input)
 		{
-			var toAdd = new HashSet<char>();
 			long counter = 0;
 			for (int i = 0; i < input.Length; i++)
 			{
-				foreach( var c in input[i])
-				{
-					if (Char.IsLetter(c))
-					{
-						toAdd.Add(c);
-					}
-				}
-				counter += toAdd.Count;
-				toAdd = new HashSet<char>();
+				var answers = (input[i].Where(c => Char.IsLetter(c))).Distinct().ToList();
+				counter += answers.Count;
 			}
 
 			return counter.ToString();
@@ -47,27 +39,14 @@ namespace AOC2020.Days
 
 		public override string Level2(string[] input)
 		{
-			var toAdd = new List<char>();
 			long counter = 0;
-			int peopleCtr = 0;
 
 			for (int i = 0; i < input.Length; i++)
 			{
-				foreach (var c in input[i])
-				{
-					if (Char.IsLetter(c))
-					{
-						toAdd.Add(c);
-					} else if (c=='\n')
-					{
-						peopleCtr++;
-					}
-				}
-				peopleCtr = i == input.Length-1 ? peopleCtr : peopleCtr+1;
-				counter += processGroupAnswers(toAdd, peopleCtr);
-				toAdd = new List<char>();
+				var answers = (input[i].Where(c => Char.IsLetter(c))).ToList();
+				int peopleCtr = input[i].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x)).Count();
 
-				peopleCtr = 0;	
+				counter += processGroupAnswers(answers, peopleCtr);
 			}
 
 			return counter.ToString();
@@ -77,13 +56,8 @@ namespace AOC2020.Days
 		{
 			int counter = 0;
 			var result = answers.GroupBy(x => x);
-			foreach (var r in result)
-			{
-				if (r.Count() == peopleCtr)
-				{
-					counter++;
-				}
-			}
+			counter += (result.Where(r => r.Count() == peopleCtr)).Count();
+
 			return counter;
 		}
 
