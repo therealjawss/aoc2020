@@ -45,7 +45,7 @@ namespace AOC2020.Days
                 var result = client.UploadString(answerURL, postData);
             }
         }
-        public string[] GetInput(string file = null, string pattern = null)
+        public virtual string[] GetInput(string file = null, string pattern = null)
         {
             string buffer = ReadBuffer(file);
             if (pattern == null)
@@ -56,13 +56,11 @@ namespace AOC2020.Days
             {
 
                 Input = buffer.Split(pattern).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-                //var r = new Regex(pattern);
-                // Input = Regex.Matches(buffer, pattern).Cast<Match>().Select(m => m.Value).ToArray();
             }
             return Input;
         }
 
-        private string ReadBuffer(string file)
+        protected string ReadBuffer(string file)
         {
             string url = $"https://adventofcode.com/2020/day/{Day}/input";
             string result;
