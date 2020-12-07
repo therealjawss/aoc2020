@@ -24,29 +24,49 @@ namespace AOC2020.Days
 			//day.PostL2Answer();
 		}
 
-		public static Bag ParseRule(string rule)
+		public static Bag ParseRule(string rule, List<Bag> bags)
 		{
 			Bag r;
-			var pattern = @"(?<outer>[\w\s]+)(?: bags contain )((\d+) ([\w+\s]+)(?: bag[s]?,\s))*((\d+) ([\w+\s]+)(?: bag[s]?).)";
-			var m = new Regex(pattern).Match(rule);
+			var outer = @"(?<outer>[\w\s]+)(?: bags contain )";
+			var middleBagsPattern = "(\\d+) ([\\w+\\s]+)(?: bag[s]?[.,])";
+			var m = new Regex(outer).Match(rule);
 			var gold = new Regex(@"(?:.*) contain (?:.*)shiny gold bag").Match(rule).Success;
+			string bagName;
 			if (m.Success)
 			{
-
-				r = new Bag(m.Groups["outer"].Value, new List<ContainedBag>(), gold);
-				for (var i = 1; i + 6 < m.Groups.Count && m.Groups[i].Value.Length > 0; i += 3)
+				bagName = m.Groups["outer"].Value;
+				r = bags.FirstOrDefault(x => x.description.Equals(bagName));
+				if (r == null)
 				{
-					r.containedBags.Add(new ContainedBag(Convert.ToInt32(m.Groups[i + 1].Value), new Bag(m.Groups[i + 2].Value, new List<ContainedBag>(), false)));
+					r = new Bag(bagName, new List<ContainedBag>(), gold);
+					bags.Add(r);
 				}
-				int len = m.Groups.Count;
-				r.containedBags.Add(new ContainedBag(Convert.ToInt32(m.Groups[len - 3].Value), new Bag(m.Groups[len - 2].Value, new List<ContainedBag>(), false)));
+				var mb = new Regex(middleBagsPattern).Matches(rule);
+
+				for(int i =0; i<mb.Count; i++)
+				{
+					bagName = mb[i].Groups[2].Value;
+					var num = Convert.ToInt32(mb[i].Groups[1].Value);
+					var containedBag = bags.FirstOrDefault(bags => bags.description.Equals(bagName));
+					if (containedBag == null)
+					{
+						containedBag = new Bag(bagName, new List<ContainedBag>(), false);
+						bags.Add(containedBag);
+					}
+					r.containedBags.Add(new ContainedBag(num, containedBag));
+				}
 			}
 			else
 			{
-				pattern = @"(?<outer>[\w\s]+)(?: bags contain no other bags.)";
-				m = new Regex(pattern).Match(rule);
-				r = new Bag(m.Groups["outer"].Value, new List<ContainedBag>(), false);
-
+				outer = @"(?<outer>[\w\s]+)(?: bags contain no other bags.)";
+				m = new Regex(outer).Match(rule);
+				bagName = m.Groups["outer"].Value;
+				r = bags.FirstOrDefault(x => x.description.Equals(bagName));
+				if (r == null)
+				{
+					r = new Bag(m.Groups["outer"].Value, new List<ContainedBag>(), false);
+					bags.Add(r);
+				}
 			}
 
 			return r;
@@ -62,23 +82,22 @@ namespace AOC2020.Days
 
 
 			int ctr = 0;
-			foreach (var bag in Bags)
-			{
-				for (int i = 0; i < bag.containedBags.Count; i++)
-				{
-					bag.containedBags[i].bag = Bags.FirstOrDefault(x => x.description == bag.containedBags[i].bag.description);
-				}
-
-			}
-			
+		
 			var hasGold = Bags.Where(x => x.hasGold).ToList();
 			var containers = new List<Bag>();
-			foreach(var bag in hasGold)
+			foreach (var bag in hasGold)
 			{
 				containers = containers.Concat(ListContainers(bag)).ToList();
 
 			}
 			ctr = containers.Distinct().Count();
+
+			var anotherCtr = 0;
+			foreach (var bag in Bags)
+			{
+				if (ContainsGold(bag))
+					anotherCtr++;
+			}
 			return ctr.ToString();
 
 		}
@@ -89,7 +108,7 @@ namespace AOC2020.Days
 			var containers = Bags.Where(x => x.Contains(bag)).ToList();
 			if (containers.Count == 0)
 				return result;
-			foreach( var container in containers)
+			foreach (var container in containers)
 			{
 				result = result.Concat(ListContainers(container)).ToList();
 			}
@@ -116,7 +135,7 @@ namespace AOC2020.Days
 		{
 			foreach (var entry in input)
 			{
-				Bags.Add(ParseRule(entry));
+				ParseRule(entry, Bags);
 			}
 		}
 
@@ -145,14 +164,6 @@ namespace AOC2020.Days
 		}
 
 	}
-	public class ContainedBag
-	{
-		public int number { get; set; }
-		public Bag bag { get; set; }
-		public ContainedBag(int number, Bag bag)
-		{
-			this.number = number;
-			this.bag = bag;
-		}
-	}
+	public record ContainedBag(int number, Bag bag);
+		
 }
