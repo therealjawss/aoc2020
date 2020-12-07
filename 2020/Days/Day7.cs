@@ -41,9 +41,10 @@ namespace AOC2020.Days
 					r = new Bag(bagName, new List<ContainedBag>(), gold);
 					bags.Add(r);
 				}
+				r.hasGold = gold;
 				var mb = new Regex(middleBagsPattern).Matches(rule);
 
-				for(int i =0; i<mb.Count; i++)
+				for (int i = 0; i < mb.Count; i++)
 				{
 					bagName = mb[i].Groups[2].Value;
 					var num = Convert.ToInt32(mb[i].Groups[1].Value);
@@ -82,7 +83,7 @@ namespace AOC2020.Days
 
 
 			int ctr = 0;
-		
+
 			var hasGold = Bags.Where(x => x.hasGold).ToList();
 			var containers = new List<Bag>();
 			foreach (var bag in hasGold)
@@ -101,6 +102,30 @@ namespace AOC2020.Days
 			return ctr.ToString();
 
 		}
+
+		public override string Level2(string[] input)
+		{
+			var gBag = Bags.FirstOrDefault(x => x.description.Equals("shiny gold"));
+			var ctr = 0;
+			foreach (var contained in gBag.containedBags)
+			{
+				ctr += contained.number +contained.number * CountBagsIn(contained);
+			}
+			return ctr.ToString();
+		}
+
+		private int CountBagsIn(ContainedBag contained)
+		{
+			if (contained.bag.containedBags.Count == 0)
+				return 0;
+			var ctr = 0;
+			foreach (var bag in contained.bag.containedBags)
+			{
+				ctr +=  bag.number + bag.number * CountBagsIn(bag);
+			}
+			return ctr;
+		}
+
 		private List<Bag> ListContainers(Bag bag)
 		{
 			var result = new List<Bag>()
@@ -139,10 +164,6 @@ namespace AOC2020.Days
 			}
 		}
 
-		public override string Level2(string[] input)
-		{
-			return base.Level2(input);
-		}
 
 	}
 
@@ -162,8 +183,11 @@ namespace AOC2020.Days
 		{
 			return containedBags.Where(x => x.bag == bag).Count() > 0;
 		}
-
+		public override string ToString()
+		{
+			return $"{description} contains {containedBags.Count} and has gold = {hasGold}";
+		}
 	}
 	public record ContainedBag(int number, Bag bag);
-		
+
 }
