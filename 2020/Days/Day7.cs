@@ -15,13 +15,24 @@ namespace AOC2020.Days
 		{
 			Console.WriteLine("hello");
 			var day = new Day7();
-			day.GetInput(file: "test.txt", pattern: "\n");
-			//	day.GetInput();
+			//day.GetInput(file: "test.txt", pattern: "\n");
+				day.GetInput();
 			Console.WriteLine(day.Level1(day.Input));
-			//day.PostL1Answer();
+		//	day.PostL1Answer();
 			Task.Delay(60000);
 			Console.WriteLine(day.Level2(day.Input));
 			//day.PostL2Answer();
+		}
+		public override string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
+		{
+			return base.GetInput(file, pattern);
+		}
+		private void parseRules(string[] input)
+		{
+			foreach (var entry in input)
+			{
+				ParseRule(entry, Bags);
+			}
 		}
 
 		public static Bag ParseRule(string rule, List<Bag> bags)
@@ -73,17 +84,11 @@ namespace AOC2020.Days
 			return r;
 		}
 
-		public override string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
-		{
-			return base.GetInput(file, pattern);
-		}
 		public override string Level1(string[] input)
 		{
 			parseRules(input);
 
-
 			int ctr = 0;
-
 			var hasGold = Bags.Where(x => x.hasGold).ToList();
 			var containers = new List<Bag>();
 			foreach (var bag in hasGold)
@@ -99,14 +104,14 @@ namespace AOC2020.Days
 				if (ContainsGold(bag))
 					anotherCtr++;
 			}
-			return ctr.ToString();
 
+			return ctr.ToString();
 		}
 
 		public override string Level2(string[] input)
 		{
 			var gBag = Bags.FirstOrDefault(x => x.description.Equals("shiny gold"));
-			var ctr = 0;
+			long ctr = 0;
 			foreach (var contained in gBag.containedBags)
 			{
 				ctr += contained.number +contained.number * CountBagsIn(contained);
@@ -114,11 +119,11 @@ namespace AOC2020.Days
 			return ctr.ToString();
 		}
 
-		private int CountBagsIn(ContainedBag contained)
+		private long CountBagsIn(ContainedBag contained)
 		{
 			if (contained.bag.containedBags.Count == 0)
 				return 0;
-			var ctr = 0;
+			long ctr = 0;
 			foreach (var bag in contained.bag.containedBags)
 			{
 				ctr +=  bag.number + bag.number * CountBagsIn(bag);
@@ -156,13 +161,7 @@ namespace AOC2020.Days
 
 		public List<Bag> Bags { get; set; } = new List<Bag>();
 
-		private void parseRules(string[] input)
-		{
-			foreach (var entry in input)
-			{
-				ParseRule(entry, Bags);
-			}
-		}
+		
 
 
 	}

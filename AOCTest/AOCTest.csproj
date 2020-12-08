@@ -24,4 +24,10 @@
     <ProjectReference Include="..\2020\AOC2020.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
