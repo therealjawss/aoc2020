@@ -12,12 +12,50 @@ namespace AOCTest
 	public class Day8Test
 	{
 		[Fact]
-		public void CanParseInput()
+		public void Level1Test()
+		{
+			var day = new Day8();
+			day.GetInput(file: "test.txt", pattern: "\r\n");
+			//	day.ParseOperations();
+			//day.Instructions.Count().Should().Be(9);
+
+			day.Level1(day.Input).Should().Be("5");
+		}
+
+		//[Fact]
+		public void Level2Test()
 		{
 			var day = new Day7();
 			day.GetInput(file: "test.txt", pattern: "\r\n");
-			day.Level1(day.Input).Should().Be("335");
 			day.Level2(day.Input).Should().Be("2431");
+		}
+
+		[Fact]
+		public void LoopTest()
+		{
+			var day = new Day8();
+
+			day.Input = day.GetInput(file: "test.txt", pattern: "\r\n");
+			day.ParseOperations();
+			long acc = 0;
+			day.ItLooped(day.Instructions, ref acc).Should().BeFalse();
+		}
+		[Theory]
+		[InlineData(0, Operation.jmp, Operation.nop, 3)]
+		[InlineData(5, Operation.acc, Operation.acc, 48)]
+		[InlineData(8, Operation.nop, Operation.jmp, 155)]
+
+		public void ChangeTest(int index, Operation operation, Operation changed, int argument)
+		{
+			var day = new Day8();
+			day.Input = day.GetInput(file: "test.txt", pattern: "\r\n");
+			day.ParseOperations();
+			day.ChangeIt(day.Instructions, index);
+			day.Instructions[index].operation.Should().Be(changed);
+			day.Instructions[index].argument.Should().Be(argument);
+			day.ChangeIt(day.Instructions, index);
+			day.Instructions[index].operation.Should().Be(operation);
+			day.Instructions[index].argument.Should().Be(argument);
 		}
 
 	}
