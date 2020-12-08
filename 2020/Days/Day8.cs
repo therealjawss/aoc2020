@@ -29,6 +29,7 @@ namespace AOC2020.Days
         public void ParseOperations()
         {
             int ctr = 0;
+            Instructions.Clear();
             foreach (var input in Input)
             {
                 var line = input.Split(" ");
@@ -57,12 +58,9 @@ namespace AOC2020.Days
         {
             ParseOperations();
             long accumulator = 0;
-            int index = 0;
-            Dictionary<int, Instruction> instructions = new Dictionary<int, Instruction>();
-            int ctr = 0;
             if (ItLooped(Instructions, ref accumulator))
             {
-                Console.Write("it looped");
+                Console.Write("it looped ");
             }
 
             return accumulator.ToString();
@@ -115,8 +113,9 @@ namespace AOC2020.Days
 
         public override string Level2(string[] input)
         {
+            ParseOperations();
             long accumulator = 0;
-            Dictionary<int, Instruction> processedInstructions = new Dictionary<int, Instruction>();
+
             var jmpnop = Instructions.Where(x => x.Value.operation == Operation.jmp || x.Value.operation == Operation.nop);
             foreach (var op in jmpnop)
             {
@@ -140,20 +139,6 @@ namespace AOC2020.Days
             var instruction = instructions[idx];
             var ins = new Instruction(instruction.operation == Operation.jmp ? Operation.nop : instruction.operation == Operation.nop ? Operation.jmp : instruction.operation, instruction.argument);
             instructions[idx] = ins;
-        }
-
-        private Instruction ChangeIt(Dictionary<int, Instruction> instructions, int idx, int indexToSwitch)
-        {
-            var instruction = instructions[idx];
-            if (idx == indexToSwitch)
-            {
-
-
-                var ins = new Instruction(instruction.operation == Operation.jmp ? Operation.nop : instruction.operation == Operation.nop ? Operation.jmp : instruction.operation, instruction.argument);
-                instructions[idx] = ins;
-                return ins;
-            }
-            else return instruction;
         }
     }
 

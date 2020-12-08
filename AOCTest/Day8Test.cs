@@ -16,18 +16,16 @@ namespace AOCTest
 		{
 			var day = new Day8();
 			day.GetInput(file: "test.txt", pattern: "\r\n");
-			//	day.ParseOperations();
-			//day.Instructions.Count().Should().Be(9);
 
 			day.Level1(day.Input).Should().Be("5");
 		}
 
-		//[Fact]
+		[Fact]
 		public void Level2Test()
 		{
-			var day = new Day7();
+			var day = new Day8();
 			day.GetInput(file: "test.txt", pattern: "\r\n");
-			day.Level2(day.Input).Should().Be("2431");
+			day.Level2(day.Input).Should().Be("8");
 		}
 
 		[Fact]
