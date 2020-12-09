@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AOC2020.Days
@@ -15,19 +16,20 @@ namespace AOC2020.Days
         {
             Console.WriteLine("hello");
             var day = new Day8();
-            day.GetInput(file: "test.txt", pattern: "\n");
-            //day.GetInput();
+            // day.GetInput(file: "test.txt", pattern: "\n");
+            day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
-            //day.PostL1Answer();
-            Task.Delay(60000);
+            //  day.PostL1Answer();
+            Thread.Sleep(60000);
             Console.WriteLine(day.Level2(day.Input));
-            //day.PostL2Answer();
+            day.PostL2Answer();
         }
         public long Accumulator { get; set; }
         public Dictionary<int, Instruction> Instructions = new Dictionary<int, Instruction>();
 
         public void ParseOperations()
         {
+           
             int ctr = 0;
             Instructions.Clear();
             foreach (var input in Input)

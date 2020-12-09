@@ -15,7 +15,7 @@ namespace AOC2020.Days
         public string[] Input { get; set; }
         public Christmas()
         {
-            Cookie = File.ReadAllText("./.cookie");
+            Cookie = "session=" + File.ReadAllText("./.cookie");
         }
         public virtual string Level1(string[] input)
         {
@@ -46,7 +46,7 @@ namespace AOC2020.Days
                 var result = client.UploadString(answerURL, postData);
             }
         }
-        public virtual string[] GetInput(string file = null, string pattern = null, Func<string,bool> predicate = null)
+        public virtual string[] GetInput(string file = null, string pattern = null, Func<string, bool> predicate = null)
         {
             if (predicate == null)
             {
