@@ -16,12 +16,13 @@ namespace AOC2020.Days
 		{
 			Console.WriteLine("hello");
 			var day = new Day9();
-			day.GetInput(file: "test.txt", pattern: "\r\n");
-			//  day.GetInput();
+			//day.GetInput(file: "test.txt", pattern: "\r\n");
+			day.GetInput();
 			Console.WriteLine(day.Level1(day.Input));
-			//  day.PostL1Answer();
+			day.PostL1Answer();
+			Thread.Sleep(60000);
 			Console.WriteLine(day.Level2(day.Input));
-			//day.PostL2Answer();
+			day.PostL2Answer();
 		}
 		List<long> RealInput = new List<long>();
 		public override string Level1(string[] input)
