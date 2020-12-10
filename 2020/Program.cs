@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 using AOC2020.Days;
 
 //day.GetInput("test.txt", "\r\n");
-Day9.Run();
+Day10.Run();
 
