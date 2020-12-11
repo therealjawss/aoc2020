@@ -75,7 +75,7 @@ namespace AOC2020.Days
                 for (int y = -1; y <= 1; y++)
                 {
                     if (x == 0 && y == 0) continue;
-                    var o =  look(grid, i + x, j + y, x, y, false);
+                    var o =  look(grid, i + x, j + y, x, y, deep);
                     occupied+= o>0 ? o:0;
                 }
             }
