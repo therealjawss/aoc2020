@@ -26,44 +26,121 @@ namespace AOC2020.Days
         public override string Level1(string[] input)
         {
             ParseGrid(input);
-            while (Tick())
-            {
-                //	printGrid();
-            }
+            while (Tick()) { }
             return CountOccupied(Grid).ToString();
-        }
-
-        private void ParseGrid(string[] input)
-        {
-            Grid = new int[input.Length, input[0].Length];
-            for (int i = 0; i < input.Length; i++)
-            {
-                for (int j = 0; j < input[i].Length; j++)
-                {
-                    switch (input[i][j])
-                    {
-                        case 'L':
-                            Grid[i, j] = 0;
-                            break;
-                        case '.':
-                            Grid[i, j] = -1;
-                            break;
-                    }
-                }
-            }
         }
 
         public override string Level2(string[] input)
         {
             ParseGrid(input);
 
-            while (Tick2())
-            {
-                //    printGrid();
-            }
+            while (Tick2()) { }
             printGrid();
             return CountOccupied(Grid).ToString();
         }
+
+        public bool Tick()
+        {
+            int row = Grid.GetUpperBound(0) + 1;
+            int col = Grid.GetUpperBound(1) + 1;
+            int[,] nextGrid = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    nextGrid[i, j] = predict(Grid, i, j);
+                }
+            }
+            if (equivalent(Grid, nextGrid))
+                return false;
+            else
+                Grid = nextGrid;
+            return true;
+        }
+
+        public bool Tick2()
+        {
+            int row = Grid.GetUpperBound(0) + 1;
+            int col = Grid.GetUpperBound(1) + 1;
+            int[,] nextGrid = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    nextGrid[i, j] = predictLineOfSight(Grid, i, j);
+                }
+            }
+            if (equivalent(Grid, nextGrid))
+                return false;
+            else
+                Grid = nextGrid;
+            return true;
+        }
+
+        private int predict(int[,] grid, int i, int j)
+        {
+            int result = grid[i, j];
+            int occupied = CountAdjacentOccupied(grid, i, j);
+            if (occupied == 0)
+                return 1;
+            else if (occupied >= 4)
+                return 0;
+
+
+            return result;
+        }
+
+        private int CountAdjacentOccupied(int[,] grid, int i, int j)
+        {
+            int occupied = 0;
+            if (grid[i, j] == -1) return 1;
+            (int, int) bounds = (grid.GetUpperBound(0), grid.GetUpperBound(1));
+            for (int x = i - 1; x <= i + 1; x++)
+            {
+                if (x > bounds.Item1 || x < 0) continue;
+                for (int y = j - 1; y <= j + 1; y++)
+                {
+                    if (y > bounds.Item2 || y < 0 || (x == i && y == j)) continue;
+                    if (grid[x, y] == 1) occupied++;
+                }
+            }
+            return occupied;
+        }
+
+        private int predictLineOfSight(int[,] grid, int i, int j)
+        {
+            int result = grid[i, j];
+            int occupied = CountLineOfSightOccupied(grid, i, j);
+            if (occupied == 0)
+                return 1;
+            else if (occupied >= 5)
+                return 0;
+            return result;
+        }
+
+        private int CountLineOfSightOccupied(int[,] grid, int i, int j)
+        {
+            int occupied = 0;
+            if (grid[i, j] == -1) return 1;
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    occupied += look(grid, i + x, j + y, x, y);
+                }
+            }
+            return occupied;
+        }
+
+        private int look(int[,] grid, int i, int j, int x, int y)
+        {
+            if (i < 0 || i > grid.GetUpperBound(0) || j < 0 || j > grid.GetUpperBound(1)) return 0;
+            if (grid[i, j] < 0) return look(grid, i + x, j + y, x, y);
+            else return grid[i, j];
+        }
+
         private int CountOccupied(int[,] grid)
         {
             int ctr = 0;
@@ -76,6 +153,17 @@ namespace AOC2020.Days
                 }
             }
             return ctr;
+        }
+
+        private bool equivalent(int[,] grid, int[,] nextGrid)
+        {
+            (int, int) bounds = (grid.GetUpperBound(0) + 1, grid.GetUpperBound(1) + 1);
+            for (int i = 0; i < bounds.Item1; i++)
+            {
+                for (int j = 0; j < bounds.Item2; j++)
+                    if (grid[i, j] != nextGrid[i, j]) return false;
+            }
+            return true;
         }
 
         public void printGrid()
@@ -103,130 +191,24 @@ namespace AOC2020.Days
                 default: return 'Z';
             }
         }
-
-        public bool Tick()
+        private void ParseGrid(string[] input)
         {
-            int row = Grid.GetUpperBound(0) + 1;
-            int col = Grid.GetUpperBound(1) + 1;
-            int[,] nextGrid = new int[row, col];
-            for (int i = 0; i < row; i++)
+            Grid = new int[input.Length, input[0].Length];
+            for (int i = 0; i < input.Length; i++)
             {
-                for (int j = 0; j < col; j++)
+                for (int j = 0; j < input[i].Length; j++)
                 {
-                    nextGrid[i, j] = predict(Grid, i, j);
+                    switch (input[i][j])
+                    {
+                        case 'L':
+                            Grid[i, j] = 0;
+                            break;
+                        case '.':
+                            Grid[i, j] = -1;
+                            break;
+                    }
                 }
             }
-            if (equivalent(Grid, nextGrid))
-                return false;
-            else
-                Grid = nextGrid;
-            return true;
-        }
-        public bool Tick2()
-        {
-            int row = Grid.GetUpperBound(0) + 1;
-            int col = Grid.GetUpperBound(1) + 1;
-            int[,] nextGrid = new int[row, col];
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    nextGrid[i, j] = predictLineOfSight(Grid, i, j);
-                }
-            }
-            if (equivalent(Grid, nextGrid))
-                return false;
-            else
-                Grid = nextGrid;
-            return true;
-        }
-
-
-        private bool equivalent(int[,] grid, int[,] nextGrid)
-        {
-            (int, int) bounds = (grid.GetUpperBound(0) + 1, grid.GetUpperBound(1) + 1);
-            for (int i = 0; i < bounds.Item1; i++)
-            {
-                for (int j = 0; j < bounds.Item2; j++)
-                    if (grid[i, j] != nextGrid[i, j]) return false;
-            }
-            return true;
-        }
-
-        private int predict(int[,] grid, int i, int j)
-        {
-            int result = grid[i, j];
-            int occupied = CountAdjacentOccupied(grid, i, j);
-            if (occupied == 0)
-                return 1;
-            else if (occupied >= 4)
-                return 0;
-
-
-            return result;
-        }
-        private int predictLineOfSight(int[,] grid, int i, int j)
-        {
-            int result = grid[i, j];
-            int occupied = CountLineOfSightOccupied(grid, i, j);
-            if (occupied == 0)
-                return 1;
-            else if (occupied >= 5)
-                return 0;
-            return result;
-        }
-        private int CountLineOfSightOccupied(int[,] grid, int i, int j)
-        {
-            int occupied = 0;
-            if (grid[i, j] == -1) return 1;
-
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0) continue;
-                    occupied += look(grid, i + x, j + y, x, y);
-                }
-            }
-            return occupied;
-        }
-
-        private int look(int[,] grid, int i, int j, int x, int y)
-        {
-            if (i < 0 || i > grid.GetUpperBound(0) || j < 0 || j > grid.GetUpperBound(1)) return 0;
-            if (grid[i, j] < 0) return look(grid, i + x, j + y, x, y);
-            else return grid[i, j];
-        }
-
-        private int lookRight(int[,] grid, int i, int j)
-        {
-            if (i > grid.GetUpperBound(1)) return 0;
-            if (grid[i, j] == 1) return 1;
-            else return lookRight(grid, i, j + 1);
-        }
-
-        private int lookLeft(int[,] grid, int i, int j)
-        {
-            if (i < 0) return 0;
-            if (grid[i, j] == 1) return 1;
-            else return lookLeft(grid, i - 1, j);
-        }
-
-        private int CountAdjacentOccupied(int[,] grid, int i, int j)
-        {
-            int occupied = 0;
-            if (grid[i, j] == -1) return 1;
-            (int, int) bounds = (grid.GetUpperBound(0), grid.GetUpperBound(1));
-            for (int x = i - 1; x <= i + 1; x++)
-            {
-                if (x > bounds.Item1 || x < 0) continue;
-                for (int y = j - 1; y <= j + 1; y++)
-                {
-                    if (y > bounds.Item2 || y < 0 || (x == i && y == j)) continue;
-                    if (grid[x, y] == 1) occupied++;
-                }
-            }
-            return occupied;
         }
     }
 }
