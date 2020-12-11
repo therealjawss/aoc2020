@@ -54,7 +54,7 @@ namespace AOC2020.Days
             return true;
         }
 
-        private int predictLineOfSight(int[,] grid, int i, int j, bool deep = true, int tolerance=5)
+        private int predictLineOfSight(int[,] grid, int i, int j, bool deep, int tolerance)
         {
             int result = grid[i, j];
             int occupied = CountLineOfSightOccupied(grid, i, j, deep);
@@ -65,7 +65,7 @@ namespace AOC2020.Days
             return result;
         }
 
-        private int CountLineOfSightOccupied(int[,] grid, int i, int j, bool deep = true)
+        private int CountLineOfSightOccupied(int[,] grid, int i, int j, bool deep)
         {
             int occupied = 0;
             if (grid[i, j] == -1) return 1;
@@ -82,10 +82,10 @@ namespace AOC2020.Days
             return occupied;
         }
 
-        private int look(int[,] grid, int i, int j, int x, int y, bool deep=true)
+        private int look(int[,] grid, int i, int j, int x, int y, bool deep)
         {
             if (i < 0 || i > grid.GetUpperBound(0) || j < 0 || j > grid.GetUpperBound(1)) return 0;
-            if (grid[i, j] < 0 && deep) return look(grid, i + x, j + y, x, y);
+            if (grid[i, j] < 0 && deep) return look(grid, i + x, j + y, x, y, deep);
             else return grid[i, j];
         }
 

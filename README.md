@@ -19,3 +19,6 @@ That was a nice refresher on recursion!
 
 ## Day 8
 missed out updating yesterday, maybe the past few days have been too brutal. Great solutions coming from [Anders](https://github.com/lynxz/AdventOfCode/tree/master/2020) though! 
+
+## Day 12
+Took a long time to find the recursive function for me, literally had to step through a number of iterations. Happy that i was able to refactor and make it work for part 1 as well!
