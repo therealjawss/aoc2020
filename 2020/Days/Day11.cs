@@ -25,14 +25,15 @@ namespace AOC2020.Days
         {
             ParseGrid(input);
             while (Tick(deep: false, tolerance:4)) { }
-            return CountOccupied(Grid).ToString();
+            return (from int item in Grid where item == 1 select item).Count().ToString();
         }
 
         public override string Level2(string[] input)
         {
             ParseGrid(input);
             while (Tick(deep: true, tolerance: 5)) { }
-            return CountOccupied(Grid).ToString();
+            return (from int item in Grid where item == 1 select item).Count().ToString();
+
         }
 
         public bool Tick(bool deep, int tolerance)
@@ -87,20 +88,6 @@ namespace AOC2020.Days
             if (i < 0 || i > grid.GetUpperBound(0) || j < 0 || j > grid.GetUpperBound(1)) return 0;
             if (grid[i, j] < 0 && deep) return look(grid, i + x, j + y, x, y, deep);
             else return grid[i, j];
-        }
-
-        private int CountOccupied(int[,] grid)
-        {
-            int ctr = 0;
-            (int, int) bounds = (grid.GetUpperBound(0) + 1, grid.GetUpperBound(1) + 1);
-            for (int i = 0; i < bounds.Item1; i++)
-            {
-                for (int j = 0; j < bounds.Item2; j++)
-                {
-                    if (grid[i, j] == 1) ctr++;
-                }
-            }
-            return ctr;
         }
 
         private bool equivalent(int[,] grid, int[,] nextGrid)
