@@ -16,22 +16,37 @@ namespace AOC2020.Days
 
             Console.WriteLine($"hello day {day.Day}");
             //day.GetInput(file: "test.txt", pattern: "\r\n");
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
             Console.WriteLine(day.Level2(day.Input));
+            // the code that you want to measure comes here
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine($"Program finished in {elapsedMs}");
         }
         public int[,] Grid;
         public override string Level1(string[] input)
         {
             ParseGrid(input);
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            // the code that you want to measure comes here
+            watch.Stop();
             while (Tick(deep: false, tolerance:4)) { }
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Exec time: " + elapsedMs);
             return (from int item in Grid where item == 1 select item).Count().ToString();
         }
 
         public override string Level2(string[] input)
         {
             ParseGrid(input);
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            // the code that you want to measure comes here
+            watch.Stop();
             while (Tick(deep: true, tolerance: 5)) { }
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine($"Exec time: {elapsedMs}");
             return (from int item in Grid where item == 1 select item).Count().ToString();
 
         }
