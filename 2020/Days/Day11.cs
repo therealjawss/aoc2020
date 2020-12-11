@@ -17,13 +17,23 @@ namespace AOC2020.Days
             //day.GetInput(file: "test.txt", pattern: "\r\n");
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
-            day.PostL1Answer();
+            //  day.PostL1Answer();
             //    Thread.Sleep(60000);
-            // Console.WriteLine(day.Level2(day.Input));
+            Console.WriteLine(day.Level2(day.Input));
             //day.PostL2Answer();
         }
         public int[,] Grid;
         public override string Level1(string[] input)
+        {
+            ParseGrid(input);
+            while (Tick())
+            {
+                //	printGrid();
+            }
+            return CountOccupied(Grid).ToString();
+        }
+
+        private void ParseGrid(string[] input)
         {
             Grid = new int[input.Length, input[0].Length];
             for (int i = 0; i < input.Length; i++)
@@ -41,13 +51,19 @@ namespace AOC2020.Days
                     }
                 }
             }
-            while (Tick())
-            {
-                //	printGrid();
-            }
-            return CountOccupied(Grid).ToString();
         }
 
+        public override string Level2(string[] input)
+        {
+            ParseGrid(input);
+
+            while (Tick2())
+            {
+                //    printGrid();
+            }
+            printGrid();
+            return CountOccupied(Grid).ToString();
+        }
         private int CountOccupied(int[,] grid)
         {
             int ctr = 0;
@@ -72,6 +88,8 @@ namespace AOC2020.Days
                     Console.Write(print(Grid[i, j]));
                 Console.WriteLine();
             }
+            Console.WriteLine();
+
         }
 
         private char print(int v)
@@ -104,6 +122,25 @@ namespace AOC2020.Days
                 Grid = nextGrid;
             return true;
         }
+        public bool Tick2()
+        {
+            int row = Grid.GetUpperBound(0) + 1;
+            int col = Grid.GetUpperBound(1) + 1;
+            int[,] nextGrid = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    nextGrid[i, j] = predictLineOfSight(Grid, i, j);
+                }
+            }
+            if (equivalent(Grid, nextGrid))
+                return false;
+            else
+                Grid = nextGrid;
+            return true;
+        }
+
 
         private bool equivalent(int[,] grid, int[,] nextGrid)
         {
@@ -128,6 +165,52 @@ namespace AOC2020.Days
 
             return result;
         }
+        private int predictLineOfSight(int[,] grid, int i, int j)
+        {
+            int result = grid[i, j];
+            int occupied = CountLineOfSightOccupied(grid, i, j);
+            if (occupied == 0)
+                return 1;
+            else if (occupied >= 5)
+                return 0;
+            return result;
+        }
+        private int CountLineOfSightOccupied(int[,] grid, int i, int j)
+        {
+            int occupied = 0;
+            if (grid[i, j] == -1) return 1;
+
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    occupied += look(grid, i + x, j + y, x, y);
+                }
+            }
+            return occupied;
+        }
+
+        private int look(int[,] grid, int i, int j, int x, int y)
+        {
+            if (i < 0 || i > grid.GetUpperBound(0) || j < 0 || j > grid.GetUpperBound(1)) return 0;
+            if (grid[i, j] < 0) return look(grid, i + x, j + y, x, y);
+            else return grid[i, j];
+        }
+
+        private int lookRight(int[,] grid, int i, int j)
+        {
+            if (i > grid.GetUpperBound(1)) return 0;
+            if (grid[i, j] == 1) return 1;
+            else return lookRight(grid, i, j + 1);
+        }
+
+        private int lookLeft(int[,] grid, int i, int j)
+        {
+            if (i < 0) return 0;
+            if (grid[i, j] == 1) return 1;
+            else return lookLeft(grid, i - 1, j);
+        }
 
         private int CountAdjacentOccupied(int[,] grid, int i, int j)
         {
@@ -143,7 +226,6 @@ namespace AOC2020.Days
                     if (grid[x, y] == 1) occupied++;
                 }
             }
-
             return occupied;
         }
     }
