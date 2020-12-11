@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace AOC2020.Days
 {
 
-    public class Day2 : Christmas
+    public class Day02 : Christmas
     {
         public override int Day => 2;
 		public override string Level1(string[] input)

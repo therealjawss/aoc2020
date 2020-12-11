@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace AOC2020.Days
 {
-	public class Day7 : Christmas
+	public class Day07 : Christmas
 	{
 		public override int Day => 7;
 
 		public static void Run()
 		{
 			Console.WriteLine("hello");
-			var day = new Day7();
+			var day = new Day07();
 			//day.GetInput(file: "test.txt", pattern: "\n");
 				day.GetInput();
 			Console.WriteLine(day.Level1(day.Input));

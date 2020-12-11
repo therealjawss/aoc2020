@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AOC2020.Days
 {
-    public class Day3 : Christmas
+    public class Day03 : Christmas
     {
         public override int Day => 3;
         public override string Level1(string[] input)

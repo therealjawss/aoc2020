@@ -3,7 +3,7 @@ using System;
 namespace AOC2020.Days
 {
 
-    public class Day1 : Christmas
+    public class Day01 : Christmas
     {
         public override int Day => 1;
 

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace AOC2020.Days
 {
-	public class Day9 : Christmas
+	public class Day09 : Christmas
 	{
 		public override int Day => 9;
 
 		public static void Run()
 		{
 			Console.WriteLine("hello");
-			var day = new Day9();
+			var day = new Day09();
 			//day.GetInput(file: "test.txt", pattern: "\r\n");
 			day.GetInput();
 			Console.WriteLine(day.Level1(day.Input));

@@ -14,7 +14,7 @@ namespace AOCTest
 		[Fact]
 		public void Level1Test()
 		{
-			var day = new Day8();
+			var day = new Day08();
 			day.GetInput(file: "test.txt", pattern: "\r\n");
 
 			day.Level1(day.Input).Should().Be("5");
@@ -23,7 +23,7 @@ namespace AOCTest
 		[Fact]
 		public void Level2Test()
 		{
-			var day = new Day8();
+			var day = new Day08();
 			day.GetInput(file: "test.txt", pattern: "\r\n");
 			day.Level2(day.Input).Should().Be("8");
 		}
@@ -31,7 +31,7 @@ namespace AOCTest
 		[Fact]
 		public void LoopTest()
 		{
-			var day = new Day8();
+			var day = new Day08();
 
 			day.Input = day.GetInput(file: "test.txt", pattern: "\r\n");
 			day.ParseOperations();
@@ -45,7 +45,7 @@ namespace AOCTest
 
 		public void ChangeTest(int index, Operation operation, Operation changed, int argument)
 		{
-			var day = new Day8();
+			var day = new Day08();
 			day.Input = day.GetInput(file: "test.txt", pattern: "\r\n");
 			day.ParseOperations();
 			day.ChangeIt(day.Instructions, index);

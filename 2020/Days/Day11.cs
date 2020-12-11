@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AOC2020.Days
@@ -17,10 +18,10 @@ namespace AOC2020.Days
             //day.GetInput(file: "test.txt", pattern: "\r\n");
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
-            //  day.PostL1Answer();
-            //    Thread.Sleep(60000);
+              day.PostL1Answer();
+                Thread.Sleep(120000);
             Console.WriteLine(day.Level2(day.Input));
-            //day.PostL2Answer();
+            day.PostL2Answer();
         }
         public int[,] Grid;
         public override string Level1(string[] input)
@@ -58,24 +59,6 @@ namespace AOC2020.Days
             return true;
         }
 
-        public bool Tick2()
-        {
-            int row = Grid.GetUpperBound(0) + 1;
-            int col = Grid.GetUpperBound(1) + 1;
-            int[,] nextGrid = new int[row, col];
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    nextGrid[i, j] = predictLineOfSight(Grid, i, j);
-                }
-            }
-            if (equivalent(Grid, nextGrid))
-                return false;
-            else
-                Grid = nextGrid;
-            return true;
-        }
 
         private int predict(int[,] grid, int i, int j)
         {
@@ -107,6 +90,24 @@ namespace AOC2020.Days
             return occupied;
         }
 
+        public bool Tick2()
+        {
+            int row = Grid.GetUpperBound(0) + 1;
+            int col = Grid.GetUpperBound(1) + 1;
+            int[,] nextGrid = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    nextGrid[i, j] = predictLineOfSight(Grid, i, j);
+                }
+            }
+            if (equivalent(Grid, nextGrid))
+                return false;
+            else
+                Grid = nextGrid;
+            return true;
+        }
         private int predictLineOfSight(int[,] grid, int i, int j)
         {
             int result = grid[i, j];

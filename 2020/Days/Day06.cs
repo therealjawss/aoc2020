@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace AOC2020.Days
 {
-	public class Day6 : Christmas
+	public class Day06 : Christmas
 	{
 		public override int Day => 6;
 
 		public static void Run()
 		{
-			Christmas day = new Day6();
+			Christmas day = new Day06();
 			day.GetInput();
 			Console.WriteLine(day.Level1(day.Input));
 			//day.PostL1Answer();

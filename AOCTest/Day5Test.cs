@@ -15,7 +15,7 @@ namespace AOCTest
 		[Fact] 
 		public void TestColumns()
 		{
-			var day = new Day5();
+			var day = new Day05();
 			var result = day.FindId("FBFBBFFRLR");
 			result.Should().Be(357);
 		}

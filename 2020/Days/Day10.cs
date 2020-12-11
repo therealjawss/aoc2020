@@ -19,10 +19,10 @@ namespace AOC2020.Days
             //day.GetInput(file: "test.txt", pattern: "\r\n");
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
-            //day.PostL1Answer();
-            //    Thread.Sleep(60000);
+            day.PostL1Answer();
+               Thread.Sleep(60000);
             Console.WriteLine(day.Level2(day.Input));
-            //day.PostL2Answer();
+            day.PostL2Answer();
         }
         public override string Level1(string[] input)
 		{
@@ -31,28 +31,28 @@ namespace AOC2020.Days
 			n = n.OrderBy(x => x).ToList();
 			n.Add(n[n.Count - 1] + 3);
 
-			int ones = 0;
-			int threes = 0;
-			int current = 0;
+            int ones = 0;
+            int threes = 0;
+            int current = 0;
+            foreach (var item in n)
+            {
+                if (current + 1 == item)
+                {
+                    current += 1;
+                    ones++;
+                }
+                else if (current + 2 == item)
+                {
+                    current += 2;
 
-			foreach (var item in n)
-			{
-				if (current + 1 == item)
-				{
-					current += 1;
-					ones++;
-				}
-				else if (current + 2 == item)
-				{
-					current += 2;
-				}
-				else if (current + 3 == item)
-				{
-					current += 3;
-					threes++;
-				}
-			}
-			return (ones * ++threes).ToString();
+                }
+                else if (current + 3 == item)
+                {
+                    current += 3;
+                    threes++;
+                }
+            }
+            return (ones * threes).ToString();
 		}
 
 		private static bool isThree(long x, List<long> n)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AOC2020.Days
 {
-	public class Day5 : Christmas
+	public class Day05 : Christmas
 	{
 		public override int Day => 5;
 
