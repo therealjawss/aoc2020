@@ -31,8 +31,8 @@ namespace AOC2020.Days
             ParseGrid(input);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
-            watch.Stop();
             while (Tick(deep: false, tolerance:4)) { }
+            watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("Exec time: " + elapsedMs);
             return (from int item in Grid where item == 1 select item).Count().ToString();
@@ -43,8 +43,8 @@ namespace AOC2020.Days
             ParseGrid(input);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
-            watch.Stop();
             while (Tick(deep: true, tolerance: 5)) { }
+            watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine($"Exec time: {elapsedMs}");
             return (from int item in Grid where item == 1 select item).Count().ToString();
