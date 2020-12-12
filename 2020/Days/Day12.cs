@@ -29,10 +29,9 @@ namespace AOC2020.Days
 			ParseInstructions(input);
 
             coord position = new coord(0, 0, (1,0));
-            foreach (var instruction in Instructions)
-            {
-                position = Move(instruction, position.x, position.y, position.dir);
-            }
+
+            position = Instructions.Aggregate(position, (val, instruction)=>Move(instruction, val.x, val.y, val.dir));
+      
             var result = Math.Abs(position.x) + Math.Abs(position.y);
 
 			return result.ToString();
@@ -52,116 +51,71 @@ namespace AOC2020.Days
 		public override string Level2(string[] input)
         {
             ParseInstructions(input);
-            Ship = new coord(0, 0, (1, 0));
-            WayPoint = new coord(10, 1, (1, 0));
-            foreach (var instruction in Instructions)
-            {
-                MoveThings(instruction);
-            }
+            coord Ship = new coord(0, 0, (1, 0));
+            (int,int) WayPoint = (10, 1);
 
+            (Ship, WayPoint) =  Instructions.Aggregate((Ship, WayPoint),
+                                    (val, instruction) => instruction.action switch {
+                                        ("F") => (new coord(val.Ship.x + val.WayPoint.Item1*instruction.param, val.Ship.y + val.WayPoint.Item2 * instruction.param, val.Ship.dir), val.WayPoint),
+                                        ("N") or ("S") or ("W") or ("E") => (val.Ship, MoveWaypoint(instruction,val.WayPoint)), 
+                                        ("R") => (val.Ship, turnWaypoint(val.WayPoint, instruction.param)),
+                                        ("L")=> (val.Ship, turnWaypoint(val.WayPoint, -instruction.param)),
+                                        _=> (val.Ship, val.WayPoint)
+                                });
+
+                
             var result = Math.Abs(Ship.x) + Math.Abs(Ship.y);
 
             return result.ToString();
 
         }
 
-        coord Ship;
-        coord WayPoint;
-		
-        private void MoveThings(instruction instruction)
-		{
-			switch (instruction.action)
-			{
-                case "F":
-                    for(int i=0; i<instruction.param; i++)
-					{
-                        Ship = new coord(Ship.x + WayPoint.x, Ship.y + WayPoint.y, Ship.dir); ;
-					}
-                    break;
-                case "N":
-                case "S":
-                case "W":
-                case "E":
-                    WayPoint = Move(instruction, WayPoint.x, WayPoint.y, Ship.dir);
-                    break;
-                case "R":
-                    WayPoint = TurnWaypoint(Ship, WayPoint, instruction.param);
-                    break;
-                case "L":
-                    WayPoint = TurnWaypoint(Ship, WayPoint, -instruction.param);
-                    break;
-                default:
-                    break;
-			}
-		}
+        private (int, int) MoveWaypoint(instruction instruction, (int, int) wp) {
 
-		private coord TurnWaypoint(coord ship, coord wayPoint, int param)
-		{
-            var possible = new List<(int, int)> { (wayPoint.x, wayPoint.y), (wayPoint.y, -wayPoint.x), (-wayPoint.x, -wayPoint.y), (-wayPoint.y, wayPoint.x) };
-            var moveBy = (param / 90 + 4) % 4;
-
-            var newCoord = possible[moveBy];
-            return new coord(newCoord.Item1, newCoord.Item2, ship.dir);
-		}
+            return instruction.action switch
+            {
+                ("N") => (wp.Item1, wp.Item2 + instruction.param),
+                ("S") => (wp.Item2, wp.Item2 - instruction.param),
+                ("W") => (wp.Item1 - instruction.param, wp.Item2),
+                ("E") => (wp.Item1+instruction.param, wp.Item2),
+                _=> (wp.Item1, wp.Item2)
+            };
+        }
 
         private coord Move(instruction instruction, int x, int y, (int, int) dir)
         {
-            switch (instruction.action)
-            {
-                case "F": return new coord(x + dir.Item1 * instruction.param, y + dir.Item2 * instruction.param, dir);
-                case "N": return new coord(x, y + instruction.param, dir);
-                case "S": return new coord(x, y - instruction.param, dir);
-                case "E": return new coord(x + instruction.param, y, dir);
-                case "W": return new coord(x - instruction.param, y, dir);
-                case "L": return turn(new coord(x, y, dir), -instruction.param);
-                case "R": return turn(new coord(x, y, dir), instruction.param);
-                default:
-                    return new coord(x, y, dir);
-            }
-        }
+			return instruction.action switch
+			{
+				"F" => new coord(x + dir.Item1 * instruction.param, y + dir.Item2 * instruction.param, dir),
+				"N" => new coord(x, y + instruction.param, dir),
+				"S" => new coord(x, y - instruction.param, dir),
+				"E" => new coord(x + instruction.param, y, dir),
+				"W" => new coord(x - instruction.param, y, dir),
+				"L" => turn(new coord(x, y, dir), -instruction.param),
+				"R" => turn(new coord(x, y, dir), instruction.param),
+				_ => new coord(x, y, dir),
+			};
+		}
 
         private coord turn(coord coord, int param)
         {
-            var directions = new List<Direction>() { Direction.North, Direction.East, Direction.South, Direction.West };
-            Direction dir = TupleToDirection(coord.dir);
-
-            var start = directions.IndexOf(dir);
-            var moveBy = (param / 90);
-            moveBy = (start + moveBy + 4) % 4;
-            var newDir = directions[ (moveBy)];
-            return new coord(coord.x, coord.y, DirectionToTuple(directions, newDir));
-        }
-
-        private static Direction TupleToDirection((int, int) coord)
+			return param switch
+			{
+				90 or -270 => new coord(coord.x, coord.y, (coord.dir.Item2, -coord.dir.Item1)),
+				-90 or 270 => new coord(coord.x, coord.y, (-coord.dir.Item2, coord.dir.Item1)),
+				_ => new coord(coord.x, coord.y, (-coord.dir.Item1, -coord.dir.Item2)),
+			};
+		}
+        private (int,int) turnWaypoint((int,int) coord, int param)
         {
-            return coord switch
-            {
-                (0, 1) => Direction.North,
-                (0, -1) => Direction.South,
-                (1, 0) => Direction.East,
-                (-1, 0) => Direction.West,
-                _ => Direction.None
+			return param switch
+			{
+				90 or -270 => (coord.Item2, -coord.Item1),
+				-90 or 270 => (-coord.Item2, coord.Item1),
+				_ => (-coord.Item1, -coord.Item2),
+			};
+		}
 
-            };
-        }
-
-        private static (int, int) DirectionToTuple(List<Direction> directions, Direction newDir)
-        {
-            return newDir switch
-            {
-                Direction.North => (0, 1),
-                Direction.South => (0, -1),
-                Direction.East => (1, 0),
-                Direction.West => (-1, 0),
-                Direction.None => (0, 0)
-            };
-        }
-
-       
-        public enum Direction
-        {
-            North, South, West, East, None
-        }
         record coord(int x, int y, (int, int) dir);
         record instruction(string action, int param);
     }
