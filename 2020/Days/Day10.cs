@@ -54,18 +54,6 @@ namespace AOC2020.Days
             return (ones * threes).ToString();
 		}
 
-		private static bool isThree(long x, List<long> n)
-		{
-			return n[n.IndexOf(x) + 1] -x == 3 |
-                n[n.IndexOf(x) + 2] - x == 3 |
-                n[n.IndexOf(x) + 3] - x == 3;
-        }
-
-		private static bool isOne(long x, List<long> n)
-		{
-			return n[n.IndexOf(x) + 1] - x == 1;
-		}
-
 		private List<long> asNumbers = new();
         public List<long> InputAsNumbers
         {
