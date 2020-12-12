@@ -28,7 +28,12 @@ namespace AOC2020.Days
 		{
 			ParseInstructions(input);
 
-			var result = Process(Instructions);
+            coord position = new coord(0, 0, (1,0));
+            foreach (var instruction in Instructions)
+            {
+                position = Move(instruction, position.x, position.y, position.dir);
+            }
+            var result = Math.Abs(position.x) + Math.Abs(position.y);
 
 			return result.ToString();
 		}
@@ -47,32 +52,27 @@ namespace AOC2020.Days
 		public override string Level2(string[] input)
         {
             ParseInstructions(input);
+            Ship = new coord(0, 0, (1, 0));
+            WayPoint = new coord(10, 1, (1, 0));
+            foreach (var instruction in Instructions)
+            {
+                MoveThings(instruction);
+            }
 
-            var result = Process2(Instructions);
+            var result = Math.Abs(Ship.x) + Math.Abs(Ship.y);
+
             return result.ToString();
 
         }
 
         coord Ship;
         coord WayPoint;
-		private int Process2(List<instruction> instructions)
-		{
-            Ship = new coord(0, 0, (1, 0));
-            WayPoint = new coord(10, 1, (1, 0));
-
-            foreach (var instruction in instructions)
-            {
-                MoveThings(instruction);
-            }
-
-            return Math.Abs(Ship.x) + Math.Abs(Ship.y);
-        }
+		
         private void MoveThings(instruction instruction)
 		{
 			switch (instruction.action)
 			{
                 case "F":
-                    coord dest;
                     for(int i=0; i<instruction.param; i++)
 					{
                         Ship = new coord(Ship.x + WayPoint.x, Ship.y + WayPoint.y, Ship.dir); ;
@@ -104,17 +104,6 @@ namespace AOC2020.Days
             return new coord(newCoord.Item1, newCoord.Item2, ship.dir);
 		}
 
-		private int Process(List<instruction> instructions)
-        {
-            coord position = new coord(0, 0, (1,0));
-            foreach (var instruction in instructions)
-            {
-                position = Move(instruction, position.x, position.y, position.dir);
-
-            }
-            return Math.Abs(position.x) + Math.Abs(position.y);
-
-        }
         private coord Move(instruction instruction, int x, int y, (int, int) dir)
         {
             switch (instruction.action)
