@@ -31,7 +31,7 @@ namespace AOC2020.Days
             ParseGrid(input);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
-            while (Tick(deep: false, tolerance:4)) { }
+            while (Tick(deep: false, tolerance: 4)) { }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("Exec time: " + elapsedMs);
@@ -91,8 +91,8 @@ namespace AOC2020.Days
                 for (int y = -1; y <= 1; y++)
                 {
                     if (x == 0 && y == 0) continue;
-                    var o =  look(grid, i + x, j + y, x, y, deep);
-                    occupied+= o>0 ? o:0;
+                    var o = look(grid, i + x, j + y, x, y, deep);
+                    occupied += o > 0 ? o : 0;
                 }
             }
             return occupied;
