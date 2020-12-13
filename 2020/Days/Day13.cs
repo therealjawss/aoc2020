@@ -58,23 +58,15 @@ namespace AOC2020.Days
         Dictionary<(long, long), long> mods = new();
         long FindTime(List<Bus> busses, long starttime)
         {
-            starttime += busses[0].number;
+            //starttime += FindTime(busses[0],busses[1], starttime);
 
+            starttime += busses[0].number;
             var b = busses.Where(b => b.offset > 0).ToList();
-            if (b.All(b => passes(starttime, b)))
+            if (b.All(b =>b.offset == b.number - starttime%b.number))
                 return starttime;
             else return FindTime(busses, starttime);
 		}
-       
-		private bool passes(long starttime, Bus b)
-		{ 
-            if (!mods.ContainsKey((starttime, b.number)))
-			{
-                mods.Add((starttime, b.number), starttime % b.number);
-			}
-            return b.offset == b.number - mods[(starttime, b.number)];
-		}
-
+   
 		record Bus(long offset, long number);
     }
 }
