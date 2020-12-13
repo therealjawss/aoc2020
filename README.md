@@ -39,3 +39,6 @@ Saw this very elegant solution: https://github.com/FaustVX/adventofcode/blob/mas
 
 ~~Officially skipping day 13 part 2...~~
 Did TDD and finally came up with the solution! Why didn't I do that first, could have avoided wasting a day!
+Some solutios to read up on 
+- https://www.reddit.com/r/adventofcode/comments/kcb3bb/2020_day_13_part_2_can_anyone_tell_my_why_this/
+- https://www.reddit.com/r/adventofcode/comments/kchxzm/2020_day_13_part_2_brute_forcing_in_1_minute_on/
