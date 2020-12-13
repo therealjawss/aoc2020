@@ -37,4 +37,5 @@ Saw this very elegant solution: https://github.com/FaustVX/adventofcode/blob/mas
 
 ## Day 13
 
-Officially skipping day 13 part 2...
+~~Officially skipping day 13 part 2...~~
+Did TDD and finally came up with the solution! Why didn't I do that first, could have avoided wasting a day!
