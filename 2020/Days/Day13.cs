@@ -23,7 +23,7 @@ namespace AOC2020.Days
 
             var result = r.Aggregate((soonestBus: 10000, waitTime: 1000), (val, bus) =>
             {
-                int time = ((earliest / bus) * bus + bus - earliest);
+                int time = ((int)(earliest / bus) * bus + bus - earliest);
                 return time < val.waitTime ? (bus, time) : val;
             });
 
@@ -34,18 +34,47 @@ namespace AOC2020.Days
         public override string Level2(string[] input)
         {
             var r = Regex.Matches(input[1], @"(\d+|x)").Select(x => x.Groups[1].Value).ToList();
-            Dictionary<ulong, ulong> busses = new();
+            List<(ulong, ulong)> busses = new();
             for (int i = 0; i < r.Count(); i++)
             {
                 if (!r[i].Equals("x"))
                 {
-                    busses.Add((ulong)i, UInt64.Parse(r[i]));
+                    busses.Add(((ulong)i, UInt64.Parse(r[i])));
                 }
             }
-
-            return "".ToString();
+            var result = compute(busses);
+            return result.ToString();
         }
 
-    }
+		public ulong compute(List<(ulong, ulong)> busses)
+		{
+            var i = 0;
+            ulong mult = 1;
+            var b1 = busses[0];
+            ulong first = default, next = default;
+            for(i = 0;i<busses.Count-1; i++)
+			{
+                mult = 1;
+				first =  FindFirst(busses, i, mult, b1,b1.Item1);
+                next = FindFirst(busses, i, mult, b1, first) - first;
+                b1 = ((first), next);
+			}
+            return first;
+		}
+
+		private  ulong FindFirst(List<(ulong, ulong)> busses, int i, ulong mult, (ulong, ulong) b1, ulong start=0)
+		{
+
+            while (true)
+			{
+				if ((b1.Item2 * mult + busses[i + 1].Item1 + start) % busses[i + 1].Item2 == 0)
+				{
+					break;
+				};
+                mult++;
+			}
+			return b1.Item2 * mult  + start;
+		}
+	}
 
 }
