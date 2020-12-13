@@ -14,7 +14,7 @@ namespace AOC2020.Days
             var day = new Day13();
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
-            Console.WriteLine(day.Level2(day.Input));
+            Console.WriteLine("Answer should be " + day.Level2(day.Input));
         }
         public override string Level1(string[] input)
         {
@@ -34,39 +34,18 @@ namespace AOC2020.Days
         public override string Level2(string[] input)
         {
             var r = Regex.Matches(input[1], @"(\d+|x)").Select(x => x.Groups[1].Value).ToList();
-            List<Bus> busses = new();
+            Dictionary<ulong, ulong> busses = new();
             for (int i = 0; i < r.Count(); i++)
             {
                 if (!r[i].Equals("x"))
                 {
-                    busses.Add(new Bus(i,Int64.Parse(r[i])));
+                    busses.Add((ulong)i, UInt64.Parse(r[i]));
                 }
             }
-            long startTime = 0;
-            startTime = FindTime(busses, startTime);
-            Console.WriteLine(startTime);
-            return base.Level2(input);
+
+            return "".ToString();
         }
 
-         long FindTime(Bus bus1, Bus bus2, long startTime)
-		{
-            startTime += bus1.number;
-            var mult = startTime / bus1.number;
-            if (bus2.offset == bus2.number - startTime % bus2.number) return startTime;
-            else return FindTime(bus1, bus2, startTime+bus1.number);
-		}
-        Dictionary<(long, long), long> mods = new();
-        long FindTime(List<Bus> busses, long starttime)
-        {
-            //starttime += FindTime(busses[0],busses[1], starttime);
-
-            starttime += busses[0].number;
-            var b = busses.Where(b => b.offset > 0).ToList();
-            if (b.All(b =>b.offset == b.number - starttime%b.number))
-                return starttime;
-            else return FindTime(busses, starttime);
-		}
-   
-		record Bus(long offset, long number);
     }
+
 }
