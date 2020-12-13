@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="Days\Day13.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update=".cookie">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
