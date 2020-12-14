@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +8,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AOC2020.Days
+[assembly: InternalsVisibleTo("AOCTest")]
+namespace AOC2020.Days.Day08
 {
     public class Day08 : Christmas
     {
         public override int Day => 8;
 
-        public static void Run()
+        internal static void Run()
         {
             Console.WriteLine("hello");
             var day = new Day08();
@@ -25,7 +28,7 @@ namespace AOC2020.Days
             day.PostL2Answer();
         }
         public long Accumulator { get; set; }
-        public Dictionary<int, Instruction> Instructions = new Dictionary<int, Instruction>();
+        internal Dictionary<int, Instruction> Instructions = new Dictionary<int, Instruction>();
 
         public void ParseOperations()
         {
@@ -68,7 +71,7 @@ namespace AOC2020.Days
             return accumulator.ToString();
         }
 
-        public bool ItLooped(Dictionary<int, Instruction> instructions, ref long accumulator)
+        internal bool ItLooped(Dictionary<int, Instruction> instructions, ref long accumulator)
         {
             int ctr = 0;
             int index = 0;
@@ -136,16 +139,16 @@ namespace AOC2020.Days
             return accumulator.ToString();
         }
 
-        public void ChangeIt(Dictionary<int, Instruction> instructions, int idx)
+        internal void ChangeIt(Dictionary<int, Instruction> instructions, int idx)
         {
             var instruction = instructions[idx];
             var ins = new Instruction(instruction.operation == Operation.jmp ? Operation.nop : instruction.operation == Operation.nop ? Operation.jmp : instruction.operation, instruction.argument);
             instructions[idx] = ins;
         }
     }
+    internal record Instruction(Operation operation, int argument);
 
 }
-public record Instruction(Operation operation, int argument);
 public enum Operation
 {
     nop,

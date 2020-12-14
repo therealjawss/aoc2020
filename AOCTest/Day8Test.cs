@@ -1,4 +1,5 @@
 ﻿using AOC2020.Days;
+using AOC2020.Days.Day08;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace AOCTest
+namespace AOC2020.Days.Day08
 {
 	public class Day8Test
 	{
