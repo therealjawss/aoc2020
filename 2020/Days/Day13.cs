@@ -15,7 +15,23 @@ namespace AOC2020.Days
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
             Console.WriteLine("Answer should be " + day.Level2(day.Input));
+            day.PostL2Answer();
         }
+        internal static void Run1()
+        {
+            var day = new Day13();
+            day.GetInput();
+            Console.WriteLine(day.Level1(day.Input));
+
+        }
+        internal static void Run2()
+        {
+            var day = new Day13();
+            day.GetInput();
+            Console.WriteLine(day.Level2(day.Input));
+        }
+
+
         public override string Level1(string[] input)
         {
             var earliest = Convert.ToInt32(input[0]);
@@ -62,6 +78,7 @@ namespace AOC2020.Days
             return first;
 		}
 
+	
 		private  ulong FindFirst(List<(ulong, ulong)> busses, int i, ulong mult, (ulong, ulong) b1, ulong start=0)
 		{
 

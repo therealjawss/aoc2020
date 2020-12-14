@@ -42,3 +42,9 @@ Did TDD and finally came up with the solution! Why didn't I do that first, could
 Some solutios to read up on 
 - https://www.reddit.com/r/adventofcode/comments/kcb3bb/2020_day_13_part_2_can_anyone_tell_my_why_this/
 - https://www.reddit.com/r/adventofcode/comments/kchxzm/2020_day_13_part_2_brute_forcing_in_1_minute_on/
+
+## Day 14
+As the problems are getting more difficult, i've decided to do part 1 first thing in the morning before work and then part 2 at the end of the day. So far it is working out.
+Here are a few solutions i want to study when i have the time:
+- https://github.com/DanaL/AdventOfCode/blob/master/2020/Day14.cs
+- https://github.com/lynxz/AdventOfCode/blob/master/2020/Day14/Program.cs

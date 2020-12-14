@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AOC2020.Days
 {
@@ -16,8 +17,23 @@ namespace AOC2020.Days
             var day = new Day14();
             day.GetInput();
             Console.WriteLine(day.Level1(day.Input));
+           // day.PostL1Answer();
             Console.WriteLine("Answer should be " + day.Level2(day.Input));
+            Thread.Sleep(2000);
+            day.PostL2Answer(); 
         }
+        public static void Run1()
+		{
+            var day = new Day14();
+            day.GetInput();
+            Console.WriteLine(day.Level1(day.Input));
+        }
+        public static void Run2()
+		{
+            var day = new Day14();
+            day.GetInput();
+            Console.WriteLine(day.Level2(day.Input));
+		}
 
         public override string Level1(string[] input)
         {
@@ -129,7 +145,8 @@ namespace AOC2020.Days
                 {
                     if (Memory.ContainsKey(val)) {
                         Memory[val] = instruction.val;
-                    }else
+                    }
+                    else
 					{
                         Memory.Add(val, instruction.val);
 					}
@@ -237,9 +254,8 @@ namespace AOC2020.Days
 
         public static ulong[] GetFloatingNumbers(this string bitmask)
         {
-            List<ulong> result = default;
             List<string> l = new List<string>();
-            
+
             var floatingIndices = bitmask.AllIndexesOf("X");
             var min = bitmask.Replace('X', '0');
             var max = bitmask.Replace('X', '1');

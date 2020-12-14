@@ -69,5 +69,15 @@ namespace AOCTest
 
 		}
 
+		[Fact]
+		public void Run1() {
+			Day13.Run1();
+		}
+
+		[Fact]
+		public void Run2()
+		{
+			Day13.Run2();
+		}
 	}
 }

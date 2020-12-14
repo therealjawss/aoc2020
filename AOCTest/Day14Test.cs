@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
+
 namespace AOCTest
 {
 	public class Day14Test
@@ -29,7 +30,7 @@ namespace AOCTest
 		[Fact]
 		public void CanConvertToBinary()
 		{
-			var result = ((long)11).ToBinaryString();
+			var result = ((ulong)11).ToBinaryString();
 			result.Length.Should().Be(36);
 			result.Should().Be("000000000000000000000000000000001011");
 			Convert.ToInt32(result, 2).Should().Be(11);
@@ -42,6 +43,18 @@ namespace AOCTest
 			var mask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X";
 			var result = s.ApplyMask(mask);
 			result.Should().Be("000000000000000000000000000001001001");
+
+		}
+		[Fact]
+		public void Run()
+		{
+				Day14.Run1();
+		}
+		[Fact]
+		public void Run2() {
+			Day14.Run2();
 		}
 	}
 }
+
+
