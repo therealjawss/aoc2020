@@ -23,9 +23,14 @@ namespace AOCTest
             Day15.Run2();
         }
 
-        [Fact]
-        public void CanGetAge()
+        [Theory]
+        [InlineData(4, "0")]
+        public void GetNthNumber(int turn, string expected)
         {
+            var d = new Day15();
+            d.Input = new string [] { "0,3,6"};
+            d.GetNthNumber(d.Input,30000000,turn).Should().Be(expected);
+            
 
         }
     }
