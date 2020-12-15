@@ -10,18 +10,25 @@ using Xunit;
 
 namespace AOCTest
 {
-	public class Day15Test
-	{
+    public class Day15Test
+    {
         [Fact]
-		public void Run()
-		{
-			Day15.Run1();
-		}
-		[Fact]
-		public void Run2() {
-			Day15.Run2();
-		}
-	}
+        public void Run()
+        {
+            Day15.Run1();
+        }
+        [Fact]
+        public void Run2()
+        {
+            Day15.Run2();
+        }
+
+        [Fact]
+        public void CanGetAge()
+        {
+
+        }
+    }
 }
 
 
