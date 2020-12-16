@@ -48,3 +48,6 @@ As the problems are getting more difficult, i've decided to do part 1 first thin
 Here are a few solutions i want to study when i have the time:
 - https://github.com/DanaL/AdventOfCode/blob/master/2020/Day14.cs
 - https://github.com/lynxz/AdventOfCode/blob/master/2020/Day14/Program.cs
+
+## Day 16
+- https://pastebin.com/y5vpkwHF
