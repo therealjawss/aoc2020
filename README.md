@@ -51,3 +51,4 @@ Here are a few solutions i want to study when i have the time:
 
 ## Day 16
 - https://pastebin.com/y5vpkwHF
+- https://github.com/linl33/adventofcode/blob/year2020/year2020/src/main/java/dev/linl33/adventofcode/year2020/Day16.java

@@ -41,7 +41,6 @@ namespace AOC2020.Days
 					foreach (var f in Fields)
 					{
 						valid |= ((field >= f.ax && field <= f.ay) || (field >= f.bx && field <= f.by));
-
 					}
 					if (!valid)
 					{
@@ -94,7 +93,6 @@ namespace AOC2020.Days
 		public override string Level2(string[] input)
 		{
 			parse(input[0]);
-			long sum = 0;
 			foreach (var ticket in OtherTickets)
 			{
 				bool valid = ticket.All(t => ValidForFields(t, Fields).Count > 0);
@@ -132,11 +130,8 @@ namespace AOC2020.Days
 
 
 			var indices = realMap.Where(x => x.Value.StartsWith("departure")).Select(x => x.Key).ToList();
-			ulong result = 1;
-			foreach(var idx in indices)
-			{
-				result *= (ulong)Ticket[idx];
-			}
+
+			ulong result = indices.Aggregate((ulong)1, (val, next) => val * (ulong)Ticket[next]);
 
 			return result.ToString();
 		}
