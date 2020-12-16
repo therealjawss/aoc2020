@@ -26,6 +26,7 @@ namespace AOC2020.Days
 			var d = new Day16();
 			d.GetInput(pattern: "");
 			Console.WriteLine(d.Level2(d.Input));
+			d.PostL2Answer();
 		}
 		public override string Level1(string[] input)
 		{
@@ -50,26 +51,44 @@ namespace AOC2020.Days
 			}
 			return sum.ToString();
 		}
+
+		internal List<int> ValidForIndices(List<int> ticket, Field rules)
+		{
+			return ticket.Where(x => isValid(x, rules)).ToList();
+		}
+
+		internal List<Field> ValidForFields(int ticket, List<Field> rules)
+		{
+			return rules.Where(x => isValid(ticket, x)).ToList();
+		}
+
 		List<Field> Fields = new();
 		int[] Ticket;
 		List<List<int>> OtherTickets = new();
-		private void parse(string input)
+
+		public List<Field> ParseRules(string input)
 		{
-			int ctr = 0;
 			var pattern = @"([\w\s]+): (\d+)-(\d+) or (\d+)-(\d+)\n";
 			var fields = Regex.Matches(input, pattern).Cast<Match>();
-			Fields = fields.Select(x => new Field(x.Groups[1].Value, int.Parse(x.Groups[2].Value), int.Parse(x.Groups[3].Value), int.Parse(x.Groups[4].Value), int.Parse(x.Groups[5].Value))).ToList();
+			var Fields = fields.Select(x => new Field(x.Groups[1].Value, int.Parse(x.Groups[2].Value), int.Parse(x.Groups[3].Value), int.Parse(x.Groups[4].Value), int.Parse(x.Groups[5].Value))).ToList();
+			return Fields;
+		}
+		public List<List<int>> ParseOtherTickets(string input)
+		{
+			var pattern = @"nearby tickets:[\s]+((\d+,?\n?\r?)+)";
+			var otherTickets = Regex.Matches(new Regex(pattern).Match(input).Groups[1].Value, @"((\d+)(?:\,)?)+(\n)?").Cast<Match>();
+			
+			return otherTickets.Select(x => x.Groups[2].Captures.Select(y => int.Parse(y.Value)).ToList()).ToList();
+		}
 
-			pattern = @"your ticket:[\s]+((\d+,?)+)";
+		private void parse(string input)
+		{
+			Fields = ParseRules(input);
+			OtherTickets = ParseOtherTickets(input);
+
+			var pattern = @"your ticket:[\s]+((\d+,?)+)";
 			var yourTicket = Regex.Matches(new Regex(pattern).Match(input).Groups[1].Value, @"(\d+)").Cast<Match>();
 			Ticket = yourTicket.Select(x => int.Parse(x.Groups[1].Value)).ToArray();
-
-			pattern = @"nearby tickets:[\s]+((\d+,?\n?\r?)+)";
-
-			var otherTickets = Regex.Matches(new Regex(pattern).Match(input).Groups[1].Value, @"((\d+)(?:\,)?)+(\n)?").Cast<Match>();
-
-			OtherTickets = otherTickets.Select(x => x.Groups[2].Captures.Select(y => int.Parse(y.Value)).ToList()).ToList();
-
 		}
 		List<int[]> ValidTickets = new();
 		public override string Level2(string[] input)
@@ -78,65 +97,50 @@ namespace AOC2020.Days
 			long sum = 0;
 			foreach (var ticket in OtherTickets)
 			{
-				bool valid = false;
-				for (int j = 0; j < ticket.Count; j++)
-				{
-					valid = false;
-					int field = ticket[j];
-					foreach (var f in Fields)
-					{
-						valid |= isValid(field, f);
-					}
-				}
+				bool valid = ticket.All(t => ValidForFields(t, Fields).Count > 0);
+
 				if (valid)
 				{
 					ValidTickets.Add(ticket.ToArray());
 				}
 			}
 			ValidTickets.Add(Ticket);
-			Dictionary<string, List<int>> map = new();
-			foreach (var f in Fields)
-			{
+			Dictionary<int, List<Field>> map = new();
 
-				for (int i = 0; i < ValidTickets.FirstOrDefault().Length; i++)
-				{
-					if (ValidTickets.All(x => isValid(x[i], f)))
-					{
-						if (map.ContainsKey(f.field))
-						{
-							map[f.field].Add(i);
-						}
-						else
-						{
-							map.Add(f.field, new List<int> { i });
-						}
-					}
-				}
+			for (int i = 0; i < 20; i++)
+			{
+				var t = ValidTickets.Select(x => x[i]);
+				var fields = Fields.Where(f => t.All(x => isValid(x, f))).ToList();
+				map.Add(i, fields);
 			}
 			Dictionary<int, string> realMap = new();
 
-			while (map.Any(x => x.Value.Count > 1))
+			while (map.Any(x => x.Value.Count > 1) || map.Count > 0)
 			{
 				var singles = map.Where(x => x.Value.Count == 1).ToList();
 				foreach (var item in singles)
 				{
 					var val = item.Value.First();
-					if (!realMap.ContainsKey(val))
+					if (!realMap.ContainsKey(item.Key))
 					{
-
-					realMap.Add(val, item.Key);
+						realMap.Add(item.Key, val.field);
 					}
 				}
-				singles.All(s=>map.All(x => map.Remove(s.Key)));
-				singles.All(s=> map.All(x => x.Value.Remove(s.Value.First())));
+				singles.All(s => map.All(x => map.Remove(s.Key)));
+				singles.All(s => map.All(x => x.Value.Remove(s.Value.First())));
 			}
 
 
-			var indices = realMap.Where(x => x.Value.StartsWith("departure")).ToList();
+			var indices = realMap.Where(x => x.Value.StartsWith("departure")).Select(x => x.Key).ToList();
+			ulong result = 1;
+			foreach(var idx in indices)
+			{
+				result *= (ulong)Ticket[idx];
+			}
 
-			return sum.ToString();
+			return result.ToString();
 		}
-		private static bool isValid(int value, Field f)
+		public  bool isValid(int value, Field f)
 		{
 			return ((value >= f.ax && value <= f.ay) || (value >= f.bx && value <= f.by));
 		}
