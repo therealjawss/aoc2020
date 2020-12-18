@@ -14,10 +14,8 @@ namespace AOC2020.Days
 			var d = new Day18();
 			d.GetInput();
 			Console.WriteLine(d.Level1(d.Input));
-			//Console.Writeline(d.Level2(d.Input));
+			Console.WriteLine(d.Level2(d.Input));
 		}
-
-
 
 		public override string Level1(string[] input)
 		{
@@ -78,29 +76,18 @@ namespace AOC2020.Days
 			};
 		}
 
-		private void ParseInput(string[] input)
-		{
-			throw new NotImplementedException();
-		}
-
 		public override string Level2(string[] input)
 		{
-			var total = 0;
+			long total = 0;
 			foreach (var line in input)
 			{
-				total = Compute2(line);
+				total += (long)Evaluate(line);
 			}
 
 			return total.ToString();
 		}
 
-		private int Compute2(string line)
-		{
-			var stack = new Stack<int>();
-			return 0;
-
-		}
-		internal int Evaluate(string expr)
+		internal long Evaluate(string expr)
 		{
 			var s = expr.Replace(" ", "");
 			var stack = new Stack<string>();
@@ -108,28 +95,19 @@ namespace AOC2020.Days
 			{
 				if (s[i] == '(')
 				{
-					int ctr = 0;
-					var sub = EvaluateSub(s, i, ref ctr);
+					var inner = GetInner(s, i);
+					var sub = Evaluate(inner);
 					stack.Push(sub.ToString());
-					i += ctr;
+					i += inner.Length+1;
 				}
 				else
 				if (s[i].isOperator())
 				{
 					if (s[i] == '+')
 					{
-						var num1 = long.Parse(stack.Pop());
-						long num = 0;
-						var next = s[i + 1];
-						int ctr = 1;
-						if (next == '(')
-						{
-							num = EvaluateSub(s, i+1, ref ctr );
-						}
-						else
-						{
-							num = long.Parse(next.ToString());
-						}
+						var buf = stack.Pop();
+						var num1 = long.Parse(buf);
+						long num = GetNextOperand(s, i, out int ctr);
 						var val = calculate(num1, s[i], num);
 						i += ctr;
 						stack.Push(val.ToString());
@@ -137,18 +115,8 @@ namespace AOC2020.Days
 					else if (s[i] == '*')
 					{
 						stack.Push(s[i].ToString());
-						var next = s[i + 1];
-						int ctr =1;
-						long num = 0;
-						if (next == '(')
-						{
-							num = EvaluateSub(s, i + 1, ref ctr);
-							ctr++;
-						}
-						else
-						{
-							num = long.Parse(next.ToString());
-						}
+						int ctr;
+						long num = GetNextOperand(s, i, out ctr);
 						stack.Push(num.ToString());
 						i += ctr;
 					}
@@ -166,33 +134,48 @@ namespace AOC2020.Days
 				var num2 = long.Parse(stack.Pop());
 				stack.Push(calculate(num1, op[0], num2).ToString());
 			}
-			return int.Parse(stack.Pop());
+			return long.Parse(stack.Pop());
 		}
 
-		private long EvaluateSub(string s, int i, ref int ctr)
+		private long GetNextOperand(string s, int i, out int offset)
 		{
-			long num;
-
-			int pair = 0;
-			ctr = 0;
-			do
+			var next = s[i+1];
+			offset = 1;
+			long num = 0;
+			if (next == '(')
 			{
-				if (s[i + ctr] == '(')
-				{
-					pair++;
-				}
-				else if (s[i + ctr] == ')')
-				{
-					pair--;
-				}
-				ctr++;
-			} while (pair != 0);
-
-			num = Evaluate(s.Substring(i + 1, ctr-2));
+				var inner = GetInner(s, i+1);
+				num = Evaluate(inner);
+				offset = inner.Length + 2;
+			}
+			else
+			{
+				num = long.Parse(next.ToString());
+			}
 			return num;
 		}
 
-		record Expression(int operand, char op);
+		public string GetInner(string s, int i)
+		{
+			int start = i;
+			int pair = 0;
+			do
+			{
+				if (s[i] == '(')
+				{
+					pair++;
+				}
+				else if (s[i] == ')')
+				{
+					pair--;
+				}
+				i++;
+
+			} while (pair > 0);
+			return s.Substring(start + 1, i - start - 2);
+		}
+
+
 	}
 	public static class CharExtensions
 	{
