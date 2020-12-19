@@ -39,7 +39,7 @@ namespace AOC2020.Days
 		public override string Level1(string[] input)
 		{
 			ParseInput(input);
-			var count = LinesToTest.Where(x => Conforms(x)).Count() ;
+			var count = LinesToTest.Where(x => Conforms(x)).Count();
 			return count.ToString();
 		}
 
@@ -48,32 +48,47 @@ namespace AOC2020.Days
 			bool result = true;
 			var rule = Rules[0];
 			int i = 0;
-			result = Expect(rule, x, ref i) && i==x.Length;
-			
+			result = Expect(rule, x, ref i) && i == x.Length;
+
 			return result;
 		}
 
 		private bool Expect(List<List<int>> rule, string v, ref int i)
 		{
 			bool result = false;
-			foreach(var r in rule)
+			foreach (var r in rule)
 			{
 				var buffer = i;
 				result |= Expect(r, v, ref i);
-				if (result) 
+				if (result)
 					return true;
 				i = buffer;
 			}
 			return result;
 		}
 
-		private bool Expect(List<int> r, string v,  ref int i)
+		private bool Expect(List<int> r, string v, ref int i)
 		{
 			bool result = true;
-			foreach (var item in r)
+			if (i == v.Length) return true;
+			for (int i1 = 0; i1 < r.Count; i1++)
 			{
-				result &= Expect( item, v, ref i);
-				
+				int item = r[i1];
+				var buffer = i;
+				result &= Expect(item, v, ref i);
+				if (i >= v.Length - 1 && result && i1 == 0)
+				{
+					if (v.Length == i)
+					{
+						i = buffer;
+						return false;
+					}
+				}
+				if (!result)
+				{
+					i = buffer;
+					return false;
+				}
 			}
 			return result;
 		}
@@ -82,7 +97,11 @@ namespace AOC2020.Days
 		{
 			if (literals.ContainsKey(item))
 			{
-				if (i >= v.Length) return true;
+				if (i >= v.Length)
+				{
+					i++;
+					return true;
+				}
 				if (literals[item] == v[i])
 				{
 					i++;
@@ -108,7 +127,7 @@ namespace AOC2020.Days
 			//get the input
 			LinesToTest = input.Where(x => Regex.Match(x, @"^[ab]+").Success).ToList();
 		}
-		
+
 		private void ParseRules(List<string> rules)
 		{
 			foreach (var rule in rules)
@@ -127,7 +146,7 @@ namespace AOC2020.Days
 					var clist = new List<List<int>>();
 					foreach (var c in combinations)
 					{
-						var plist = c.Value.Trim().Split(" ").Select(x=>int.Parse(x)).ToList();
+						var plist = c.Value.Trim().Split(" ").Select(x => int.Parse(x)).ToList();
 						clist.Add(plist);
 					}
 					Rules.Add(idx, clist);
@@ -136,7 +155,7 @@ namespace AOC2020.Days
 		}
 		Dictionary<int, char> literals = new();
 		Dictionary<int, List<List<int>>> Rules = new();
-		
+
 		public override string Level2(string[] input)
 		{
 			ParseInput(input);
