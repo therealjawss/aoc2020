@@ -39,16 +39,24 @@ Saw this very elegant solution: https://github.com/FaustVX/adventofcode/blob/mas
 
 ~~Officially skipping day 13 part 2...~~
 Did TDD and finally came up with the solution! Why didn't I do that first, could have avoided wasting a day!
-Some solutios to read up on 
+Some solutios to read up on
+
 - https://www.reddit.com/r/adventofcode/comments/kcb3bb/2020_day_13_part_2_can_anyone_tell_my_why_this/
 - https://www.reddit.com/r/adventofcode/comments/kchxzm/2020_day_13_part_2_brute_forcing_in_1_minute_on/
 
 ## Day 14
+
 As the problems are getting more difficult, i've decided to do part 1 first thing in the morning before work and then part 2 at the end of the day. So far it is working out.
 Here are a few solutions i want to study when i have the time:
+
 - https://github.com/DanaL/AdventOfCode/blob/master/2020/Day14.cs
 - https://github.com/lynxz/AdventOfCode/blob/master/2020/Day14/Program.cs
 
 ## Day 16
+
 - https://pastebin.com/y5vpkwHF
 - https://github.com/linl33/adventofcode/blob/year2020/year2020/src/main/java/dev/linl33/adventofcode/year2020/Day16.java
+
+## Day 18
+
+- some inspirational day 18 code https://github.com/FaustVX/adventofcode/blob/master/2020/Day18/Solution.cs
