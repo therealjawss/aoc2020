@@ -60,3 +60,5 @@ Here are a few solutions i want to study when i have the time:
 ## Day 18
 
 - some inspirational day 18 code https://github.com/FaustVX/adventofcode/blob/master/2020/Day18/Solution.cs
+## Day 20
+- O_O 

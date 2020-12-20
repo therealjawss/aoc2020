@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -17,7 +18,7 @@ namespace AOC2020.Days
 			var day = new Day20();
 			day.GetInput();
 			Run1();
-
+			Run2();
 			//Console.WriteLine(day.Level1(day.Input));
 			// day.PostL1Answer();
 			//Console.WriteLine("Answer should be " + day.Level2(day.Input));
@@ -31,26 +32,193 @@ namespace AOC2020.Days
 		}
 		public static void Run2()
 		{
-			var day = new Day19();
-			day.GetInput();
+			var day = new Day20();
+			day.GetInput(pattern: "\n\n");
 			Console.WriteLine(day.Level2(day.Input));
 		}
 
 		public override string Level1(string[] input)
 		{
-			ReadTiles(Input);
+			ReadTiles(input);
 			Console.WriteLine(Tiles.Count);
+
+			var Connected = GetConnected();
+			long result = Connected.Where(x => x.Value.Count == 2).Aggregate((long)1, (val, next) => val * next.Key);
+
+			return result.ToString();
+		}
+
+		Dictionary<Tile, List<Orientation>> actual = new();
+		public override string Level2(string[] input)
+		{
+			ReadTiles(input);
+			Map = GetConnected();
+			Coord startcoord = Map.Where(x => x.Value.Count == 2).Select(t => new Coord(t.Value[0].direction, t.Value[1].direction, t.Key)).FirstOrDefault();
+			do
+			{
+				if (startcoord != null)
+				{
+					var tile = Tiles.SingleOrDefault(x => x.number == startcoord.tile);
+					Tiles.Remove(tile);
+					Tiles.Add(tile.Turn());
+					Map = GetConnected();
+				}
+				startcoord = Map.Where(x => x.Key == startcoord.tile).Select(t => new Coord(t.Value[0].direction, t.Value[1].direction, t.Key)).FirstOrDefault();
+			} while (!(startcoord.x == 3 && startcoord.y == 2));
+			var sqrt = (int)Math.Sqrt(Map.Count);
+			List<Tile> Printed = new();
+			var start = Tiles.SingleOrDefault(x => x.number == startcoord.tile);
+			var orientedStart = Map[startcoord.tile];
+			var rowstart = start;
+			var colstart = start;
+			var reftiles = new Tile[sqrt][];
+			for (int i1 = 0; i1 < reftiles.Length; i1++)
+			{
+				reftiles[i1] = new Tile[sqrt];
+			}
+
+			Tile buffer = default;
+			for (int i = 0; i < sqrt; i++)
+			{
+				var next = rowstart;
+				for (int j = 0; j < sqrt; j++)
+				{
+					reftiles[i][j] = next;
+					buffer = Tiles.SingleOrDefault(x => x.number == next.number);
+					Tiles.Remove(buffer);
+					Tiles.Add(next);
+					Map = GetConnected();
+					next = GetRightOf(next);
+				}
+				buffer = Tiles.SingleOrDefault(x => x.number == rowstart.number);
+				Tiles.Remove(buffer);
+				Tiles.Add(rowstart);
+				Map = GetConnected();
+				rowstart = GetBottomOf(rowstart);
+			}
+			int xctr = 0;
+			int yctr = 0;
+
+			int[][] image = new int[sqrt * 8][];
+			for (int x = 0; x < image.Length; x++)
+			{
+				image[x] = new int[sqrt * 8];
+			}
+			var current = reftiles[0][0];
+			var bounds = reftiles[xctr][yctr].grid.GetUpperBound(0) - 1;
+			for (int i = 0; i < sqrt * 8;)
+			{
+
+				yctr = 0;
+				for (int j = 0; j < sqrt * 8;)
+				{
+					int nextVal = default;
+
+
+					nextVal = reftiles[xctr][yctr].grid[(i % 8) + 1, (j % 8) + 1];
+
+					image[i][j] = nextVal;
+					j++;
+					if (j % bounds == 0)
+					{
+						yctr++;
+					}
+				}
+				Console.WriteLine();
+				i++;
+				if (i % bounds == 0)
+				{
+					xctr++;
+				}
+			}
+			image.Print();
+
+			int[][] monster = GetMonsterGrid();
+			Console.Write(Printed.Distinct().Count().ToString());
+			var result = MonsterHunt(image, monster);
+			return default;
+		}
+
+		private int MonsterHunt(int[][] image, int[][] monster)
+		{
+			int nexti = 1;
+			int nextj = 1;
+			int ctr = 0;
+			do
+			{
+				for (int i = 0; i < image.Length - monster.Length + 1; i += nexti)
+				{
+					for (int j = 0; j < image[i].Length - monster[0].Length + 1; j += nextj)
+					{
+						var points = image.Capture(i, j, monster);
+						if (points > 0)
+						{
+							ctr += 1;
+						}
+						else
+						{
+							nexti = 1;
+							nextj = 1;
+						}
+					}
+				}
+				image = image.Turn();
+			} while (ctr == 0);
+
+			var result = image.Count() - ctr * monster.Count();
+			return result;
+		}
+
+		private int[][] GetMonsterGrid()
+		{
+			var buff = File.ReadAllText("monster.in").Split("\r\n");
+			int[][] result = new int[buff.Length][];
+			for (int i = 0; i < buff.Length; i++)
+			{
+				result[i] = new int[buff[i].Length];
+				for (int j = 0; j < buff[i].Length; j++)
+				{
+					result[i][j] = buff[i][j] switch
+					{
+						'#' => 1,
+						_ => 0
+					};
+				}
+			}
+
+			return result;
+		}
+
+		Dictionary<int, List<Orientation>> Map = new();
+		record Coord(int x, int y, int tile);
+		public Tile GetRightOf(Tile tile)
+		{
+			var result = Map[tile.number].FirstOrDefault(x => x.direction == 2)?.Normalize();
+
+			return result;
+		}
+		public Tile GetBottomOf(Tile tile)
+		{
+			var result = Map[tile.number].FirstOrDefault(x => x.direction == 3)?.Normalize();
+
+			return result;
+		}
+
+
+		public Dictionary<int, List<Orientation>> GetConnected()
+		{
 			Dictionary<Tile, List<Match>> Potentials = new();
 			foreach (var tile in Tiles)
 			{
 				var p = Tiles.Where(t => tile.grid.Match(t.grid) > 0 && tile.number != t.number).Select(x => new Match(tile.grid.Match(x.grid), x)).ToList();
 				Potentials.Add(tile, p);
-				//	Potentials.Add(tile.number, p);
+
 			}
 			var s = Potentials.Where(x => x.Value.Count > 1).Select(x => x).ToList();
-			Dictionary<Tile, List<Orientation>> Connected = new();
+			Dictionary<int, List<Orientation>> Connected = new();
 			foreach (var item in s)
 			{
+
 				var g = item.Key.grid;
 				foreach (var otherTile in item.Value)
 				{
@@ -59,40 +227,66 @@ namespace AOC2020.Days
 					var o = g.FindAlignment(otherGrid);
 					int ctr = 0;
 					bool flipped = false;
-					while (o == 0 && ctr < 4 && !flipped)
+					bool flippedv = false;
+
+					while (o == 0 && ctr < 4 && (!flipped || !flippedv))
 					{
 						otherGrid = otherGrid.Turn();
-						ctr++;
 						o = g.FindAlignment(otherGrid);
+						ctr++;
 						if (ctr == 4 && !flipped)
 						{
 							otherGrid = otherGrid.FlipH();
 							flipped = true;
 							ctr = 0;
+							o = g.FindAlignment(otherGrid);
+						}
+						if (ctr == 4 && flipped && !flippedv)
+						{
+							otherGrid = otherGrid.FlipV();
+							flippedv = true;
+							ctr = 0;
+							o = g.FindAlignment(otherGrid);
 						}
 					}
-					var connectedTile = new Orientation(o, new Tile(Other.number, otherGrid));
-					if (Connected.ContainsKey(item.Key))
+					if (o != 0)
 					{
-						Connected[item.Key].Add(connectedTile);
-					}
-					else
-					{
-						Connected.Add(item.Key, new List<Orientation> { connectedTile });
+
+						var connectedTile = new Orientation(o, flipped, flippedv, ctr, Other);
+						if (Connected.ContainsKey(item.Key.number))
+						{
+							Connected[item.Key.number].Add(connectedTile);
+						}
+						else
+						{
+							Connected.Add(item.Key.number, new List<Orientation> { connectedTile });
+						}
 					}
 				}
 			}
-			long result = 1;
-
-			var order = Connected.Where(x => x.Value.Count == 2).Aggregate(result, (val, next) => val * next.Key.number);
-
-			return default;
+			return Connected;
 		}
 		List<Tile> Tiles = new();
-		public record Orientation(int direction, Tile tile);
+		public record Orientation(int direction, bool flippedH, bool flippedV, int turns, Tile tile)
+		{
+
+			public Tile Normalize()
+			{
+				Tile result = tile;
+				if (flippedH) result = result.FlipH();
+				if (flippedV) result = result.FlipV();
+				for (int i = turns; i > 0; i--)
+				{
+					result = result.Turn();
+				}
+				return result;
+			}
+
+		}
 		public record Match(int number, Tile tile);
 		private void ReadTiles(string[] input)
 		{
+			Tiles.Clear();
 			foreach (var line in input)
 			{
 				var section = line.Split("\n");
@@ -117,17 +311,20 @@ namespace AOC2020.Days
 			}
 		}
 
-		public override string Level2(string[] input)
-		{
-			return default;
-		}
 		public record Tile(int number, int[,] grid)
 		{
 			public Tile Turn()
 			{
 				return new Tile(this.number, this.grid.Turn());
 			}
-
+			public Tile FlipV()
+			{
+				return new Tile(this.number, this.grid.FlipV());
+			}
+			public Tile FlipH()
+			{
+				return new Tile(this.number, this.grid.FlipH());
+			}
 			public Tile Turn(int times)
 			{
 				Tile newGrid = default;
@@ -155,13 +352,13 @@ namespace AOC2020.Days
 	 /// <param name="Grid"></param>
 	 /// <param name="OtherGrid"></param>
 	 /// <returns></returns>
-	
+
 		public static int FindAlignment(this int[,] grid, int[,] other)
 		{
 			var g = grid.GetStrings();
 			var o = other.GetStrings();
-			if (g[0] == o[2]) return 1;
-			else if (g[1] == o[3]) return 4;
+			//if (g[0] == o[2]) return 1;
+			//else if (g[1] == o[3]) return 4;
 			for (int i = 0; i < 4; i++)
 			{
 				if (g[i] == o[(i + 2) % 4])
@@ -169,7 +366,7 @@ namespace AOC2020.Days
 			}
 			return 0;
 		}
-	
+
 		public static int Match(this int[,] Grid, int[,] OtherGrid)
 		{
 			var bound = Grid.GetUpperBound(0) + 1;
@@ -177,34 +374,32 @@ namespace AOC2020.Days
 			string[] other = OtherGrid.GetAllStrings();
 			if (gridDims.Any(x => other.Contains(x)))
 			{
-			 return 1;
-			} 
+				return 1;
+			}
 			return 0;
 		}
-		public static string GetString(this int[,] grid, int x)
-		{
-			string[] gridDims = GetStrings(grid);
-			return gridDims[x];
-		}
+
 		public static string[] GetStrings(this int[,] grid)
 		{
 			var bound = grid.GetUpperBound(0);
 			string[] gridDims = new string[4];
 			gridDims[0] = Enumerable.Range(0, bound + 1).Select(x => grid[0, x].ToString()).Aggregate((i, j) => i + j).ToString();
-			gridDims[1] = Enumerable.Range(0, bound + 1).Select(x => grid[x, bound].ToString()).Aggregate((i, j) => j + i).ToString();
-			gridDims[2] = Enumerable.Range(0, bound + 1).Select(x => grid[bound, x].ToString()).Aggregate((i, j) => j + i).ToString();
-			gridDims[3] = Enumerable.Range(0, bound + 1).Select(x => grid[x, 0].ToString()).Aggregate((i, j) => j + i).ToString();
+			gridDims[1] = Enumerable.Range(0, bound + 1).Select(x => grid[x, bound].ToString()).Aggregate((i, j) => i + j).ToString();
+			gridDims[2] = Enumerable.Range(0, bound + 1).Select(x => grid[bound, x].ToString()).Aggregate((i, j) => i + j).ToString();
+			gridDims[3] = Enumerable.Range(0, bound + 1).Select(x => grid[x, 0].ToString()).Aggregate((i, j) => i + j).ToString();
 
 			return gridDims;
 		}
- 		public static string[] GetAllStrings(this int[,] grid) {
-			 string[] gridStrings = new string[8];
-			 Array.Copy(grid.GetStrings(), gridStrings, 4);
-			 for(int i=0; i< 4; i++){
-				 gridStrings[4+i] = new String(gridStrings[i].ToCharArray().Reverse().ToArray());
-			 }
-			 return gridStrings;
-		 }
+		public static string[] GetAllStrings(this int[,] grid)
+		{
+			string[] gridStrings = new string[8];
+			Array.Copy(grid.GetStrings(), gridStrings, 4);
+			for (int i = 0; i < 4; i++)
+			{
+				gridStrings[4 + i] = new String(gridStrings[i].ToCharArray().Reverse().ToArray());
+			}
+			return gridStrings;
+		}
 		public static void Print(this int[,] Grid)
 		{
 			(int, int) bounds = (Grid.GetUpperBound(0), Grid.GetUpperBound(1));
@@ -215,6 +410,32 @@ namespace AOC2020.Days
 				Console.WriteLine();
 			}
 			Console.WriteLine();
+		}
+
+		public static bool Print(this int[][] Grid)
+		{
+			for (int i = 0; i < Grid.Length; i++)
+			{
+				for (int j = 0; j < Grid[i].Length; j++)
+				{
+					Console.Write($"{print(Grid[i][j])}");
+				}
+				Console.WriteLine();
+			}
+			return true;
+		}
+		public static int[][] Turn(this int[][] Grid)
+		{
+			var newGrid = new int[Grid.Length][];
+			for (int i = 0; i < Grid.Length; i++)
+			{
+				newGrid[i] = new int[Grid[0].Length];
+				for (int j = 0; j < Grid[0].Length; j++)
+				{
+					newGrid[i][j] = Grid[Grid[0].Length - 1 - j][i];
+				}
+			}
+			return newGrid;
 		}
 		public static int[,] Turn(this int[,] Grid)
 		{
@@ -264,6 +485,42 @@ namespace AOC2020.Days
 					return '#';
 				default: return 'Z';
 			}
+		}
+
+		public static int Capture(this int[][] Grid, int x, int y, int[][] Monster)
+		{
+			int ctr = 0;
+			bool contains = true;
+			for (int i = 0; i < Monster.Length; i++)
+			{
+				for (int j = 0; j < Monster[i].Length; j++)
+				{
+					if (Monster[i][j] == 1)
+						contains &= Grid[i + x][j + y] == Monster[i][j];
+					else if (Grid[i + x][j + y] == 1)
+					{
+						ctr++;
+					}
+				}
+
+			}
+
+			if (contains) return ctr;
+			else return 0;
+		}
+
+		public static int Count(this int[][] Grid)
+		{
+			int ctr = 0;
+			for (int i = 0; i < Grid.Length; i++)
+			{
+				for (int j = 0; j < Grid[0].Length; j++)
+				{
+					ctr += Grid[i][j];
+				}
+
+			}
+			return ctr;
 		}
 	}
 }
