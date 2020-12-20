@@ -148,6 +148,7 @@ namespace AOC2020.Days
             {
                 for (int j = 0; j < input[i].Length; j++)
                 {
+
                     switch (input[i][j])
                     {
                         case 'L':
