@@ -78,11 +78,14 @@ namespace AOC2020.Days
 					}
 					else
 					{
-
 						Connected.Add(item.Key, new List<Orientation> { connectedTile });
 					}
 				}
 			}
+			long result = 1;
+
+			var order = Connected.Where(x => x.Value.Count == 2).Aggregate(result, (val, next) => val * next.Key.number);
+
 			return default;
 		}
 		List<Tile> Tiles = new();
@@ -140,10 +143,7 @@ namespace AOC2020.Days
 				this.grid.Print();
 				return true;
 			}
-
 		}
-
-
 	}
 	public static class GridExtensions
 	{/// <summary>
@@ -155,26 +155,7 @@ namespace AOC2020.Days
 	 /// <param name="Grid"></param>
 	 /// <param name="OtherGrid"></param>
 	 /// <returns></returns>
-		public static bool CanAlign(this int[,] Grid, int[,] OtherGrid)
-		{
-			int[] gridDims = new int[4];
-			int[] otherDims = new int[4];
-			var bound = Grid.GetUpperBound(0);
-			for (int i = 0; i < Grid.GetUpperBound(0) + 1; i++)
-			{
-				gridDims[0] += Grid[i, 0];
-				gridDims[1] += Grid[bound, i];
-				gridDims[2] += Grid[i, bound];
-				gridDims[3] += Grid[0, i];
-				otherDims[0] += OtherGrid[i, 0];
-				otherDims[1] += OtherGrid[bound, i];
-				otherDims[2] += OtherGrid[i, bound];
-				otherDims[3] += OtherGrid[0, i];
-			}
-			var result = gridDims.Any(x => otherDims.Contains(x));
-			return result;
-
-		}
+	
 		public static int FindAlignment(this int[,] grid, int[,] other)
 		{
 			var g = grid.GetStrings();
@@ -188,105 +169,42 @@ namespace AOC2020.Days
 			}
 			return 0;
 		}
-		public static string[] GetStrings(this int[,] grid)
-		{
-			var bound = grid.GetUpperBound(0);
-			string[] gridDims = new string[4];
-			gridDims[3] = Enumerable.Range(0, bound + 1).Select(x => grid[x, 0].ToString()).Aggregate((i, j) => j + i);
-			gridDims[2] = Enumerable.Range(0, bound + 1).Select(x => grid[bound, x].ToString()).Aggregate((i, j) => j + i);
-			gridDims[1] = Enumerable.Range(0, bound + 1).Select(x => grid[x, bound].ToString()).Aggregate((i, j) => j + i);
-			gridDims[0] = Enumerable.Range(0, bound + 1).Select(x => grid[0, x].ToString()).Aggregate((i, j) => i + j);
-
-			return gridDims;
-		}
-		public static int Match(this string grid, string otherGrid)
-		{
-			if (grid.Equals(otherGrid))
-			{
-				return 2;
-			}
-			else if (grid.Equals(otherGrid.Reverse()))
-			{
-				return 1;
-			}
-			else return 0;
-		}
+	
 		public static int Match(this int[,] Grid, int[,] OtherGrid)
 		{
 			var bound = Grid.GetUpperBound(0) + 1;
 			string[] gridDims = Grid.GetStrings();
-			string[] other = OtherGrid.GetStrings();
+			string[] other = OtherGrid.GetAllStrings();
 			if (gridDims.Any(x => other.Contains(x)))
 			{
-				return 2;
-			}
-			else if (gridDims.Any(x => other.Contains(x.Reverse())))
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
+			 return 1;
+			} 
+			return 0;
 		}
 		public static string GetString(this int[,] grid, int x)
 		{
 			string[] gridDims = GetStrings(grid);
 			return gridDims[x];
 		}
-		public static bool IsAlignedRightOf(this int[,] Grid, int[,] OtherGrid)
+		public static string[] GetStrings(this int[,] grid)
 		{
-			bool aligned = true;
-			var bound = Grid.GetUpperBound(0);
-			for (int i = 0; i <= bound; i++)
-			{
-				aligned &= Grid[0, i] == OtherGrid[bound, i];
-			}
-			return aligned;
-		}
-		public static bool IsAlignedBottomOf(this int[,] Grid, int[,] OtherGrid)
-		{
-			bool aligned = true;
-			var bound = Grid.GetUpperBound(0);
-			for (int i = 0; i <= bound; i++)
-			{
-				aligned &= Grid[i, 0] == OtherGrid[i, bound];
-			}
-			return aligned;
-		}
-		public static bool IsAlignedTopOf(this int[,] Grid, int[,] OtherGrid)
-		{
-			bool aligned = true;
-			var bound = Grid.GetUpperBound(0);
-			for (int i = 0; i <= bound; i++)
-			{
-				aligned &= Grid[i, bound] == OtherGrid[i, 0];
-			}
-			return aligned;
-		}
-		public static bool IsAlignedLeftOf(this int[,] Grid, int[,] OtherGrid)
-		{
-			bool aligned = true;
-			var bound = Grid.GetUpperBound(0);
-			for (int i = 0; i <= bound; i++)
-			{
-				aligned &= Grid[bound, i] == OtherGrid[0, i];
-			}
-			return aligned;
-		}
-		//public static bool IsAligned(this int[,] Grid, int[,] OtherGrid, int x, int y)
-		//{
-		//	bool aligned = true;
-		//	var bound = Grid.GetUpperBound(0);
-		//	for (int i = 0; i <= bound; i++)
-		//	{
-		//		for(int j= 0; j<=bound; j++)
-		//		{
+			var bound = grid.GetUpperBound(0);
+			string[] gridDims = new string[4];
+			gridDims[0] = Enumerable.Range(0, bound + 1).Select(x => grid[0, x].ToString()).Aggregate((i, j) => i + j).ToString();
+			gridDims[1] = Enumerable.Range(0, bound + 1).Select(x => grid[x, bound].ToString()).Aggregate((i, j) => j + i).ToString();
+			gridDims[2] = Enumerable.Range(0, bound + 1).Select(x => grid[bound, x].ToString()).Aggregate((i, j) => j + i).ToString();
+			gridDims[3] = Enumerable.Range(0, bound + 1).Select(x => grid[x, 0].ToString()).Aggregate((i, j) => j + i).ToString();
 
-		//		}
-		//	}
-
-		//}
+			return gridDims;
+		}
+ 		public static string[] GetAllStrings(this int[,] grid) {
+			 string[] gridStrings = new string[8];
+			 Array.Copy(grid.GetStrings(), gridStrings, 4);
+			 for(int i=0; i< 4; i++){
+				 gridStrings[4+i] = new String(gridStrings[i].ToCharArray().Reverse().ToArray());
+			 }
+			 return gridStrings;
+		 }
 		public static void Print(this int[,] Grid)
 		{
 			(int, int) bounds = (Grid.GetUpperBound(0), Grid.GetUpperBound(1));
