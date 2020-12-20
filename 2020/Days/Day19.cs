@@ -43,7 +43,7 @@ namespace AOC2020.Days
 			return count.ToString();
 		}
 
-		private bool Conforms(string x)
+		public bool Conforms(string x)
 		{
 			bool result = true;
 			var rule = Rules[0];
@@ -119,7 +119,7 @@ namespace AOC2020.Days
 		}
 
 		public List<string> LinesToTest;
-		private void ParseInput(string[] input)
+		public void ParseInput(string[] input)
 		{
 			//get the rules
 			var rules = input.Where(x => Regex.Match(x, @"(\d+):").Success).ToList();
