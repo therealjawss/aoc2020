@@ -12,7 +12,6 @@ namespace AOC2020.Days
 	public class Day20 : Christmas
 	{
 		public override int Day => 20;
-
 		public static void Run()
 		{
 			var day = new Day20();
@@ -37,6 +36,7 @@ namespace AOC2020.Days
 			Console.WriteLine(day.Level2(day.Input));
 		}
 
+		List<Tile> Tiles = new();
 		public override string Level1(string[] input)
 		{
 			ReadTiles(input);
@@ -65,23 +65,21 @@ namespace AOC2020.Days
 				}
 				startcoord = Map.Where(x => x.Key == startcoord.tile).Select(t => new Coord(t.Value[0].direction, t.Value[1].direction, t.Key)).FirstOrDefault();
 			} while (!(startcoord.x == 3 && startcoord.y == 2));
-			var sqrt = (int)Math.Sqrt(Map.Count);
-			List<Tile> Printed = new();
-			var start = Tiles.SingleOrDefault(x => x.number == startcoord.tile);
-			var orientedStart = Map[startcoord.tile];
-			var rowstart = start;
-			var colstart = start;
-			var reftiles = new Tile[sqrt][];
+			
+			var REFERENCESIZE = (int)Math.Sqrt(Map.Count);
+			var reftiles = new Tile[REFERENCESIZE][];
 			for (int i1 = 0; i1 < reftiles.Length; i1++)
 			{
-				reftiles[i1] = new Tile[sqrt];
+				reftiles[i1] = new Tile[REFERENCESIZE];
 			}
-
+			
+			var start = Tiles.SingleOrDefault(x => x.number == startcoord.tile);
+			var rowstart = start;
 			Tile buffer = default;
-			for (int i = 0; i < sqrt; i++)
+			for (int i = 0; i < REFERENCESIZE; i++)
 			{
 				var next = rowstart;
-				for (int j = 0; j < sqrt; j++)
+				for (int j = 0; j < REFERENCESIZE; j++)
 				{
 					reftiles[i][j] = next;
 					buffer = Tiles.SingleOrDefault(x => x.number == next.number);
@@ -96,72 +94,58 @@ namespace AOC2020.Days
 				Map = GetConnected();
 				rowstart = GetBottomOf(rowstart);
 			}
-			int xctr = 0;
-			int yctr = 0;
 
-			int[][] image = new int[sqrt * 8][];
+			int[][] image = new int[REFERENCESIZE * 8][];
 			for (int x = 0; x < image.Length; x++)
 			{
-				image[x] = new int[sqrt * 8];
+				image[x] = new int[REFERENCESIZE * 8];
 			}
-			var current = reftiles[0][0];
+			
+			int xctr = 0;
+			int yctr = 0;
 			var bounds = reftiles[xctr][yctr].grid.GetUpperBound(0) - 1;
-			for (int i = 0; i < sqrt * 8;)
+
+			for (int i = 0; i < REFERENCESIZE * 8;)
 			{
 
 				yctr = 0;
-				for (int j = 0; j < sqrt * 8;)
+				for (int j = 0; j < REFERENCESIZE * 8;)
 				{
-					int nextVal = default;
-
-
-					nextVal = reftiles[xctr][yctr].grid[(i % 8) + 1, (j % 8) + 1];
-
-					image[i][j] = nextVal;
+					image[i][j] =  reftiles[xctr][yctr].grid[(i % 8) + 1, (j % 8) + 1]; ;
+					
 					j++;
 					if (j % bounds == 0)
-					{
 						yctr++;
-					}
 				}
 				Console.WriteLine();
 				i++;
 				if (i % bounds == 0)
-				{
 					xctr++;
-				}
 			}
+
 			image.Print();
 
 			int[][] monster = GetMonsterGrid();
-			Console.Write(Printed.Distinct().Count().ToString());
-			var result = MonsterHunt(image, monster);
-			return default;
+			return MonsterHunt(image, monster).ToString();
 		}
 
 		private int MonsterHunt(int[][] image, int[][] monster)
 		{
-			int nexti = 1;
-			int nextj = 1;
 			int ctr = 0;
 			do
 			{
-				for (int i = 0; i < image.Length - monster.Length + 1; i += nexti)
+				for (int i = 0; i < image.Length - monster.Length + 1; i++)
 				{
-					for (int j = 0; j < image[i].Length - monster[0].Length + 1; j += nextj)
+					for (int j = 0; j < image[i].Length - monster[0].Length + 1; j++)
 					{
 						var points = image.Capture(i, j, monster);
 						if (points > 0)
 						{
 							ctr += 1;
 						}
-						else
-						{
-							nexti = 1;
-							nextj = 1;
-						}
 					}
 				}
+
 				image = image.Turn();
 			} while (ctr == 0);
 
@@ -193,17 +177,12 @@ namespace AOC2020.Days
 		record Coord(int x, int y, int tile);
 		public Tile GetRightOf(Tile tile)
 		{
-			var result = Map[tile.number].FirstOrDefault(x => x.direction == 2)?.Normalize();
-
-			return result;
+			return Map[tile.number].FirstOrDefault(x => x.direction == 2)?.Normalize();
 		}
 		public Tile GetBottomOf(Tile tile)
 		{
-			var result = Map[tile.number].FirstOrDefault(x => x.direction == 3)?.Normalize();
-
-			return result;
+			return Map[tile.number].FirstOrDefault(x => x.direction == 3)?.Normalize();
 		}
-
 
 		public Dictionary<int, List<Orientation>> GetConnected()
 		{
@@ -212,13 +191,12 @@ namespace AOC2020.Days
 			{
 				var p = Tiles.Where(t => tile.grid.Match(t.grid) > 0 && tile.number != t.number).Select(x => new Match(tile.grid.Match(x.grid), x)).ToList();
 				Potentials.Add(tile, p);
-
 			}
 			var s = Potentials.Where(x => x.Value.Count > 1).Select(x => x).ToList();
+
 			Dictionary<int, List<Orientation>> Connected = new();
 			foreach (var item in s)
 			{
-
 				var g = item.Key.grid;
 				foreach (var otherTile in item.Value)
 				{
@@ -266,10 +244,8 @@ namespace AOC2020.Days
 			}
 			return Connected;
 		}
-		List<Tile> Tiles = new();
 		public record Orientation(int direction, bool flippedH, bool flippedV, int turns, Tile tile)
 		{
-
 			public Tile Normalize()
 			{
 				Tile result = tile;
@@ -325,15 +301,7 @@ namespace AOC2020.Days
 			{
 				return new Tile(this.number, this.grid.FlipH());
 			}
-			public Tile Turn(int times)
-			{
-				Tile newGrid = default;
-				for (int i = 0; i < times; i++)
-				{
-					newGrid = this.Turn();
-				}
-				return newGrid;
-			}
+			
 			public bool Print()
 			{
 				Console.WriteLine($"Tile number {this.number}");
@@ -357,8 +325,6 @@ namespace AOC2020.Days
 		{
 			var g = grid.GetStrings();
 			var o = other.GetStrings();
-			//if (g[0] == o[2]) return 1;
-			//else if (g[1] == o[3]) return 4;
 			for (int i = 0; i < 4; i++)
 			{
 				if (g[i] == o[(i + 2) % 4])
@@ -518,7 +484,6 @@ namespace AOC2020.Days
 				{
 					ctr += Grid[i][j];
 				}
-
 			}
 			return ctr;
 		}
