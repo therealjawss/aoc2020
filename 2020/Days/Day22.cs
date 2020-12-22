@@ -17,7 +17,7 @@ namespace AOC2020.Days
 			var d = new Day22();
 			d.GetInput();
 			Console.WriteLine(d.Level1(d.Input));
-			//Console.WriteLine(d.Level2(d.Input));
+			Console.WriteLine(d.Level2(d.Input));
 
 		}
 		public override string Level1(string[] input)
@@ -37,6 +37,62 @@ namespace AOC2020.Days
 	
 			return answer.ToString();
 		}
+
+		public override string Level2(string[] input)
+		{
+			var answer = "";
+			ParseInput(input);
+			Dictionary<string, int> rounds = new();
+			var win = RecursiveCombat(P, rounds);
+
+			answer = P[win].Reverse().ToList().Aggregate((total: 0, index: 1), (val, next) => ((val.total + next * val.index), val.index + 1)).total.ToString();
+
+			return answer.ToString();
+		}
+
+		private int RecursiveCombat(Queue<int>[] P, Dictionary<string, int> rounds)
+		{
+			var win = hasWinner2(P, rounds);
+			while (win==-1) 
+			{
+				int[] p = new int[2];
+				p[0] = P[0].Dequeue();
+				p[1] = P[1].Dequeue();
+			
+
+				if (p[0] <= P[0].Count && p[1] <= P[1].Count)
+				{
+
+					var p1 = new Queue<int>(P[0].ToArray()[..p[0]]);
+					var p2 = new Queue<int>(P[1].ToArray()[..p[1]]);
+					win = RecursiveCombat(new Queue<int>[] { p1, p2 },new  Dictionary<string, int>());
+				}
+				else
+				{
+					win = p[0] > p[1] ? 0 : 1;
+				}
+
+				P[win].Enqueue(p[win]);
+				P[win].Enqueue(p[(win + 1) % 2]);
+				win = hasWinner2(P, rounds);
+			}
+			return win;
+		}
+		int gctr = 0;
+	
+ 		private int hasWinner2(Queue<int>[] P, Dictionary<string, int> rounds)
+		{
+			var result = P[0].Count == 0 ? 1 : P[1].Count == 0 ? 0 : -1;
+			var play = "p1"+string.Join(",", P[0].Select(x => x.ToString())) +"p2"+ string.Join(",", P[1].Select(x => x.ToString()));
+			if (rounds.ContainsKey(play))
+				result = 0;
+			else
+			{
+				gctr++;
+				rounds.Add(play, gctr);
+			}
+			return result;
+		}
 		Queue<int>[] P;
 		Stack<int>[] Game = new Stack<int>[2];
 		int GameLen;
@@ -44,6 +100,7 @@ namespace AOC2020.Days
 		{
 			return P[0].Count == GameLen ? 0 : P[1].Count == GameLen ? 1 : -1;
 		}
+
 		private void ParseInput(string[] input)
 		{
 			var len = input.Length / 2;
@@ -54,13 +111,6 @@ namespace AOC2020.Days
 			P = new Queue<int>[] { p1, p2 };
 		}
 
-
-
-		public override string Level2(string[] input)
-		{
-			var answer = "";
-			return answer;
-		}
 
 
 	}
