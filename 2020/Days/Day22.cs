@@ -10,8 +10,6 @@ namespace AOC2020.Days
 	public class Day22 : Christmas
 	{
 		public override int Day => 22;
-
-
 		public static void Run()
 		{
 			var d = new Day22();
@@ -20,6 +18,8 @@ namespace AOC2020.Days
 			Console.WriteLine(d.Level2(d.Input));
 
 		}
+
+		Queue<int>[] P;
 		public override string Level1(string[] input)
 		{
 			ParseInput(input);
@@ -36,6 +36,10 @@ namespace AOC2020.Days
 			var answer = P[hasWinner()].Reverse().ToList().Aggregate((total: 0, index: 1), (val, next) => ((val.total + next * val.index), val.index + 1)).total;
 	
 			return answer.ToString();
+		}
+		private int hasWinner()
+		{
+			return P[0].Count == 0 ? 1 : P[1].Count == 0 ? 0 : -1;
 		}
 
 		public override string Level2(string[] input)
@@ -58,11 +62,9 @@ namespace AOC2020.Days
 				int[] p = new int[2];
 				p[0] = P[0].Dequeue();
 				p[1] = P[1].Dequeue();
-			
 
 				if (p[0] <= P[0].Count && p[1] <= P[1].Count)
 				{
-
 					var p1 = new Queue<int>(P[0].ToArray()[..p[0]]);
 					var p2 = new Queue<int>(P[1].ToArray()[..p[1]]);
 					win = RecursiveCombat(new Queue<int>[] { p1, p2 },new  Dictionary<string, int>());
@@ -79,7 +81,6 @@ namespace AOC2020.Days
 			return win;
 		}
 		int gctr = 0;
-	
  		private int hasWinner2(Queue<int>[] P, Dictionary<string, int> rounds)
 		{
 			var result = P[0].Count == 0 ? 1 : P[1].Count == 0 ? 0 : -1;
@@ -93,13 +94,7 @@ namespace AOC2020.Days
 			}
 			return result;
 		}
-		Queue<int>[] P;
-		Stack<int>[] Game = new Stack<int>[2];
-		int GameLen;
-		private int hasWinner()
-		{
-			return P[0].Count == GameLen ? 0 : P[1].Count == GameLen ? 1 : -1;
-		}
+	
 
 		private void ParseInput(string[] input)
 		{
@@ -107,7 +102,6 @@ namespace AOC2020.Days
 			var idx = len + 1;
 			var p1 = new Queue<int>(input[1..len].Select(x => int.Parse(x)));
 			var p2 = new Queue<int>(input[idx..].Select(x => int.Parse(x)));
-			GameLen = (len-1) * 2;
 			P = new Queue<int>[] { p1, p2 };
 		}
 
