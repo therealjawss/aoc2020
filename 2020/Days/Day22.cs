@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace AOC2020.Days
 {
-
 	public class Day22 : Christmas
 	{
 		public override int Day => 22;
@@ -16,7 +15,6 @@ namespace AOC2020.Days
 			d.GetInput();
 			Console.WriteLine(d.Level1(d.Input));
 			Console.WriteLine(d.Level2(d.Input));
-
 		}
 
 		Queue<int>[] P;
@@ -49,7 +47,8 @@ namespace AOC2020.Days
 			Dictionary<string, int> rounds = new();
 			var win = RecursiveCombat(P, rounds);
 
-			answer = P[win].Reverse().ToList().Aggregate((total: 0, index: 1), (val, next) => ((val.total + next * val.index), val.index + 1)).total.ToString();
+			answer = P[win].Reverse().ToList().Aggregate((total: 0, index: 1), (val, next)
+			 => ((val.total + next * val.index), val.index + 1)).total.ToString();
 
 			return answer.ToString();
 		}
@@ -59,15 +58,12 @@ namespace AOC2020.Days
 			var win = hasWinner2(P, rounds);
 			while (win==-1) 
 			{
-				int[] p = new int[2];
-				p[0] = P[0].Dequeue();
-				p[1] = P[1].Dequeue();
-
+				int[] p = P.Select(x=>x.Dequeue()).ToArray();
+				
 				if (p[0] <= P[0].Count && p[1] <= P[1].Count)
 				{
-					var p1 = new Queue<int>(P[0].ToArray()[..p[0]]);
-					var p2 = new Queue<int>(P[1].ToArray()[..p[1]]);
-					win = RecursiveCombat(new Queue<int>[] { p1, p2 },new  Dictionary<string, int>());
+					var copy = P.Select((x,index)=> new Queue<int>(x.ToArray()[..p[index]])).ToArray();
+					win = RecursiveCombat(copy, new  Dictionary<string, int>());
 				}
 				else
 				{
@@ -94,8 +90,6 @@ namespace AOC2020.Days
 			}
 			return result;
 		}
-	
-
 		private void ParseInput(string[] input)
 		{
 			var len = input.Length / 2;
