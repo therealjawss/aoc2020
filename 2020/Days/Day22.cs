@@ -34,7 +34,7 @@ namespace AOC2020.Days
 			} while (hasWinner() == -1);
 
 			var answer = P[hasWinner()].Reverse().ToList().Aggregate((total: 0, index: 1), (val, next) => ((val.total + next * val.index), val.index + 1)).total;
-	}
+	
 			return answer.ToString();
 		}
 		Queue<int>[] P;
