@@ -31,7 +31,6 @@ namespace AOC2020.Days
 			}
 
 			current = lcards.First;
-//var listindex = lcards.Select((x, i) => (node: lcards.Find(x), index: i)).ToLookup(i => i.index);
 			for (int i = 0; i < 10000000; i++)
 			{
 				LinkedListNode<int> first = current;
