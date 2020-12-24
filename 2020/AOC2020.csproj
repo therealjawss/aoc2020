@@ -45,6 +45,9 @@
     <None Update="22.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="24.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="monster.in">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
