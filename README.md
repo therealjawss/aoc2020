@@ -60,5 +60,28 @@ Here are a few solutions i want to study when i have the time:
 ## Day 18
 
 - some inspirational day 18 code https://github.com/FaustVX/adventofcode/blob/master/2020/Day18/Solution.cs
+
 ## Day 20
-- O_O 
+
+- O_O
+- https://github.com/FaustVX/adventofcode/blob/master/2020/Day20/Solution.cs
+- https://gist.github.com/AlaskanShade/5c46b96a4b1f08cdb6568c15b6e86341
+- https://github.com/erjicles/adventofcode2020/tree/main/src/AdventOfCode2020/AdventOfCode2020/Challenges/Day20
+
+## Day 21
+
+- https://github.com/PaulWild/advent-of-code-2020/blob/main/AdventOfCode/Days/Day21.cs
+- https://github.com/hlim29/AdventOfCode2020/blob/master/Days/DayTwentyone.cs
+
+## Day 22
+
+- https://github.com/GoldenQubicle/AoC2020/blob/master/AoC2020/Solutions/Day22.cs
+
+## Day 23
+
+- https://github.com/FaustVX/adventofcode/blob/129b82029abccd85428451c2b9f1d032dce723ff/2020/Day23/Solution.cs
+
+## Day 24
+
+- https://github.com/PaulWild/advent-of-code-2020/blob/main/AdventOfCode/Days/Day24.cs
+- https://github.com/encse/adventofcode/blob/master/2020/Day24/Solution.cs
