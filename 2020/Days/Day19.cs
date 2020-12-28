@@ -170,9 +170,10 @@ namespace AOC2020.Days
             return Regex.Match(input, pattern).Groups[1].Value;
         }
 
-        //public static List<string> Extract(this string input, string pattern) {
-        //    return Regex.Matches(input, pattern).Cast<Match>().Select(x => x.Groups[1].Captures.Select(y => y.Value)).ToList();
-        //}
+		public static IEnumerable<IEnumerable<string>> ExtractMany(this string input, string pattern)
+		{
+			return Regex.Matches(input, pattern).Cast<Match>().Select(x => x.Groups[1].Captures.Select(y => y.Value));
+		}
 
-    }
+	}
 }
