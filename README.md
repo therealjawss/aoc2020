@@ -1,3 +1,8 @@
+# Advent of Code 2021
+
+## Day 1
+Was not prepared, so here it is, as is. :) As usual, great solution from  [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more!
+
 # Advent of Code 2020
 
 If any christmas needs saving, this one does!
