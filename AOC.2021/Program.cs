@@ -1,3 +1,3 @@
 ﻿using AOC2021.Days;
 
-Day01.Run();
+await Day01.Run();
