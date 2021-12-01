@@ -9,11 +9,10 @@
             var lines = input.Split("\r\n").Select(x => Int32.Parse(x)).ToArray();
 
             var ctr = 0;
-            var previous = -1;
-            foreach (var line in lines)
+
+            for (int i = 0; i < lines.Length - 1; i++)
             {
-                if (line > previous && previous != -1) ctr++;
-                previous = line;
+                if (lines[i + 1] > lines[i]) ctr++;
             }
 
             Console.WriteLine(ctr);
