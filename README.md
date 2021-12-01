@@ -1,7 +1,7 @@
 # Advent of Code 2021
 
 ## Day 1
-Was not prepared, so here it is, as is. :) As usual, great solution from  [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more!
+Was not prepared, so here it is, as is. :) As usual, great solution from  [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more! Made an update to try to use [C# Ranges](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/ranges)
 
 # Advent of Code 2020
 
