@@ -1,18 +1,31 @@
-﻿using AOC2021.Days;
+﻿using ChristmasGifts;
 
-Console.WriteLine("Advent of Code 2021!\n**************");
-var input = await File.ReadAllTextAsync("input.txt");
+var d = new Day2();
+await d.GetInput();
 
-var lines = input.Split("\r\n");
-(int h, int d) = lines.Aggregate((0, 0), (current, line) => Day02.Parse(current, line));
-Console.WriteLine($"Part 1 {h * d}");
+Console.WriteLine($"Part 1:{d.First()}");
+Console.WriteLine($"Part 2:{d.Second()}");
 
-(long h2, long d2, long a) = lines.Aggregate(((long)0, (long)0, (long)0), (current, line)
-      => Day02.ParseEnhanced(current, line));
-Console.WriteLine($"Part 2:{h2 * d2}");
 
-public class Day02
+public class Day2 : Christmas
 {
+    public Day2() : base("2","2021")
+    {
+    }
+
+    public override string First()
+    {
+        (int h, int d) = Input.Aggregate((0, 0), (current, line) => Parse(current, line));
+        return (h*d).ToString();
+    }
+
+    public override string Second()
+    {
+        (long h, long d, long a) = Input.Aggregate(((long)0, (long)0, (long)0), (current, line)
+      => ParseEnhanced(current, line));
+
+        return $"{h * d}";
+    }
     public static (int h, int d) Parse((int h, int d) point, string input)
     {
         var x = Int32.Parse(input.Split(" ")[1]);
