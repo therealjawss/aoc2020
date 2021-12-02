@@ -3,6 +3,8 @@
 ## Day 1
 Was not prepared, so here it is, as is. :) As usual, great solution from  [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more! Made an update to try to use [C# Ranges](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/ranges)
 
+## Day 2
+Tried to use things I learned last year [.Aggregate](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregate?view=net-6.0). Started to package some tools as well to simplify getting input, stealing implement from Anders.
 # Advent of Code 2020
 
 If any christmas needs saving, this one does!

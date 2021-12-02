@@ -224,3 +224,6 @@ project.lock.json
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
 2020/.cookie
+/2021/Day02/cookie
+/2021/cookie
+2021/Day03/cookie

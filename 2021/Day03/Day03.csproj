@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChristmasGifts\ChristmasGifts.csproj" />
+    <ProjectReference Include="..\..\ChristmasGifts\ChristmasGifts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="cookie">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
