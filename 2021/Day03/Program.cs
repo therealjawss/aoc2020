@@ -35,13 +35,31 @@ public class Day3 : Christmas
 
     public override string Second()
     {
-       
+        var og = Input.Select(x => x).ToArray();
+        for (int i = 0; i < og[0].Length|| og.Count()!=1; i++)
+        {
+            var toParse = og.Select(x => x[i]);
+            if (toParse.Count(x => x == '0') > toParse.Count(x => x == '1'))
+                og = og.Where(x => x[i] == '0').ToArray();
+            else
+                og = og.Where(x => x[i] == '1').ToArray();
+        }
+
+        var co2scrubber = Input.Select(x => x).ToArray();
+        for (int i = 0; i < co2scrubber[0].Length && co2scrubber.Count()>1; i++)
+        {
+            var toParse = co2scrubber.Select(x => x[i]);
+            if (toParse.Count(x => x == '0') > toParse.Count(x => x == '1'))
+                co2scrubber = co2scrubber.Where(x => x[i] == '1').ToArray();
+            else
+                co2scrubber = co2scrubber.Where(x => x[i] == '0').ToArray();
+        }
+        return $"{ToLong(og.First()) * ToLong(co2scrubber.First())}";
     }
 
     public long ToLong(string binaryStr)
     {
         long result = 0;
-
 
         for (int i = 0; i < binaryStr.Length; i++)
         {
