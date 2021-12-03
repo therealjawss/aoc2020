@@ -4,8 +4,10 @@ var d = new Day3();
 await d.GetInput();
 
 Console.WriteLine($"Part 1:{d.First()}");
+//await d.PostFirstAnswer();
 
 Console.WriteLine($"Part 2:{d.Second()}");
+//await d.PostSecondAnswer();
 
 
 public class Day3 : Christmas

@@ -54,16 +54,16 @@
             }
         }
         public abstract string First();
-        public void PostFirstAnswer()
+        public async Task PostFirstAnswer()
         {
-            PostAnswer("1", First());
+            await PostAnswer("1", First());
         }
-        public void PostSecondAnswer()
+        public async Task PostSecondAnswer()
         {
-            PostAnswer("2", Second());
+            await PostAnswer("2", Second());
         }
         public abstract string Second();
-        async void PostAnswer(string level, string answer)
+        async Task PostAnswer(string level, string answer)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{Year}/day/{Day}/answer");
             request.Content = new FormUrlEncodedContent(new[] {
