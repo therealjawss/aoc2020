@@ -1,11 +1,24 @@
 # Advent of Code 2021
 
 ## Day 1
-Was not prepared, so here it is, as is. :) As usual, great solution from  [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more! Made an update to try to use [C# Ranges](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/ranges)
+
+Was not prepared, so here it is, as is. :) As usual, great solution from [Anders](https://github.com/lynxz) https://github.com/lynxz/AdventOfCode/blob/master/2021/Day01/Program.cs Need to start doing using Linq more! Made an update to try to use [C# Ranges](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/ranges)
 
 ## Day 2
+
 Tried to use things I learned last year [.Aggregate](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregate?view=net-6.0). Started to package some tools as well to simplify getting input, stealing implement from Anders.
+
 # Advent of Code 2020
+
+## Day 3
+
+Note to self there is a built in binary parser
+
+`Convert.Int32("1010101", 2);`
+
+## Day 4
+
+Well, I tried to get a headstart at using regex but eventually back pedalled and used old reliable string split.
 
 If any christmas needs saving, this one does!
 www.adventofcode.com
