@@ -1,12 +1,12 @@
 ﻿using ChristmasGifts;
 
 var d = new Day5();
-//await d.GetInput(file: "test.tx", pattern: "\r\n");
-await d.GetInput();
+await d.GetInput(file: "test.tx", pattern: "\r\n");
+//await d.GetInput();
 //await d.PostFirstAnswer();
 Console.WriteLine($"Part 1:{d.First()}");
 Console.WriteLine($"Part 2:{d.Second()}");
-await d.PostSecondAnswer();
+//await d.PostSecondAnswer();
 
 
 public class Day5 : Christmas
@@ -27,6 +27,24 @@ public class Day5 : Christmas
         public override string ToString()
         {
             return $"{p1} -> {p2}";
+        }
+
+        public IEnumerable<Point> GetPoints()
+        {
+            List<Point> points = new List<Point>() { p1 };
+            var diffX = p2.x - p1.x;
+            var diffY = p2.y - p1.y;
+            var xStep = diffX > 0 ? 1 : diffX<0 ? -1 : 0;
+            var yStep = diffY > 0 ? 1 : diffY<0 ? -1 : 0;
+
+            Point p = p1;    
+            do
+            {
+                p = p.Increment(xStep, yStep); 
+                points.Add(p);
+            } while (p!=p2);
+
+            return points;
         }
     }
     public Day5() : base("5", "2021") { }
@@ -88,13 +106,7 @@ public class Day5 : Christmas
     public override string Second()
     {
         List<Line> lines = MakeLines();
-
-        var maxX = lines.SelectMany(line => new List<long>() { line.p1.x, line.p2.x }).Max();
-        var maxY = lines.SelectMany(line => new List<long>() { line.p1.y, line.p2.y }).Max();
-
-        var points = new int[maxY + 1, maxX + 1];
-
-
+        List<Point> allPoints = new List<Point>();
         foreach (var line in lines)
         {
             var diffX = line.p2.x - line.p1.x;
@@ -102,34 +114,10 @@ public class Day5 : Christmas
             var xStep = diffX > 0 ? 1 : diffX<0 ? -1 : 0;
             var yStep = diffY > 0 ? 1 : diffY<0 ? -1 : 0;
 
-            for (Point p = line.p1; p!=line.p2; p= p.Increment(xStep, yStep))
-            {
-                points[p.y, p.x]++;
-            }
-            points[line.p2.y, line.p2.x]++;
-           
+            allPoints.AddRange(line.GetPoints());
         }
 
-
-
-        var result = from int item in points
-                     where item > 1
-                     select item;
-
+        var result = allPoints.GroupBy(x => x).Where(x => x.Count() >1).ToList();
         return $"{result.Count()}";
-    }
-
-    private static void PrintPoints(int[,] points)
-    {
-        for (int i = 0; i< points.GetLength(0); i++)
-        {
-            for (int j = 0; j<points.GetLength(1); j++)
-            {
-                Console.Write(points[i, j] + " ");
-            }
-            Console.WriteLine();
-        }
-        Console.WriteLine();
-
     }
 }

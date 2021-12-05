@@ -20,6 +20,13 @@ Note to self there is a built in binary parser
 
 Well, I tried to get a headstart at using regex but eventually back pedalled and used old reliable string split.
 
+## Day 5
+
+I'm sure there was a math way to solve this... Some good solutions i found through reddit:
+- [jasonincanada](https://github.com/jasonincanada/aoc-2021/blob/main/AdventOfCode/AdventOfCode.CSharp/Day05.cs)
+
+# Advent of Code 2020
+
 If any christmas needs saving, this one does!
 www.adventofcode.com
 
