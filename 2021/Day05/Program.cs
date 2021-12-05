@@ -11,42 +11,6 @@ Console.WriteLine($"Part 2:{d.Second()}");
 
 public class Day5 : Christmas
 {
-    public record Point(long x, long y)
-    {
-        public override string ToString()
-        {
-            return $"({x},{y})";
-        }
-        public Point Increment(int xStep, int yStep)
-        {
-            return new Point(x+xStep, y+yStep);
-        }
-    }
-    public record Line(Point p1, Point p2)
-    {
-        public override string ToString()
-        {
-            return $"{p1} -> {p2}";
-        }
-
-        public IEnumerable<Point> GetPoints()
-        {
-            List<Point> points = new List<Point>() { p1 };
-            var diffX = p2.x - p1.x;
-            var diffY = p2.y - p1.y;
-            var xStep = diffX > 0 ? 1 : diffX<0 ? -1 : 0;
-            var yStep = diffY > 0 ? 1 : diffY<0 ? -1 : 0;
-
-            Point p = p1;    
-            do
-            {
-                p = p.Increment(xStep, yStep); 
-                points.Add(p);
-            } while (p!=p2);
-
-            return points;
-        }
-    }
     public Day5() : base("5", "2021") { }
 
     public override string First()
@@ -87,7 +51,53 @@ public class Day5 : Christmas
 
         return $"{result.Count()}";
     }
+    public override string Second()
+    {
+        List<Line> lines = MakeLines();
 
+        var result = lines
+            .SelectMany(x => x.GetPoints())
+            .GroupBy(x => x)
+            .Where(x => x.Count() >1).ToList();
+
+        return $"{result.Count()}";
+    }
+    public record Point(long x, long y)
+    {
+        public override string ToString()
+        {
+            return $"({x},{y})";
+        }
+        public Point Increment(int xStep, int yStep)
+        {
+            return new Point(x+xStep, y+yStep);
+        }
+    }
+    public record Line(Point p1, Point p2)
+    {
+        public override string ToString()
+        {
+            return $"{p1} -> {p2}";
+        }
+
+        public IEnumerable<Point> GetPoints()
+        {
+            List<Point> points = new List<Point>() { p1 };
+            var diffX = p2.x - p1.x;
+            var diffY = p2.y - p1.y;
+            var xStep = diffX > 0 ? 1 : diffX<0 ? -1 : 0;
+            var yStep = diffY > 0 ? 1 : diffY<0 ? -1 : 0;
+
+            Point p = p1;
+            do
+            {
+                p = p.Increment(xStep, yStep);
+                points.Add(p);
+            } while (p!=p2);
+
+            return points;
+        }
+    }
     private List<Line> MakeLines()
     {
         return Input.Select(
@@ -103,21 +113,4 @@ public class Day5 : Christmas
             .ToList();
     }
 
-    public override string Second()
-    {
-        List<Line> lines = MakeLines();
-        List<Point> allPoints = new List<Point>();
-        foreach (var line in lines)
-        {
-            var diffX = line.p2.x - line.p1.x;
-            var diffY = line.p2.y - line.p1.y;
-            var xStep = diffX > 0 ? 1 : diffX<0 ? -1 : 0;
-            var yStep = diffY > 0 ? 1 : diffY<0 ? -1 : 0;
-
-            allPoints.AddRange(line.GetPoints());
-        }
-
-        var result = allPoints.GroupBy(x => x).Where(x => x.Count() >1).ToList();
-        return $"{result.Count()}";
-    }
 }
