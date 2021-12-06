@@ -1,8 +1,8 @@
 ﻿using ChristmasGifts;
 
 var d = new Day6();
-await d.GetInput(file: "test.txt", pattern: ",");
-//await d.GetInput(pattern: ",");
+//await d.GetInput(file: "test.txt", pattern: ",");
+await d.GetInput(pattern: ",");
 //await d.PostFirstAnswer();
 Console.WriteLine($"Part 1:{d.First()}");
 Console.WriteLine($"Part 2:{d.Second()}");
@@ -21,52 +21,49 @@ public class Day6 : Christmas
         var days = 18;
 
         var fishList = initialState.Select(x => x).ToList();
-        for(int i= 0; i < days; i++)
+        for (int i = 0; i < days; i++)
         {
             var newfishList = fishList.Select(x => x==0 ? 6 : fishList.Contains(x) ? x-1 : x).ToList();
             var newFish = fishList.Count(x => x==0);
-            for(int j=0; j < newFish; j++)
+            for (int j = 0; j < newFish; j++)
             {
                 newfishList.Add(8);
             }
             fishList = newfishList;
         }
-        
+
         return $"{fishList.Count()}";
     }
     public override string Second()
     {
-        var fishList = Input.Select(x => short.Parse(x)).ToList();
+        var fishCount = Input.Count();
+        var fishList = Input.Select(x => short.Parse(x)).GroupBy(x => x).ToDictionary(g => g.Key, g => (ulong)g.Count());
         var days = 256;
-
-
-        for (int i = 0; i < days; i++)
+        ulong newFish = 0;
+        for (int i = 1; i<= days; i++)
         {
-            var fishArray = fishList.ToArray();
-            var fishLookup = fishList.Select(x => x).ToHashSet();
-            var newFishList = new short[fishList.Count];
-            var bornFish = new List<short>();
-            var goldfishMemory = new HashSet<short>();
-            for (int j = 0; j<fishList.Count; j++)
+            var newList = new Dictionary<short, ulong>();
+            foreach (var fish in fishList)
             {
-                var fish = fishArray[j];
-                if (fish == 0)
+                var f = (short)(fish.Key-1<0 ? 6 : fish.Key-1);
+                if (newList.ContainsKey(f))
                 {
-                    bornFish.Add(8);
-                    newFishList[j] = 6;
+                    newList[f] = fish.Value + newList[f];
                 }
-                else if (goldfishMemory.Contains(fishList[j])|| fishLookup.Contains(fishList[j]))
-                {
-                    goldfishMemory.Add(fishList[j]);
-                    newFishList[j] =(short)(fish-1);
-                }
-                else newFishList[j] = fish;
+                else
+                    newList.Add(f, fish.Value);
             }
+            if (newFish > 0)
+                newList.Add(8, newFish);
 
-            fishList = newFishList.ToList().Concat(bornFish).ToList();
+            newFish = (ulong)(!newList.ContainsKey(0) ? 0 : newList[0]);
+            fishList = newList;
+
         }
 
-        return $"{fishList.Count()}";
+        var result = fishList.Aggregate(0UL, (a, c) => a+ c.Value);
+
+        return $"{result}";
     }
 
 }
