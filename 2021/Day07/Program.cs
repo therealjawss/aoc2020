@@ -17,18 +17,36 @@ public class Day7 : Christmas
 
     public override string First()
     {
-        var numbers = Input.Select(x=>int.Parse(x)).OrderBy(x=>x).ToArray();
-       
+        var numbers = Input.Select(x => int.Parse(x)).OrderBy(x => x).ToArray();
+
         var fuel = 0;
-        foreach(var item in numbers)
+        foreach (var item in numbers)
         {
-            fuel += Math.Abs( item - numbers[numbers.Length/2]);
+            fuel += Math.Abs(item - numbers[numbers.Length / 2]);
         }
         return fuel.ToString();
     }
     public override string Second()
     {
-      
-    }
+        var numbers = Input.Select(x => int.Parse(x)).OrderBy(x => x).ToArray();
+  
+        var average = numbers.Sum() / numbers.Length;
+        var middle = (numbers.Min() + numbers.Max()) / 2;
+        var start = average < middle ? average : middle;
+        var end = average > middle ? average : middle;
 
+        var minFuel = long.MaxValue;
+        for (int i = start; i <= end; i++)
+        {
+            var fuel = 0;
+            foreach (var item in numbers)
+            {
+                fuel += Enumerable.Range(1, Math.Abs(i - item)).Sum();
+            }
+
+            minFuel = fuel < minFuel ? fuel : minFuel;
+        }
+
+        return minFuel.ToString();
+    }
 }
