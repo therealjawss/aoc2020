@@ -1,4 +1,6 @@
-﻿namespace ChristmasGifts
+﻿using System.Diagnostics;
+
+namespace ChristmasGifts
 {
     public abstract class Christmas
     {
@@ -52,6 +54,25 @@
                 }
 
             }
+        }
+        public string RunFirst()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = First();
+            stopwatch.Stop();
+            Console.WriteLine("Elapsed time:{0} ms", stopwatch.ElapsedMilliseconds);
+            return result;
+        }
+
+        public string RunSecond()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = Second();
+            stopwatch.Stop();
+            Console.WriteLine("Elapsed time:{0} ms", stopwatch.ElapsedMilliseconds);
+            return result;
         }
         public abstract string First();
         public async Task PostFirstAnswer()

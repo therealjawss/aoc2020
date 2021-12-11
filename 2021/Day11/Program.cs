@@ -1,10 +1,10 @@
 using ChristmasGifts;
 var d = new Day11();
 //await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
-await d.GetInput(pattern: "\n"); 
+await d.GetInput(pattern: "\n");
 //await d.PostFirstAnswer(); 
-Console.WriteLine($"Part 1:{d.First()}");
-Console.WriteLine($"Part 2:{d.Second()}");
+Console.WriteLine($"Part 1:{d.RunFirst()}");
+Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000); 
 //await d.PostSecondAnswer(); 
 public class Day11 : Christmas
@@ -30,11 +30,12 @@ public class Day11 : Christmas
         var totalSteps = 0;
         var flashes = 0;
         var octupuses = Input.Select(x => x.ToCharArray().Select(y => int.Parse(y.ToString())).ToArray()).ToArray();
-        while (flashes != 100) {
+        while (flashes != 100)
+        {
             totalSteps++;
             var step = octupuses.Step();
             octupuses = step.octupus;
-            flashes =  step.flashes;
+            flashes = step.flashes;
         }
         result = totalSteps.ToString();
         return result;
@@ -62,7 +63,6 @@ public static class Day11Extensions
             {
                 octupus[j][i] += 1;
             }
-        octupus.Print();
         return octupus.CascadeFlash();
     }
     public static (int[][] octupus, int flashes) CascadeFlash(this int[][] octupus)
@@ -76,36 +76,35 @@ public static class Day11Extensions
         for (int i = 0; i < octupus.Length; i++)
             for (int j = 0; j < octupus[i].Length; j++)
                 octupus[i][j] = octupus[i][j] > 9 ? 0 : octupus[i][j];
-
         return (octupus, flashed.Count);
     }
     private static void TryFlash(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
     {
-        if (flashed.Contains((i, j)) ||i < 0 || i>= octupus.Length || j<0 || j>=octupus[i].Length)
+        if (flashed.Contains((i, j)) || i < 0 || i >= octupus.Length || j < 0 || j >= octupus[i].Length)
             return;
-        if (octupus[i][j]>9)
+        if (octupus[i][j] > 9)
             Flash(octupus, flashed, i, j);
         return;
     }
     private static void Flash(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
     {
         flashed.Add((i, j));
-        octupus[i][j]+=1;
-        Flashed(octupus, flashed, i, j+1);
-        Flashed(octupus, flashed, i, j-1);
-        Flashed(octupus, flashed, i-1, j);
-        Flashed(octupus, flashed, i-1, j-1);
-        Flashed(octupus, flashed, i-1, j+1);
-        Flashed(octupus, flashed, i+1, j);
-        Flashed(octupus, flashed, i+1, j-1);
-        Flashed(octupus, flashed, i+1, j+1);
+        octupus[i][j] += 1;
+        Flashed(octupus, flashed, i, j + 1);
+        Flashed(octupus, flashed, i, j - 1);
+        Flashed(octupus, flashed, i - 1, j);
+        Flashed(octupus, flashed, i - 1, j - 1);
+        Flashed(octupus, flashed, i - 1, j + 1);
+        Flashed(octupus, flashed, i + 1, j);
+        Flashed(octupus, flashed, i + 1, j - 1);
+        Flashed(octupus, flashed, i + 1, j + 1);
     }
     private static void Flashed(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
     {
 
-        if (i < 0 || i>= octupus.Length || j<0 || j>=octupus[i].Length)
+        if (i < 0 || i >= octupus.Length || j < 0 || j >= octupus[i].Length)
             return;
-        octupus[i][j]+=1;
+        octupus[i][j] += 1;
         TryFlash(octupus, flashed, i, j);
     }
 }
