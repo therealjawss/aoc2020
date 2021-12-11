@@ -15,11 +15,11 @@ public class Day11 : Christmas
     {
         var totalSteps = 100;
         var flashes = 0;
-        var octupuses = Input.Select(x => x.ToCharArray().Select(y => int.Parse(y.ToString())).ToArray()).ToArray();
+        var octopus = Input.Select(x => x.ToCharArray().Select(y => int.Parse(y.ToString())).ToArray()).ToArray();
         for (int i = 0; i < totalSteps; i++)
         {
-            var step = octupuses.Step();
-            octupuses = step.octupus;
+            var step = octopus.Step();
+            octopus = step.octopus;
             flashes += step.flashes;
         }
         result = flashes.ToString();
@@ -34,7 +34,7 @@ public class Day11 : Christmas
         {
             totalSteps++;
             var step = octupuses.Step();
-            octupuses = step.octupus;
+            octupuses = step.octopus;
             flashes = step.flashes;
         }
         result = totalSteps.ToString();
@@ -43,20 +43,20 @@ public class Day11 : Christmas
 }
 public static class Day11Extensions
 {
-    public static void Print(this int[][] octupus)
+    public static void Print(this int[][] octopus)
     {
-        for (int i = 0; i < octupus.Length; i++)
+        for (int i = 0; i < octopus.Length; i++)
         {
-            for (int j = 0; j < octupus[i].Length; j++)
+            for (int j = 0; j < octopus[i].Length; j++)
             {
-                Console.Write(string.Format("{0,-3}", octupus[i][j]));
+                Console.Write(string.Format("{0,-3}", octopus[i][j]));
             }
             Console.WriteLine();
         }
         Console.WriteLine();
     }
 
-    public static (int[][] octupus, int flashes) Step(this int[][] octupus)
+    public static (int[][] octopus, int flashes) Step(this int[][] octupus)
     {
         for (int i = 0; i < octupus.Length; i++)
             for (int j = 0; j < octupus[i].Length; j++)
@@ -65,46 +65,46 @@ public static class Day11Extensions
             }
         return octupus.CascadeFlash();
     }
-    public static (int[][] octupus, int flashes) CascadeFlash(this int[][] octupus)
+    public static (int[][] octupus, int flashes) CascadeFlash(this int[][] octopus)
     {
         HashSet<(int, int)> flashed = new();
 
-        for (int i = 0; i < octupus.Length; i++)
-            for (int j = 0; j < octupus[i].Length; j++)
-                TryFlash(octupus, flashed, i, j);
+        for (int i = 0; i < octopus.Length; i++)
+            for (int j = 0; j < octopus[i].Length; j++)
+                TryFlash(octopus, flashed, i, j);
 
-        for (int i = 0; i < octupus.Length; i++)
-            for (int j = 0; j < octupus[i].Length; j++)
-                octupus[i][j] = octupus[i][j] > 9 ? 0 : octupus[i][j];
-        return (octupus, flashed.Count);
+        for (int i = 0; i < octopus.Length; i++)
+            for (int j = 0; j < octopus[i].Length; j++)
+                octopus[i][j] = octopus[i][j] > 9 ? 0 : octopus[i][j];
+        return (octopus, flashed.Count);
     }
-    private static void TryFlash(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
+    private static void TryFlash(int[][] octopus, HashSet<(int, int)> flashed, int i, int j)
     {
-        if (flashed.Contains((i, j)) || i < 0 || i >= octupus.Length || j < 0 || j >= octupus[i].Length)
+        if (flashed.Contains((i, j)) || i < 0 || i >= octopus.Length || j < 0 || j >= octopus[i].Length)
             return;
-        if (octupus[i][j] > 9)
-            Flash(octupus, flashed, i, j);
+        if (octopus[i][j] > 9)
+            Flash(octopus, flashed, i, j);
         return;
     }
-    private static void Flash(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
+    private static void Flash(int[][] octopus, HashSet<(int, int)> flashed, int i, int j)
     {
         flashed.Add((i, j));
-        octupus[i][j] += 1;
-        Flashed(octupus, flashed, i, j + 1);
-        Flashed(octupus, flashed, i, j - 1);
-        Flashed(octupus, flashed, i - 1, j);
-        Flashed(octupus, flashed, i - 1, j - 1);
-        Flashed(octupus, flashed, i - 1, j + 1);
-        Flashed(octupus, flashed, i + 1, j);
-        Flashed(octupus, flashed, i + 1, j - 1);
-        Flashed(octupus, flashed, i + 1, j + 1);
+        octopus[i][j] += 1;
+        Flashed(octopus, flashed, i, j + 1);
+        Flashed(octopus, flashed, i, j - 1);
+        Flashed(octopus, flashed, i - 1, j);
+        Flashed(octopus, flashed, i - 1, j - 1);
+        Flashed(octopus, flashed, i - 1, j + 1);
+        Flashed(octopus, flashed, i + 1, j);
+        Flashed(octopus, flashed, i + 1, j - 1);
+        Flashed(octopus, flashed, i + 1, j + 1);
     }
-    private static void Flashed(int[][] octupus, HashSet<(int, int)> flashed, int i, int j)
+    private static void Flashed(int[][] octopus, HashSet<(int, int)> flashed, int i, int j)
     {
 
-        if (i < 0 || i >= octupus.Length || j < 0 || j >= octupus[i].Length)
+        if (i < 0 || i >= octopus.Length || j < 0 || j >= octopus[i].Length)
             return;
-        octupus[i][j] += 1;
-        TryFlash(octupus, flashed, i, j);
+        octopus[i][j] += 1;
+        TryFlash(octopus, flashed, i, j);
     }
 }

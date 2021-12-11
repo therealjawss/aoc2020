@@ -4,10 +4,10 @@ var d = new Day6();
 //await d.GetInput(file: "test.txt", pattern: ",");
 await d.GetInput(pattern: ",");
 //await d.PostFirstAnswer();
-Console.WriteLine($"Part 1:{d.First()}");
-Console.WriteLine($"Part 2:{d.Second()}");
+Console.WriteLine($"Part 1:{d.RunFirst()}");
+Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000);
-await d.PostSecondAnswer();
+//await d.PostSecondAnswer();
 
 
 public class Day6 : Christmas
