@@ -11,13 +11,16 @@ public class Day13 : Christmas
 {
     string result = "todo";
     public Day13() : base("13", "2021") { }
+    public enum Axis { x = 0, y =1};
+    public record Point(int x, int y);
+    public record Fold(Axis Axis, int index);
     public override string First()
     {
-        var map = Input[0].Split("\n", StringSplitOptions.TrimEntries)
+        var pointMap = Input[0].Split("\n", StringSplitOptions.TrimEntries)
                 .Select(x => x.Split(",")
                 .Select(num => int.Parse(num))
-                .ToArray());
-        var pointMap = map.Select(x => new Point(x[0], x[1])).ToHashSet();
+                .ToArray())
+                .Select(x => new Point(x[0], x[1])).ToHashSet();
 
         var foldinginstructions = Input[1].Split("\n", StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Split("="))
@@ -29,21 +32,19 @@ public class Day13 : Christmas
             }).ToList();
 
         var instruction  = foldinginstructions.First();
+
         pointMap = FoldMap(pointMap, instruction);
 
         result = pointMap.Count.ToString();
         return result;
     }
-    public record Point(int x, int y);
-    public enum Axis { x = 0, y =1};
-    public record Fold(Axis Axis, int index);
+
     public override string Second()
     {
-        var map = Input[0].Split("\n", StringSplitOptions.TrimEntries)
+        var pointMap = Input[0].Split("\n", StringSplitOptions.TrimEntries)
             .Select(x => x.Split(",")
             .Select(num => int.Parse(num))
-            .ToArray());
-        var pointMap = map.Select(x => new Point(x[0], x[1])).ToHashSet();
+            .ToArray()).Select(x => new Point(x[0], x[1])).ToHashSet();
 
         var foldinginstructions = Input[1].Split("\n", StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Split("="))
@@ -65,7 +66,7 @@ public class Day13 : Christmas
             for (int j = 0; j<maxX; j++)
             {
                 if (pointMap.Contains(new Point(j, i))) Console.Write("#");
-                else Console.Write(".");
+                else Console.Write(" ");
             }
             Console.WriteLine();
         }
@@ -86,8 +87,11 @@ public class Day13 : Christmas
         var otherpoints = groups.Where(p => p.Key> instruction.index)
             .SelectMany(x => x)
             .Select(x => new Point(x.x, x.y))
-            .Select(p => instruction.Axis == Axis.x ? new Point(instruction.index - (p.x - instruction.index), p.y) : new Point(p.x, instruction.index - (p.y-instruction.index)))
+            .Select(p => instruction.Axis == Axis.x 
+                ? new Point(instruction.index - (p.x - instruction.index), p.y) 
+                : new Point(p.x, instruction.index - (p.y-instruction.index)))
             .ToHashSet();
+            
         return points.Union(otherpoints).ToHashSet();
     }
 }

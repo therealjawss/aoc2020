@@ -1,13 +1,13 @@
 ﻿using ChristmasGifts;
 
 var d = new Day7();
-//await d.GetInput(file: "test.txt", pattern: ",");
-await d.GetInput(pattern: ",");
+await d.GetInput(file: "test.txt", pattern: ",");
+//await d.GetInput(pattern: ",");
 //await d.PostFirstAnswer();
 Console.WriteLine($"Part 1:{d.First()}");
 Console.WriteLine($"Part 2:{d.Second()}");
 //await Task.Delay(5000);
-await d.PostSecondAnswer();
+//await d.PostSecondAnswer();
 
 
 public class Day7 : Christmas
@@ -36,6 +36,7 @@ public class Day7 : Christmas
         var end = average > middle ? average : middle;
 
         var minFuel = long.MaxValue;
+        var minCol = long.MaxValue;
         for (int i = start; i <= end; i++)
         {
             var fuel = 0;
@@ -44,9 +45,11 @@ public class Day7 : Christmas
                 fuel += Enumerable.Range(1, Math.Abs(i - item)).Sum();
             }
 
+            if (fuel < minFuel)
+                minCol = i;
             minFuel = fuel < minFuel ? fuel : minFuel;
         }
-
+        Console.WriteLine(minCol);
         return minFuel.ToString();
     }
 }
