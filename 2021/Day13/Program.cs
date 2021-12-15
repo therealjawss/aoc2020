@@ -11,9 +11,7 @@ public class Day13 : Christmas
 {
     string result = "todo";
     public Day13() : base("13", "2021") { }
-    public enum Axis { x = 0, y =1};
-    public record Point(int x, int y);
-    public record Fold(Axis Axis, int index);
+
     public override string First()
     {
         var pointMap = Input[0].Split("\n", StringSplitOptions.TrimEntries)
@@ -91,7 +89,10 @@ public class Day13 : Christmas
                 ? new Point(instruction.index - (p.x - instruction.index), p.y) 
                 : new Point(p.x, instruction.index - (p.y-instruction.index)))
             .ToHashSet();
-            
+
         return points.Union(otherpoints).ToHashSet();
     }
+    public enum Axis { x = 0, y =1};
+    public record Point(int x, int y);
+    public record Fold(Axis Axis, int index);
 }
