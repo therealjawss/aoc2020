@@ -11,6 +11,10 @@ namespace AOC2021.Test
                new int[] { 2, 1, 3 }
             };
 
+        int[][] smallRiskMap = new int[][] {
+               new int[] { 1, 1 },
+               new int[] { 1, 3 }
+            };
 
         [Theory]
         [InlineData(1, 1, 4)]
@@ -21,6 +25,15 @@ namespace AOC2021.Test
             var d = new Day15(riskmap);
             var risk = d.GetMinimumRiskUntil(i,j);
             risk.Should().Be(expected);
+        }
+
+        [Fact]
+        public void CanMakeFullMap()
+        {
+            var d = new Day15(smallRiskMap);
+            int[][] fullmap = d.GenerateFullMap();
+            fullmap.Length.Should().Be(smallRiskMap.Length * 5);
+            fullmap[0].Length.Should().Be(smallRiskMap.Length * 5);
         }
     }
 }
