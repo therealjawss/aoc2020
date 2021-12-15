@@ -1,8 +1,13 @@
 # Advent of Code 2021
 
+## [Day15](https://adventofcode.com/2021/day/15)
+Cached recursion finding the lowest risk path.
+
 ## [Day 11](https://adventofcode.com/2021/day/11)
 Spent way too much time debugging all because i did - instead of +. Meanwhile, i made a batch file to make setup easier. 
 
+## Day 6
+Lantern fish
 ## Day 5
 
 I'm sure there was a math way to solve this... Some good solutions i found through reddit:
