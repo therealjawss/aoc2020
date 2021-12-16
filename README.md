@@ -1,5 +1,8 @@
 # Advent of Code 2021
 
+## [Day16](https://adventofcode.com/2021/day/16)
+- Hex to Bin using linq
+
 ## [Day15](https://adventofcode.com/2021/day/15)
 Cached recursion finding the lowest risk path.
 
