@@ -1,10 +1,12 @@
 ﻿# Advent of Code 2021
+## [Day17](https://adventofcode.com/2021/day/17)
+I tried to clever with math but gave up :D so here is brute force.
 
 ## [Day16](https://adventofcode.com/2021/day/16)
 - Hex to Bin using linq, switch expressions, too much reading for a 6am activity 🤓
 
 ## [Day15](https://adventofcode.com/2021/day/15)
-Cached recursion finding the lowest risk path.
+Cached recursion finding the lowest risk 
 
 ## [Day 11](https://adventofcode.com/2021/day/11)
 Spent way too much time debugging all because i did - instead of +. Meanwhile, i made a batch file to make setup easier. 
