@@ -1,4 +1,9 @@
 ﻿# Advent of Code 2021
+
+## [Day18](https://adventofcode.com/2021/day/1)
+It's a saturday so i slept in, good thing because this seems like the sadistic day. 
+
+
 ## [Day17](https://adventofcode.com/2021/day/17)
 I tried to clever with math but gave up :D so here is brute force.
 
