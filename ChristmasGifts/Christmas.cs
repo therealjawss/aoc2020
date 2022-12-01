@@ -9,6 +9,7 @@ namespace ChristmasGifts
 
         private string inputfile = "input.txt";
         private readonly HttpClient _httpClient;
+        protected string RawInput;
         protected string[] Input;
         public Christmas(string day, string year)
         {
@@ -27,8 +28,8 @@ namespace ChristmasGifts
             if (predicate == null)
                 predicate = x => !string.IsNullOrWhiteSpace(x);
 
-            string buffer = await ReadBuffer(file);
-             Input = buffer.Split(pattern).Where(predicate).ToArray();
+            RawInput = await ReadBuffer(file);
+             Input = RawInput.Split(pattern).Where(predicate).ToArray();
           
             return Input;
         }

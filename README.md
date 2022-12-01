@@ -1,4 +1,9 @@
-﻿# Advent of Code 2021
+﻿# Advent of Code 2022
+## [Day01](https://adventofcode.com/2022/day/1)
+Nice easy start to advent of code! Improved my batch file a bit to include the year this time.
+
+
+# Advent of Code 2021
 ## [Day17](https://adventofcode.com/2021/day/17)
 I tried to clever with math but gave up :D so here is brute force.
 
