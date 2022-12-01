@@ -1,6 +1,6 @@
 ﻿# Advent of Code 2022
 ## [Day01](https://adventofcode.com/2022/day/1)
-Nice easy start to advent of code! Improved my batch file a bit to include the year this time.
+Nice easy start to advent of code! Improved my batch file a bit to include the year this time. [Here](https://github.com/therealjawss/aoc2020/blob/main/2022/Day01/Program.cs) is my solution.
 
 
 # Advent of Code 2021
