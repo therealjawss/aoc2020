@@ -3,11 +3,11 @@ using ChristmasGifts;
 var d = new Day2();
 await d.GetInput();
 //await d.GetInput(pattern: Environment.NewLine); 
-await d.PostFirstAnswer(); 
+//await d.PostFirstAnswer();
 Console.WriteLine($"Part 1:{d.RunFirst()}");
 Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000); 
-//await d.PostSecondAnswer(); 
+await d.PostSecondAnswer(); 
 public class Day2 : Christmas
 {
     string result = "todo";
@@ -18,7 +18,8 @@ public class Day2 : Christmas
     }
     public override string Second()
     {
-        return result;
+        return Input.Select(x => ParseScores2(x)).Sum().ToString();
+
     }
 
     public static long CalculateScore(string input)
@@ -42,6 +43,22 @@ public class Day2 : Christmas
            { opponent: var o, me: var m } when (o + 1) == m => m + 6,
            _ => throw new Exception()
        };
+    private static long ParseScores2(string input)
+    {
+        var scores = input.Trim().Split(" ").Select(x => translate(x)).ToArray();
+        var res =  strategyOf(scores[0], scores[1]);
+        return res;
+    }
+    public static long strategyOf(long opponent
+    , long me)
+   => (opponent, me) switch
+   {
+       { opponent: var o, me: var m } when o == m => 2 * o + 1,
+       { opponent: var o, me: var m } when m == 1 => o-m,
+       { opponent: var o, me: var m } when m == 2 => o+3,
+       { opponent: var o, me: var m } when m == 3 => o+7,
+       _ => opponent - me
+   };
 
     private static long translate(string x) =>
             x switch
@@ -54,4 +71,9 @@ public class Day2 : Christmas
             };
 
 
+    public static string getMove(string input)
+    {
+        var scores = input.Split(" ").ToArray();
+        return "A Z";
+    }
 }
