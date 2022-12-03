@@ -25,6 +25,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\2022\Day02\Day02.csproj" />
+    <ProjectReference Include="..\2022\Day03\Day03.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

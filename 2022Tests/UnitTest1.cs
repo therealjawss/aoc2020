@@ -1,4 +1,4 @@
-namespace _2022Tests
+namespace AOC2022Tests
 {
     public class UnitTest1
     {

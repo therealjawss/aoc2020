@@ -1,7 +1,14 @@
 ﻿# Advent of Code 2022
-## [Day01](https://adventofcode.com/2022/day/1)
-Nice easy start to advent of code! Improved my batch file a bit to include the year this time. [Here](https://github.com/therealjawss/aoc2020/blob/main/2022/Day01/Program.cs) is my solution.
 
+##[Day03](https://adventofcode.com/2022/day/1)
+Thought I would continue yesterdays TDD trend. was really great to be able to break things down to smaller problems.
+[My solution](2022/Day03/Program.cs) ended up with methods and functions who only have one job. 
+
+## [Day02](https://adventofcode.com/2022/day/1)
+[Hello bruteforce my old friend](2022/Day02/Program.cs). Tried to do a little tdd here but not sure this is the best solution. 🤷‍♀️
+
+## [Day01](https://adventofcode.com/2022/day/1)
+Nice easy start to advent of code! Improved my batch file a bit to include the year this time. [Here](2022/Day01/Program.cs) is my solution.
 
 # Advent of Code 2021
 ## [Day17](https://adventofcode.com/2021/day/17)
