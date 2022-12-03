@@ -9,9 +9,7 @@ namespace AOC2022Tests
         public Day3Tests()
         {
             sut = new Day3();
-            sut.GetInput("test.txt").GetAwaiter().GetResult();
         }
-
 
         [Fact]
         public void CanBreakPuzzleComponents()
@@ -29,12 +27,30 @@ namespace AOC2022Tests
             var ruckSack = new RuckSack("abcde", "efghi");
             ruckSack.CommonItem.Should().Be('e');
         }
+
         [Theory]
         [InlineData('a', 1)]
         [InlineData('A', 27)]
         public void CanGenCharPriority(char item, int expectedPrio)
         {
             item.Priority().Should().Be(expectedPrio);
+        }
+        
+        [Fact]
+        public void CanBreakIntoGroups()
+        {
+            var input = new string[] { "abc", "cde", "cfg", "hij", "hkl", "hmn" };
+
+            var groups = sut.GetElfGroups(input);
+            groups.First().Should().Be(new ElfGroup("abc", "cde", "cfg"));
+            groups[1].Should().Be(new ElfGroup("hij", "hkl", "hmn"));
+        }
+
+        [Fact]
+        public void CanFindCommonItemInGroup()
+        {
+            var ruckSack = new ElfGroup("abcde", "efghi", "ejklm");
+            ruckSack.CommonItem.Should().Be('e');
         }
     }
 }

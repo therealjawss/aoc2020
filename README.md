@@ -1,9 +1,15 @@
 ﻿# Advent of Code 2022
 
-##[Day03](https://adventofcode.com/2022/day/1)
-Thought I would continue yesterdays TDD trend. was really great to be able to break things down to smaller problems.
+## [Day03](https://adventofcode.com/2022/day/1)
+Thought I would continue yesterdays TDD trend. It was really great to be able to break things down to smaller problems.
 [My solution](2022/Day03/Program.cs) ended up with methods and functions who only have one job. 
-
+```console
+Elapsed time:7 ms
+Part 1:7597
+Elapsed time:6 ms
+Part 2:2607
+```
+![one job](https://media.giphy.com/media/fXtAxz5oFQdH9Ax9E4/giphy.gif)
 ## [Day02](https://adventofcode.com/2022/day/1)
 [Hello bruteforce my old friend](2022/Day02/Program.cs). Tried to do a little tdd here but not sure this is the best solution. 🤷‍♀️
 
