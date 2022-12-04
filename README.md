@@ -1,6 +1,14 @@
 ﻿# Advent of Code 2022
 
-## [Day03](https://adventofcode.com/2022/day/1)
+## [Day04](https://adventofcode.com/2022/day/4)
+TDD is working great so why stop. Also tried to bite the bullet early and start getting some regex action started. [Here](2022/Day04/Program.cs) is my solution to day 4.
+```console
+Elapsed time:79 ms
+Part 1:540
+Elapsed time:33 ms
+Part 2:872
+```
+## [Day03](https://adventofcode.com/2022/day/3)
 Thought I would continue yesterdays TDD trend. It was really great to be able to break things down to smaller problems.
 [My solution](2022/Day03/Program.cs) ended up with methods and functions who only have one job. 
 ```console
@@ -10,8 +18,13 @@ Elapsed time:6 ms
 Part 2:2607
 ```
 ![one job](https://media.giphy.com/media/fXtAxz5oFQdH9Ax9E4/giphy.gif)
-## [Day02](https://adventofcode.com/2022/day/1)
+### Noteable Solutions
+- [Anders](https://github.com/lynxz/AdventOfCode/blob/master/2022/Day03/Program.cs) and his one liners are always interesting!
+
+## [Day02](https://adventofcode.com/2022/day/2)
 [Hello bruteforce my old friend](2022/Day02/Program.cs). Tried to do a little tdd here but not sure this is the best solution. 🤷‍♀️
+### Noteable Solutions
+- [Anders](https://github.com/lynxz/AdventOfCode/blob/master/2022/Day02/Program.cs) and his one liners are always interesting!
 
 ## [Day01](https://adventofcode.com/2022/day/1)
 Nice easy start to advent of code! Improved my batch file a bit to include the year this time. [Here](2022/Day01/Program.cs) is my solution.
