@@ -34,33 +34,26 @@ public class Day05 : Christmas
 
     private void Setup()
     {
-        stacks = TESTMODE ? SetupTestCrates() : SetupCrates();
-    }
-
-    private Stack<char>[] SetupTestCrates()
-    {
-        return new Stack<char>[]
+        var index = Input.TakeWhile(x => !x.Contains("1")).Count();
+        var numberOfStacks = Convert.ToInt32(Input[index].Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
+        var list = new List<char>[numberOfStacks];
+        stacks = new Stack<char>[numberOfStacks];
+        for (int i = 0; i < numberOfStacks; i++)
         {
-            new Stack<char>("ZN".ToArray().AsEnumerable<char>()),
-            new Stack<char>("MCD".ToArray().AsEnumerable<char>()),
-            new Stack<char>("P".ToArray().AsEnumerable<char>()),
-        };
-    }
-
-    private new Stack<char>[] SetupCrates()
-    {
-        return new Stack<char>[]
+            list[i] = new List<char>();
+        }
+        for (int i = 0; i < index; i++)
+            for (int j = 1; j < Input[i].Length; j += 4)
+            {
+                var character = Input[i][j];
+                if (character >= 'A' && character <= 'Z')
+                    list[j / 4].Add(Input[i][j]);
+            }
+        for (int i = 0; i < numberOfStacks; i++)
         {
-            new Stack<char>("BGSC".ToArray().AsEnumerable<char>()),
-            new Stack<char>("TMWHJNVG".ToArray().AsEnumerable<char>()),
-            new Stack<char>("MQS".ToArray().AsEnumerable<char>()),
-            new Stack<char>("BSLTWNM".ToArray().AsEnumerable<char>()),
-            new Stack<char>("JZFTVGWP".ToArray().AsEnumerable<char>()),
-            new Stack<char>("CTBGQHS".ToArray().AsEnumerable<char>()),
-            new Stack<char>("TJPBW".ToArray().AsEnumerable<char>()),
-            new Stack<char>("GDCZFTQM".ToArray().AsEnumerable<char>()),
-            new Stack<char>("NSHBPF".ToArray().AsEnumerable<char>()),
-        };
+            list[i].Reverse();
+            stacks[i] = new Stack<char>(list[i]);
+        }
     }
 
     public override string First()
