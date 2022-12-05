@@ -9,6 +9,8 @@ namespace ChristmasGifts
 
         private string inputfile = "input.txt";
         private readonly HttpClient _httpClient;
+        private string FirstAnswer;
+        private string SecondAnswer;
         protected string RawInput;
         protected string[] Input;
         public Christmas(string day, string year)
@@ -63,6 +65,7 @@ namespace ChristmasGifts
             var result = First();
             stopwatch.Stop();
             Console.WriteLine("Elapsed time:{0} ms", stopwatch.ElapsedMilliseconds);
+            FirstAnswer = result;
             return result;
         }
 
@@ -73,16 +76,17 @@ namespace ChristmasGifts
             var result = Second();
             stopwatch.Stop();
             Console.WriteLine("Elapsed time:{0} ms", stopwatch.ElapsedMilliseconds);
+            SecondAnswer = result;
             return result;
         }
         public abstract string First();
         public async Task PostFirstAnswer()
         {
-            await PostAnswer("1", First());
+            await PostAnswer("1", FirstAnswer);
         }
         public async Task PostSecondAnswer()
         {
-            await PostAnswer("2", Second());
+            await PostAnswer("2", SecondAnswer);
         }
         public abstract string Second();
         async Task PostAnswer(string level, string answer)
