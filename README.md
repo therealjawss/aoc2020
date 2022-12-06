@@ -1,5 +1,8 @@
 ﻿# Advent of Code 2022
 
+## [Day06](https://adventofcode.com/2022/day/6)
+This was fairly simple. 
+
 ## [Day05](https://adventofcode.com/2022/day/5)
 Yikes, today was no tdd and there was some manual intervention involved in setting up the stacks 😁 Glad I started with regex yesterday though. [Here](2022/Day05/Program.cs) is my solution to day 5.
 
