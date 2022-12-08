@@ -31,7 +31,7 @@ namespace ChristmasGifts
                 predicate = x => !string.IsNullOrWhiteSpace(x);
 
             RawInput = await ReadBuffer(file);
-             Input = RawInput.Split(pattern).Where(predicate).ToArray();
+            Input = RawInput.Split(pattern).Where(predicate).ToArray();
           
             return Input;
         }
@@ -58,8 +58,10 @@ namespace ChristmasGifts
 
             }
         }
+        public virtual void Setup() { }
         public string RunFirst()
         {
+            Setup();
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var result = First();
@@ -71,6 +73,7 @@ namespace ChristmasGifts
 
         public string RunSecond()
         {
+            Setup();
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var result = Second();

@@ -32,7 +32,7 @@ public class Day05 : Christmas
     {
     }
 
-    private void Setup()
+    public override void Setup()
     {
         var index = Input.TakeWhile(x => !x.Contains("1")).Count();
         var numberOfStacks = Convert.ToInt32(Input[index].Split(" ", StringSplitOptions.RemoveEmptyEntries).Last());
