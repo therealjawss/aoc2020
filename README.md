@@ -1,5 +1,11 @@
 ﻿# Advent of Code 2022
 
+# [Day08](https://adventofcode.com/2022/day/8)
+ [Today's](2022/Day08/Program.cs) solution starts using some recursion. No use fighting it, it's going to come eventually.
+
+## [Day07](https://adventofcode.com/2022/day/7)
+ [My solution](2022/Day07/Program.cs) submitted late because I went for an AW yesterday and today the brain is not working 100%.
+
 ## [Day06](https://adventofcode.com/2022/day/6)
 This was fairly simple. 
 
