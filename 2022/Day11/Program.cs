@@ -4,13 +4,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 var d = new Day11();
-await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
-//await d.GetInput(); 
+//await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
+await d.GetInput();
 //Console.WriteLine($"Part 1:{d.RunFirst()}");
 //await d.PostFirstAnswer(); 
 Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000); 
-//await d.PostSecondAnswer();
+await d.PostSecondAnswer();
 public class Day11 : Christmas
 {
     string result = "todo";
@@ -77,11 +77,11 @@ public class Day11 : Christmas
             {
                 var worryLevel = Items.Dequeue();
                 worryLevel =  operation.apply(worryLevel);
-                InspectionCount++;
+                InspectionCount++; 
                 worryLevel = calmDown ? applyCalmDown(worryLevel) : worryLevel;
                 var divisor = day11.monkeys.Aggregate(1UL, (total, next) => total*next.divisibleBy);
-                if (worryLevel % divisor == 0)
-                    worryLevel= worryLevel/divisor;
+               
+                worryLevel= worryLevel % divisor;
                 var nextMonkey = worryLevel % divisibleBy == 0 ? truthMonkey : falseMonkey;
                 day11.ThrowItemToMonkey(worryLevel, nextMonkey);
             }
@@ -93,8 +93,6 @@ public class Day11 : Christmas
         }
         public string DebugDisplay => $"{InspectionCount} with {Items.Aggregate("", (result, next) => $"{result}, {next}")}";
     }
-
-   
 
     public record Operation(string firstOperand, char op, string secondOperand)
     {
