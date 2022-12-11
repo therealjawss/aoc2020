@@ -81,7 +81,7 @@ public class Day11 : Christmas
                 worryLevel = calmDown ? applyCalmDown(worryLevel) : worryLevel;
                 var divisor = day11.monkeys.Aggregate(1UL, (total, next) => total*next.divisibleBy);
                
-                worryLevel= worryLevel % divisor;
+                worryLevel%= divisor;
                 var nextMonkey = worryLevel % divisibleBy == 0 ? truthMonkey : falseMonkey;
                 day11.ThrowItemToMonkey(worryLevel, nextMonkey);
             }
