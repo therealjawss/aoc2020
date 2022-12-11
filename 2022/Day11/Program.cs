@@ -98,7 +98,7 @@ public class Day11 : Christmas
 
     public record Operation(string firstOperand, char op, string secondOperand)
     {
-        internal ulong apply(decimal worryLevel)
+        internal ulong apply(ulong worryLevel)
         {
             var f = firstOperand == "old" ? worryLevel : ulong.Parse(firstOperand);
             var s = secondOperand == "old"? worryLevel : ulong.Parse(secondOperand);
