@@ -60,26 +60,26 @@ public class Day13 : Christmas
                 else if (right.Length == 0) return false;
             }
            
-            var idx = 0;
-            for (; idx<left.Length; idx++)
-            {
-                if (idx>=right.Length) return false;
-                var leftIsNumber = int.TryParse(left[idx], out int l);
-                var rightIsNumber = int.TryParse(right[idx], out int r);
-                if (leftIsNumber && rightIsNumber)
-                {
-                    if (l != r)
-                        return l<r;
-                    else
-                        continue;
-                }
-                else if (leftIsNumber)
-                {
-                    return new Pair(new Packet($"[{left[idx]}]"), new Packet(right[idx])).InOrder();
-                }
-                else if (rightIsNumber)
-                    return new Pair(new Packet(left[idx]), new Packet($"[{right[idx]}]")).InOrder();
-            }
+            //var idx = 0;
+            //for (; idx<left.Length; idx++)
+            //{
+            //    if (idx>=right.Length) return false;
+            //    var leftIsNumber = int.TryParse(left[idx], out int l);
+            //    var rightIsNumber = int.TryParse(right[idx], out int r);
+            //    if (leftIsNumber && rightIsNumber)
+            //    {
+            //        if (l != r)
+            //            return l<r;
+            //        else
+            //            continue;
+            //    }
+            //    else if (leftIsNumber)
+            //    {
+            //        return new Pair(new Packet($"[{left[idx]}]"), new Packet(right[idx])).InOrder();
+            //    }
+            //    else if (rightIsNumber)
+            //        return new Pair(new Packet(left[idx]), new Packet($"[{right[idx]}]")).InOrder();
+            //}
 
             return true;
         }
