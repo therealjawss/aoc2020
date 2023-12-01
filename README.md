@@ -1,4 +1,10 @@
-﻿# Advent of Code 2022
+﻿# Advent of Code 2023
+
+# [Day01](https://adventofcode.com/2023/day/1)
+Hoping I do better this year, will probably not be able to do it first thing in the morning. We shall see. Meanwhile, I'll try to do use this opportunity to learn a bit more about what's in .net 8.
+
+
+# Advent of Code 2022
 
 # [Day08](https://adventofcode.com/2022/day/8)
  [Today's](2022/Day08/Program.cs) solution starts using some recursion. No use fighting it, it's going to come eventually.
