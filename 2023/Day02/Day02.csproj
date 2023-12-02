@@ -11,4 +11,13 @@
     <ProjectReference Include="..\..\ChristmasGifts\ChristmasGifts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="cookie">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
