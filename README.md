@@ -1,7 +1,10 @@
 ﻿# Advent of Code 2023
 
-# [Day01](https://adventofcode.com/2023/day/1)
-Hoping I do better this year, will probably not be able to do it first thing in the morning. We shall see. Meanwhile, I'll try to do use this opportunity to learn a bit more about what's in .net 8.
+## [Day02](https://adventofcode.com/2023/day/2)
+So far so good.. [Here](2023/Day02/Program.cs) is my solution to day 2. I will be trying to do TDD as much as possible this year.
+
+## [Day01](https://adventofcode.com/2023/day/1)
+Hoping I do better this year, will probably not be able to do it first thing in the morning. We shall see. 
 
 
 # Advent of Code 2022
