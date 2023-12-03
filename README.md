@@ -1,5 +1,9 @@
 ﻿# Advent of Code 2023
 
+## [Day03](https://adventofcode.com/2023/day/3)
+My brain hurt a little.. lots of special cases to consider when parsing 😬 [Here](2023/Day03/Program.cs) is my solution to day 3.
+
+
 ## [Day02](https://adventofcode.com/2023/day/2)
 So far so good.. [Here](2023/Day02/Program.cs) is my solution to day 2. I will be trying to do TDD as much as possible this year.
 
