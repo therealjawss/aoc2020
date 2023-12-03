@@ -36,68 +36,63 @@ public static class Day03Extensions
             var regex = new Regex(@"\d+");
             var matches = regex.Matches(line);
 
-            var valueMatches = matches.DistinctBy(m => m.Value).ToList();
-
-            foreach (Match match in matches.DistinctBy(m => m.Value))
+            foreach (Match match in matches)
             {
-                var indexes = line.IndexesOf(match.Value);
+                var index = match.Index;
                 var length = match.Value.Length;
-                foreach (var index in indexes)
+
+                bool notYielded = true;
+
+                if (notYielded && index > 0)
                 {
-                    bool notYielded = true;
-
-                    if (notYielded && index > 0)
+                    var idx = index - 1;
+                    if (line[idx].IsSymbol())
                     {
-                        var idx = index - 1;
-                        if (line[idx].IsSymbol())
-                        {
-                            if (line[idx] == '*')
-                                AddGear(dict, i, idx, match.Value);
-                            notYielded = false;
-                            yield return int.Parse(match.Value);
-                        }
-                    }
-                    if (notYielded && index + length < line.Length)
-                    {
-                        var idx = index + length;
-                        if (line[idx].IsSymbol())
-                        {
-                            if (line[idx] == '*')
-                                AddGear(dict, i, idx, match.Value);
-                            notYielded = false;
-                            yield return int.Parse(match.Value);
-                        }
-                    }
-                    if (notYielded && i > 0)
-                    {
-                        var previousLine = grid[i - 1];
-                        var start = index == 0 ? 0 : index - 1;
-                        int end = GetEndIndexToCheck(index, length, previousLine);
-                        var toCheck = previousLine[start..end];
-
-                        if (toCheck.ContainsSymbol())
-                        {
-                            TryAddGear(dict, i - 1, match.Value, toCheck, start);
-                            notYielded = false;
-                            yield return int.Parse(match.Value);
-                        }
-                    }
-                    if (notYielded && i + 1 < grid.Length)
-                    {
-                        var nextLine = grid[i + 1];
-                        var start = index == 0 ? 0 : index - 1;
-                        var end = GetEndIndexToCheck(index, length, nextLine);
-                        var toCheck = nextLine[start..end];
-
-                        if (toCheck.ContainsSymbol())
-                        {
-                            TryAddGear(dict, i + 1, match.Value, toCheck, start);
-                            notYielded = false;
-                            yield return int.Parse(match.Value);
-                        }
+                        if (line[idx] == '*')
+                            AddGear(dict, i, idx, match.Value);
+                        notYielded = false;
+                        yield return int.Parse(match.Value);
                     }
                 }
+                if (notYielded && index + length < line.Length)
+                {
+                    var idx = index + length;
+                    if (line[idx].IsSymbol())
+                    {
+                        if (line[idx] == '*')
+                            AddGear(dict, i, idx, match.Value);
+                        notYielded = false;
+                        yield return int.Parse(match.Value);
+                    }
+                }
+                if (notYielded && i > 0)
+                {
+                    var previousLine = grid[i - 1];
+                    var start = index == 0 ? 0 : index - 1;
+                    int end = GetEndIndexToCheck(index, length, previousLine);
+                    var toCheck = previousLine[start..end];
 
+                    if (toCheck.ContainsSymbol())
+                    {
+                        TryAddGear(dict, i - 1, match.Value, toCheck, start);
+                        notYielded = false;
+                        yield return int.Parse(match.Value);
+                    }
+                }
+                if (notYielded && i + 1 < grid.Length)
+                {
+                    var nextLine = grid[i + 1];
+                    var start = index == 0 ? 0 : index - 1;
+                    var end = GetEndIndexToCheck(index, length, nextLine);
+                    var toCheck = nextLine[start..end];
+
+                    if (toCheck.ContainsSymbol())
+                    {
+                        TryAddGear(dict, i + 1, match.Value, toCheck, start);
+                        notYielded = false;
+                        yield return int.Parse(match.Value);
+                    }
+                }
             }
         }
     }
@@ -114,20 +109,6 @@ public static class Day03Extensions
     public static int[] IndexesOf(this string line, char c)
     {
         return line.Select((ch, i) => ch == c ? i : -1).Where(i => i != -1).ToArray();
-    }
-
-    public static int[] IndexesOf(this string line, string value)
-    {
-        return line.Select((ch, i) => IsExactMatch(line, value, i) ? i : -1).Where(i => i != -1).ToArray();
-    }
-
-    private static bool IsExactMatch(string line, string value, int i)
-    {
-        return line[i..].StartsWith(value)
-            && (
-                (value.Length + i == line.Length && !char.IsDigit(line[i - 1])) // part of a longer number backwards
-                || ((value.Length + i) < line.Length && !char.IsDigit(line[i + value.Length]))  //part of a longer number forwards 
-            );
     }
 
     private static void AddGear(Dictionary<(int, int), List<long>> dict, int i, int j, string value)

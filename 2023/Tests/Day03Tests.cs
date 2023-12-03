@@ -121,29 +121,5 @@ namespace Tests
             var result = input.IndexesOf('*').ToList();
             result.Should().BeEquivalentTo([1, 3]);
         }
-
-        [Fact]
-        public void CanGetMultipleIndexesOfString()
-        {
-            var input = "12*12";
-            var result = input.IndexesOf("12").ToList();
-            result.Should().BeEquivalentTo([0, 3]);
-        }
-
-        [Fact]
-        public void CanGetMultipleIndexesOfExactString()
-        {
-            var input = "9...945..969";
-            var result = input.IndexesOf("9").ToList();
-            result.Should().BeEquivalentTo([0]);
-        }
-
-        [Fact]
-        public void CanGetMultipleIndexesOfExactLongString()
-        {
-            var input = "9...945.945.945*945";
-            var result = input.IndexesOf("945").ToList();
-            result.Should().BeEquivalentTo([4,8,12,16]);
-        }
     }
 }
