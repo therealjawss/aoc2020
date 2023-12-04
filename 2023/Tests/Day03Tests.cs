@@ -113,13 +113,5 @@ namespace Tests
 
             dict[(0, 3)].Should().Contain(3);
         }
-
-        [Fact]
-        public void CanGetMultipleIndexesOf()
-        {
-            var input ="1*2*3";
-            var result = input.IndexesOf('*').ToList();
-            result.Should().BeEquivalentTo([1, 3]);
-        }
     }
 }

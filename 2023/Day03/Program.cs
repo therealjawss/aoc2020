@@ -10,7 +10,6 @@ Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await d.PostSecondAnswer();
 public class Day03 : Christmas
 {
-    string result = "todo";
     public Day03() : base("3", "2023") { }
     Dictionary<(int, int), List<long>> potentialGears = new();
     public override string First()
@@ -41,57 +40,48 @@ public static class Day03Extensions
                 var index = match.Index;
                 var length = match.Value.Length;
 
-                bool notYielded = true;
-
-                if (notYielded && index > 0)
+                if (index > 0)
                 {
                     var idx = index - 1;
                     if (line[idx].IsSymbol())
                     {
                         if (line[idx] == '*')
                             AddGear(dict, i, idx, match.Value);
-                        notYielded = false;
                         yield return int.Parse(match.Value);
+                        continue;
                     }
                 }
-                if (notYielded && index + length < line.Length)
+                if (index + length < line.Length)
                 {
                     var idx = index + length;
                     if (line[idx].IsSymbol())
                     {
                         if (line[idx] == '*')
                             AddGear(dict, i, idx, match.Value);
-                        notYielded = false;
                         yield return int.Parse(match.Value);
+                        continue;
                     }
                 }
-                if (notYielded && i > 0)
-                {
-                    var previousLine = grid[i - 1];
-                    var start = index == 0 ? 0 : index - 1;
-                    int end = GetEndIndexToCheck(index, length, previousLine);
-                    var toCheck = previousLine[start..end];
+                var start = index == 0 ? 0 : index - 1;
+                var end = (length + index) == line.Length ? line.Length : length + index + 1;
 
-                    if (toCheck.ContainsSymbol())
-                    {
-                        TryAddGear(dict, i - 1, match.Value, toCheck, start);
-                        notYielded = false;
-                        yield return int.Parse(match.Value);
-                    }
+                var previousIndex = i - 1;
+                var nextIndex = i + 1;
+
+                var previousLine = i > 0 ? grid[previousIndex][start..end]:"";
+                var nextLine = i + 1 < grid.Length ? grid[nextIndex][start..end]:"";
+
+                if (previousLine.ContainsSymbol())
+                {
+                    TryAddGear(dict, previousIndex, match.Value, previousLine, start);
+                    yield return int.Parse(match.Value);
+                    continue;
                 }
-                if (notYielded && i + 1 < grid.Length)
+                if (nextLine.ContainsSymbol())
                 {
-                    var nextLine = grid[i + 1];
-                    var start = index == 0 ? 0 : index - 1;
-                    var end = GetEndIndexToCheck(index, length, nextLine);
-                    var toCheck = nextLine[start..end];
-
-                    if (toCheck.ContainsSymbol())
-                    {
-                        TryAddGear(dict, i + 1, match.Value, toCheck, start);
-                        notYielded = false;
-                        yield return int.Parse(match.Value);
-                    }
+                    TryAddGear(dict, nextIndex, match.Value, nextLine, start);
+                    yield return int.Parse(match.Value);
+                    continue;
                 }
             }
         }
@@ -99,16 +89,11 @@ public static class Day03Extensions
 
     private static void TryAddGear(Dictionary<(int, int), List<long>> dict, int i, string value, string toCheck, int start)
     {
-        var gear = toCheck.IndexesOf('*');
-        foreach (var g in gear)
+        var gears = Regex.Matches(toCheck, @"\*");
+        foreach (Match g in gears)
         {
-            AddGear(dict, i, start + g, value);
+            AddGear(dict, i, start + g.Index, value);
         }
-
-    }
-    public static int[] IndexesOf(this string line, char c)
-    {
-        return line.Select((ch, i) => ch == c ? i : -1).Where(i => i != -1).ToArray();
     }
 
     private static void AddGear(Dictionary<(int, int), List<long>> dict, int i, int j, string value)
@@ -119,11 +104,6 @@ public static class Day03Extensions
             dict.Add((i, j), []);
         }
         dict[(i, j)].Add(int.Parse(value));
-    }
-
-    private static int GetEndIndexToCheck(int index, int length, string line)
-    {
-        return (length + index) == line.Length ? line.Length : length + index + 1;
     }
 
     public static bool ContainsSymbol(this string line)
