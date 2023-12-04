@@ -1,5 +1,7 @@
 ﻿# Advent of Code 2023
 
+## [Day04](https://adventofcode.com/2023/day/4)
+Decided to wing it today, no TDD. [Here](2023/Day04/Program.cs) is my solution to day 4. Will probably clean this up later in the day though.
 ## [Day03](https://adventofcode.com/2023/day/3)
 My brain hurt a little.. lots of special cases to consider when parsing 😬 [Here](2023/Day03/Program.cs) is my solution to day 3. Spent too much time on special cases because i didn't realize that regex matches are greedy by default and that they returned indexes. 😒
 

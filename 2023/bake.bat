@@ -9,8 +9,8 @@ echo using ChristmasGifts; > f
 echo var d = new Day%1(); >> f
 echo await d.GetInput(file: "test.txt", pattern:Environment.NewLine); >> f
 echo //await d.GetInput(); >> f
-echo //await d.PostFirstAnswer(); >> f
 echo Console.WriteLine($"Part 1:{d.RunFirst()}"); >> f
+echo //await d.PostFirstAnswer(); >> f
 echo Console.WriteLine($"Part 2:{d.RunSecond()}"); >> f
 echo //await Task.Delay(5000); >> f
 echo //await d.PostSecondAnswer(); >> f
