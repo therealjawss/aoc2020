@@ -2,16 +2,35 @@
 
 ## [Day04](https://adventofcode.com/2023/day/4)
 Decided to wing it today, no TDD. [Here](2023/Day04/Program.cs) is my solution to day 4. Will probably clean this up later in the day though.
+
+	Elapsed time:12 ms
+	Part 1:21568
+	Elapsed time:4 ms
+	Part 2:11827296
+
 ## [Day03](https://adventofcode.com/2023/day/3)
 My brain hurt a little.. lots of special cases to consider when parsing 😬 [Here](2023/Day03/Program.cs) is my solution to day 3. Spent too much time on special cases because i didn't realize that regex matches are greedy by default and that they returned indexes. 😒
 
+	Elapsed time:17 ms
+	Part 1:532331
+	Elapsed time:6 ms
+	Part 2:82301120
 
 ## [Day02](https://adventofcode.com/2023/day/2)
 So far so good.. [Here](2023/Day02/Program.cs) is my solution to day 2. I will be trying to do TDD as much as possible this year.
 
+	Elapsed time:17 ms
+	Part 1:54249
+	Elapsed time:6 ms
+	Part 2:54249
+
 ## [Day01](https://adventofcode.com/2023/day/1)
 Hoping I do better this year, will probably not be able to do it first thing in the morning. We shall see. 
 
+	Elapsed time:17 ms
+	Part 1:54249
+	Elapsed time:6 ms
+	Part 2:54249
 
 # Advent of Code 2022
 

@@ -7,7 +7,7 @@ Console.WriteLine($"Part 1:{d.RunFirst()}");
 //await d.PostFirstAnswer();
 Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000); 
-await d.PostSecondAnswer(); 
+//await d.PostSecondAnswer(); 
 public class Day02 : Christmas
 {
     string result = "todo";
