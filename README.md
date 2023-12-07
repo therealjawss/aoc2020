@@ -1,5 +1,15 @@
 ﻿# Advent of Code 2023
 
+## [Day07](https://adventofcode.com/2023/day/7)
+The lesson to READ CAREFULLY was learned today. Wasted a full two hours because I thought we had to weight the entire deck, only to read that we are supposed to process cards in order of appearance. 😒 [Here](2023/Day07/Program.cs) is my solution to day 7.
+
+I between solving part 1 and part 2, I wanted to use the same method and preserve the behavior for part 1. I took the opportunity to make use of [ApprovalTests](https://github.com/approvals/ApprovalTests.Net#docs) to verify that I wasn't changing part 1's behavior. I set up [regression tests](2023\Tests\Day07Tests.cs) for both parts in hopes that I can refactor them later.
+
+	Elapsed time:77 ms
+	Part 1:253933213
+	Elapsed time:14 ms
+	Part 2:253473930
+
 ## [Day04](https://adventofcode.com/2023/day/4)
 Decided to wing it today, no TDD. [Here](2023/Day04/Program.cs) is my solution to day 4. Will probably clean this up later in the day though.
 
