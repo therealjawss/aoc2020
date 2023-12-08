@@ -1,5 +1,17 @@
 ﻿# Advent of Code 2023
 
+## [Day08](https://adventofcode.com/2023/day/8)
+The day has arrived, it's **I love ULONG time**! [Here](2023/Day08/Program.cs) is my solution to day 8. 
+
+Confession, i do have a Github copilot subscription. I did part 1 with my own sweat and blood but with part two, i did ask copilot to give me the LCM for the list of iterations. Is it cheating? I would say, there really is no cheating in AOC. I mostly see AOC as a way to exercise tools you want to learn how to use.
+
+In a work environment, no one relies on me to know how to implement all the various algorithms there is. Sure it's impressive to be able to do so, but I think knowing *when* to use them is more important.
+
+	Elapsed time:23 ms
+	Part 1:16531
+	Elapsed time:12 ms
+	Part 2:24035773251517
+
 ## [Day07](https://adventofcode.com/2023/day/7)
 The lesson to READ CAREFULLY was learned today. Wasted a full two hours because I thought we had to weight the entire deck, only to read that we are supposed to process cards in order of appearance. 😒 [Here](2023/Day07/Program.cs) is my solution to day 7.
 

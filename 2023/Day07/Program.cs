@@ -8,12 +8,6 @@ else
 Console.WriteLine($"Part 1:{d.RunFirst()}");
 //await d.PostFirstAnswer(); 
 Console.WriteLine($"Part 2:{d.RunSecond()}");
-//await Task.Delay(5000); 
-//await d.PostSecondAnswer(); 
-public static class Feature
-{
-    public static bool Local = false;
-}
 public class Day07 : Christmas
 {
     string result = "todo";
