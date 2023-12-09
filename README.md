@@ -1,5 +1,12 @@
 ﻿# Advent of Code 2023
 
+## [Day09](https://adventofcode.com/2023/day/9)
+
+	Elapsed time:81 ms
+	Part 1:1969958987
+	Elapsed time:6 ms
+	Part 2:1068
+
 ## [Day08](https://adventofcode.com/2023/day/8)
 The day has arrived, it's **I love ULONG time**! [Here](2023/Day08/Program.cs) is my solution to day 8. 
 

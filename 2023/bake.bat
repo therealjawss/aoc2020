@@ -7,8 +7,11 @@ move test.txt Day%1
 @echo off
 echo using ChristmasGifts; > f
 echo var d = new Day%1(); >> f
-echo await d.GetInput(file: "test.txt", pattern:Environment.NewLine); >> f
-echo //await d.GetInput(); >> f
+
+echo if (Feature.Local) >> f
+echo     await d.GetInput(file: "test.txt", pattern: Environment.NewLine); >> f
+echo else >> f
+echo     await d.GetInput(); >> f
 echo Console.WriteLine($"Part 1:{d.RunFirst()}"); >> f
 echo //await d.PostFirstAnswer(); >> f
 echo Console.WriteLine($"Part 2:{d.RunSecond()}"); >> f
