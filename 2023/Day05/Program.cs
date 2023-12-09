@@ -26,6 +26,7 @@ public class Day05 : Christmas
     private HashSet<Seed> seeds = new();
     private Seed[] OrderedSeeds;
 
+    private Range[] seedrange;
     private static Dictionary<Category, Map> maps = new Dictionary<Category, Map>();
 
     public Day05() : base("5", "2023") { }
@@ -41,12 +42,34 @@ public class Day05 : Christmas
     {
 
         createMap(pairThatShit: true);
-        foreach(var seed in seeds)
+        // find th intersection of the seed v the next level and store them on the list. continue to do so for the following maps and then find the minimum.
+        var intersections = seedrange;
+        foreach (var map in maps)
         {
-            seed.Travel(maps);
+            var newIntersections = new List<Range>();
+            foreach (var info in map.Value.infos)
+            {
+                foreach (var item in intersections)
+                {
+                    var intersection = item.Intersection(info.ValueRange);
+                    if (intersection.min != -1)
+                        newIntersections.Add(intersection);
+                    else 
+                        newIntersections.Add(item);
+                }
+
+            }
+            intersections = newIntersections.Distinct().ToArray();
         }
-        var result = seeds.SelectMany(s=>s.Locations).OrderBy(x=>x).ToArray();
-        return "";
+
+        //foreach(var seed in seeds)
+        //{
+        //    seed.Travel(maps);
+        //}
+
+        var r = intersections.Min(i => i.min);
+
+        return r.ToString();
 
     }
 
@@ -110,14 +133,16 @@ public class Day05 : Christmas
 
     private void GetSeeds(string[] strings, Map map)
     {
+        var list = new List<Range>();
         for (int i = 0; i < strings.Length; i += 2)
         {
             var minVal = long.Parse(strings[i]);
             var range = long.Parse(strings[i + 1]);
             seeds.Add(new Seed(minVal, minVal + range - 1));
+            list.Add(new Range(minVal, minVal + range - 1));
 
         }
-
+        seedrange = list.ToArray();
         OrderedSeeds = seeds.OrderBy(x => x.Min).ToArray();
 
     }
@@ -262,117 +287,6 @@ public class Day05 : Christmas
         internal void VisitLowest(Map[] maps)
         {
             throw new NotImplementedException();
-        }
-    }
-    public class StringOperations
-    {
-        public static string Normalize(string input)
-        {
-            if (input.All(x => x == '0'))
-                return "0";
-            return input.TrimStart('0');
-        }
-        public static string Add(string addend, string augend)
-        {
-            var result = "";
-            addend = addend.Reverse().Aggregate("", (acc, x) => acc + x);
-            augend = augend.Reverse().Aggregate("", (acc, x) => acc + x);
-            var index = 0;
-            var carry = 0;
-            var longer = addend.Length > augend.Length ? addend : augend;
-            for (; index < addend.Length && index < augend.Length; index++)
-            {
-                var a = addend[index];
-                var b = augend[index];
-                var c = (a + b - '0') + carry;
-                carry = 0;
-                if (c - '0' > 9)
-                {
-                    carry = 1;
-                    c -= 10;
-                }
-                result += (char)c;
-            }
-            if (index < longer.Length)
-            {
-                for (; index < longer.Length; index++)
-                {
-                    int sum;
-                    if (carry > 0)
-                    {
-                        sum = longer[index] + char.Parse("" + carry) - '0';
-                        carry = 0;
-
-                        if (!char.IsDigit((char)sum))
-                        {
-                            carry = 1;
-                            sum -= 10;
-                        }
-                        result += (char)sum;
-                    }
-                    else
-                    {
-                        result += longer[index];
-                    }
-                }
-            }
-            result = result.Reverse().Aggregate("", (acc, x) => acc + x);
-            return carry > 0 ? carry + result : result;
-        }
-
-        public static string Subtract(string minuend, string subtrahend)
-        {
-            if (subtrahend.Length > minuend.Length)
-                return "-";
-            var result = "";
-            minuend = minuend.Reverse().Aggregate("", (acc, x) => acc + x);
-            subtrahend = subtrahend.Reverse().Aggregate("", (acc, x) => acc + x);
-            var index = 0;
-            var borrow = 0;
-            var longer = minuend.Length > subtrahend.Length ? minuend : subtrahend;
-            for (; index < minuend.Length && index < subtrahend.Length; index++)
-            {
-                var a = minuend[index];
-                var b = subtrahend[index];
-                if (borrow > 0)
-                {
-                    a = (char)(a - 1);
-                    borrow--;
-                }
-                var c = (a - b + '0');
-                if (!char.IsDigit((char)c))
-                {
-                    borrow++;
-                    c += 10;
-                }
-                result += (char)c;
-            }
-
-            for (; index < minuend.Length; index++)
-            {
-                int sum;
-                if (borrow > 0)
-                {
-                    var difference = longer[index] - char.Parse("" + borrow) + '0';
-                    borrow--;
-
-                    if (!char.IsDigit((char)difference))
-                    {
-                        difference += 10;
-                        borrow++;
-                    }
-                    result += (char)difference;
-                }
-                else
-                {
-                    result += longer[index];
-                }
-            }
-            if (borrow > 0)
-                return "-";
-            result = result.Reverse().Aggregate("", (acc, x) => acc + x);
-            return Normalize(result);
-
         }
     }
 }

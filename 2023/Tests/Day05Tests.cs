@@ -6,6 +6,7 @@ namespace Tests
 {
     public class Day05Tests
     {
+        #region Part2
         [Fact]
         public void MinimumTest()
         {
@@ -121,5 +122,10 @@ namespace Tests
             r.Intersection(i).max.Should().Be(emax);
 
         }
+        #endregion
+        #region Part 2
+   
+        #endregion
+
     }
 }
