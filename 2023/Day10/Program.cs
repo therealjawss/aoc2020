@@ -13,7 +13,7 @@ Console.WriteLine($"Part 2:{d.RunSecond()}");
 public class Day10 : Christmas
 {
     string result = "todo";
-    char[][] pipe;
+    char[][] pipe  = new char[0][];
     char START = 'S';
     public Day10() : base("10", "2023") { }
 
