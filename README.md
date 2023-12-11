@@ -1,16 +1,42 @@
 ﻿# Advent of Code 2023
 
+## [Day11](https://adventofcode.com/2023/day/11)
+Today I learned a valuable lesson on how IEnumerable works.. I was wondering why my solution was taking so long and when I finally stepped through the code, I saw how IEnumerable evaluated multiple times. 😒 [Here](2023/Day11/Program.cs) is my solution to day 11.
+
+	Elapsed time:353 ms
+	Part 1:9274989
+	Elapsed time:297 ms
+	Part 2:357134560737
+
+## [Day09](https://adventofcode.com/2023/day/9)
+
+	Elapsed time:81 ms
+	Part 1:1969958987
+	Elapsed time:6 ms
+	Part 2:1068
+
+## [Day08](https://adventofcode.com/2023/day/8)
+The day has arrived, it's **I love ULONG time**! [Here](2023/Day08/Program.cs) is my solution to day 8. 
+
+Confession, i do have a Github copilot subscription. I did part 1 with my own sweat and blood but with part two, i did ask copilot to give me the LCM for the list of iterations. Is it cheating? I would say, there really is no cheating in AOC. I mostly see AOC as a way to exercise tools you want to learn how to use.
+
+In a work environment, no one relies on me to know how to implement all the various algorithms there is. Sure it's impressive to be able to do so, but I think knowing *when* to use them is more important.
+
+	Elapsed time:23 ms
+	Part 1:16531
+	Elapsed time:12 ms
+	Part 2:24035773251517
+
 ## [Day07](https://adventofcode.com/2023/day/7)
 The lesson to READ CAREFULLY was learned today. Wasted a full two hours because I thought we had to weight the entire deck, only to read that we are supposed to process cards in order of appearance. 😒 [Here](2023/Day07/Program.cs) is my solution to day 7.
 
-I between solving part 1 and part 2, I wanted to use the same method and preserve the behavior for part 1. I took the opportunity to make use of [ApprovalTests](https://github.com/approvals/ApprovalTests.Net#docs) to verify that I wasn't changing part 1's behavior. I set up [regression tests](2023\Tests\Day07Tests.cs) for both parts in hopes that I can refactor them later.
+I between solving part 1 and part 2, I wanted to use the same method and preserve the behavior for part 1. I took the opportunity to make use of [ApprovalTests](https://github.com/approvals/ApprovalTests.Net#docs) to verify that I wasn't changing part 1's behavior. I set up [regression tests](2023/Tests/Day07Tests.cs) for both parts in hopes that I can refactor them later.
 
 	Elapsed time:77 ms
 	Part 1:253933213
 	Elapsed time:14 ms
 	Part 2:253473930
 
-	
 ## [Day05](https://adventofcode.com/2023/day/5)
 Okay, brute forced this one. [Here](2023/Day05/Program.cs) is my solution to day 5. But will try to get back and improve it later.
 

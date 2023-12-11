@@ -9,10 +9,10 @@ namespace ChristmasGifts
 
         private string inputfile = "input.txt";
         private readonly HttpClient _httpClient;
-        private string FirstAnswer;
-        private string SecondAnswer;
-        protected string RawInput;
-        protected string[] Input;
+        private string FirstAnswer = "";
+        private string SecondAnswer = "";
+        protected string RawInput = "";
+        protected string[] Input = Array.Empty<string>();
         public Christmas(string day, string year)
         {
             Day = day;
