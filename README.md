@@ -37,6 +37,14 @@ I between solving part 1 and part 2, I wanted to use the same method and preserv
 	Elapsed time:14 ms
 	Part 2:253473930
 
+## [Day05](https://adventofcode.com/2023/day/5)
+Okay, brute forced this one. [Here](2023/Day05/Program.cs) is my solution to day 5. But will try to get back and improve it later.
+
+	Elapsed time:23 ms
+	Part 1:486613012
+	Elapsed time:570168 ms
+	Part 2:56931769
+
 ## [Day04](https://adventofcode.com/2023/day/4)
 Decided to wing it today, no TDD. [Here](2023/Day04/Program.cs) is my solution to day 4. Will probably clean this up later in the day though.
 
