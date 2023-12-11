@@ -1,5 +1,13 @@
 ﻿# Advent of Code 2023
 
+## [Day11](https://adventofcode.com/2023/day/11)
+Today I learned a valuable lesson on how IEnumerable works.. I was wondering why my solution was taking so long and when I finally stepped through the code, I saw how IEnumerable evaluated multiple times. 😒 [Here](2023/Day11/Program.cs) is my solution to day 11.
+
+	Elapsed time:353 ms
+	Part 1:9274989
+	Elapsed time:297 ms
+	Part 2:357134560737
+
 ## [Day09](https://adventofcode.com/2023/day/9)
 
 	Elapsed time:81 ms
