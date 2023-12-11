@@ -41,27 +41,10 @@ public class Day05 : Christmas
     public override string Second()
     {
         createMap(pairThatShit: true);
-        // find th intersection of the seed v the next level and store them on the list. continue to do so for the following maps and then find the minimum.
-        var intersections = seedrange;
-        foreach (var map in maps)
-        {
-            var newIntersections = new List<Range>();
-            foreach (var info in map.Value.infos)
-            {
-                foreach (var item in intersections)
-                {
-                    var rangeUnion = item.RangeUnion(info.ValueRange);
-                    if (rangeUnion.Count()>0)
-                        newIntersections.AddRange(rangeUnion);
-                }
+        traverseMap();
 
-            }
-            intersections = newIntersections.Distinct().ToArray();
-        }
-
-        var r = intersections.Min(i => i.min);
-
-        return r.ToString();
+        var shortest = seeds.OrderBy(x => x.Location).First();
+        return shortest.Location.ToString();
 
     }
 
@@ -69,15 +52,23 @@ public class Day05 : Christmas
     {
         foreach (var seed in seeds)
         {
-            var point = seed.Min;
-            Console.WriteLine($"Seed:{seed.Min}");
-            foreach (var map in maps)
+            var point = long.MaxValue;
+            seed.Location = long.MaxValue;
+            for (long i = seed.Min; i <= seed.Max; i++)
             {
-                point = map.Value.GetDestination(point);
-                Console.WriteLine($"{map.Value.destination}:{point}");
+                point = i;
+                foreach (var map in maps)
+                {
+                    point = map.Value.GetDestination(point);
+                }
+                if (point < seed.Location)
+                {
+                    seed.Location = point;
+                }
             }
-            seed.Location = point;
+
         }
+        
     }
 
 
