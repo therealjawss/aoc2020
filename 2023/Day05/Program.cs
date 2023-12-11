@@ -1,5 +1,6 @@
 ﻿using ChristmasGifts;
 var d = new Day05();
+Feature.Local = true;
 if (Feature.Local)
 {
     await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
@@ -54,21 +55,24 @@ public class Day05 : Christmas
         {
             var point = long.MaxValue;
             seed.Location = long.MaxValue;
+            Console.WriteLine($"{seed.Min} to {seed.Max}");
             for (long i = seed.Min; i <= seed.Max; i++)
             {
                 point = i;
+                Console.Write($"seed: {point} ");
                 foreach (var map in maps)
                 {
                     point = map.Value.GetDestination(point);
+                    Console.Write($"{point} ");
                 }
                 if (point < seed.Location)
                 {
                     seed.Location = point;
                 }
+                Console.WriteLine($"==> {seed.Location}");
             }
-
         }
-        
+
     }
 
 
@@ -115,9 +119,9 @@ public class Day05 : Christmas
 
         internal Range[] RangeUnion(Range valueRange)
         {
-            var r = new long[] { this.min, this.max, valueRange.min, valueRange.max }.OrderBy(x => x).ToArray();    
+            var r = new long[] { this.min, this.max, valueRange.min, valueRange.max }.OrderBy(x => x).ToArray();
             var result = new List<Range>();
-            for(int i=1; i<r.Length; i++)
+            for (int i = 1; i < r.Length; i++)
             {
                 result.Add(new Range(min: r[i - 1], max: r[i]));
             }
@@ -152,8 +156,6 @@ public class Day05 : Christmas
         public long GetDestination(long source)
         {
             var diff = source - SourceMin;
-            if (diff < 0 || (InfoRange - diff) < 0)
-                return -1;
             return Destination + diff;
         }
 
@@ -173,13 +175,11 @@ public class Day05 : Christmas
         Info[] Sorted = infos.OrderBy(x => x.Destination).ToArray();
         public long GetDestination(long source)
         {
-            foreach (var info in infos)
-            {
-                var destination = info.GetDestination(source);
-                if (destination > 0)
-                    return destination;
-            }
-            return source;
+            var match = infos.Where(i => i.SourceMax >= source && i.SourceMin <= source).FirstOrDefault();
+            if (match != null)
+                return match.GetDestination(source);
+            else
+                return source;
         }
 
         public long GetSource(long destination)
@@ -193,7 +193,7 @@ public class Day05 : Christmas
             return destination;
         }
 
-        public IEnumerable<long> GetDestination(long min, long max)
+        public long GetDestination(long min, long max)
         {
             var result = new List<long>();
             var query = infos.Where(i => min - i.SourceMax >= 0 || max - i.SourceMin >= 0);
@@ -212,60 +212,10 @@ public class Day05 : Christmas
                         result.Add(min);
                 }
             }
-            return result.OrderBy(x => x);
+            return result.OrderBy(x => x).First();
         }
 
-        public IEnumerable<long> Traverse(long min, long max, Dictionary<Category, Map> maps)
-        {
-            var list = new HashSet<long>();
-            if ((Category)(source + 1) == Category.location)
-            {
-                list.Add(min);
-            }
-            else if (infos.All(i => i.SourceMax - min >= 0) && infos.All(i => max - i.SourceMin >= 0))
-            {
 
-                var result = maps[(Category)source + 1].Traverse(min, max, maps);
-                foreach (var item in result)
-                {
-                    list.Add(item);
-                }
-            }
-            else
-            {
-                var destinations = GetDestination(min, max).Distinct().ToArray();
-                for (int i = 0; i < destinations.Count() - 1; i++)
-                {
-                    if (maps.ContainsKey((Category)source + 1))
-                    {
-                        var result = maps[(Category)source + 1].Traverse(destinations[i], destinations[i + 1], maps);
-                        foreach (var item in result)
-                        {
-                            list.Add(item);
-                        }
-                    }
-
-                }
-
-            }
-            return list;
-        }
-
-        internal IEnumerable<string> Traverse(long min, Dictionary<Category, Map> maps)
-        {
-            foreach (var info in Sorted)
-            {
-                var destination = info.GetDestination(min);
-                if (destination > 0)
-                {
-                    var result = maps[(Category)source + 1].Traverse(destination, maps);
-                    foreach (var item in result)
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
     }
     public record Seed(long Min, long Max)
     {
@@ -273,11 +223,6 @@ public class Day05 : Christmas
         public long Location { get; set; }
         public IEnumerable<string> Next { get; set; }
         public IEnumerable<long> Locations { get; internal set; }
-
-        public void Travel(Dictionary<Category, Map> map)
-        {
-            Locations = map[0].Traverse(Min, Max, map);
-        }
 
         internal void VisitLowest(Map[] maps)
         {

@@ -71,7 +71,6 @@ namespace Tests
             };
 ;
 
-            seeds.Travel(maps);
             seeds.Locations.Count().Should().Be(1);
         }
 
