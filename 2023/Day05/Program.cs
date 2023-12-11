@@ -8,7 +8,7 @@ else
 {
     await d.GetInput();
 }
-//Console.WriteLine($"Part 1:{d.RunFirst()}");
+Console.WriteLine($"Part 1:{d.RunFirst()}");
 //await d.PostFirstAnswer();
 Console.WriteLine($"Part 2:{d.RunSecond()}");
 //await Task.Delay(5000); 
@@ -40,7 +40,6 @@ public class Day05 : Christmas
 
     public override string Second()
     {
-
         createMap(pairThatShit: true);
         // find th intersection of the seed v the next level and store them on the list. continue to do so for the following maps and then find the minimum.
         var intersections = seedrange;
@@ -51,21 +50,14 @@ public class Day05 : Christmas
             {
                 foreach (var item in intersections)
                 {
-                    var intersection = item.Intersection(info.ValueRange);
-                    if (intersection.min != -1)
-                        newIntersections.Add(intersection);
-                    else 
-                        newIntersections.Add(item);
+                    var rangeUnion = item.RangeUnion(info.ValueRange);
+                    if (rangeUnion.Count()>0)
+                        newIntersections.AddRange(rangeUnion);
                 }
 
             }
             intersections = newIntersections.Distinct().ToArray();
         }
-
-        //foreach(var seed in seeds)
-        //{
-        //    seed.Travel(maps);
-        //}
 
         var r = intersections.Min(i => i.min);
 
@@ -128,6 +120,18 @@ public class Day05 : Christmas
             var max = this.max > range.max ? range.max : this.max;
 
             return new Range(min, max);
+        }
+
+        internal Range[] RangeUnion(Range valueRange)
+        {
+            var r = new long[] { this.min, this.max, valueRange.min, valueRange.max }.OrderBy(x => x).ToArray();    
+            var result = new List<Range>();
+            for(int i=1; i<r.Length; i++)
+            {
+                result.Add(new Range(min: r[i - 1], max: r[i]));
+            }
+
+            return result.ToArray();
         }
     }
 
