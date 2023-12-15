@@ -1,6 +1,4 @@
 using ChristmasGifts;
-using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 var d = new Day14();
 Feature.Local = false;
@@ -47,7 +45,7 @@ public class Day14 : Christmas
             weight+= getWeight(line[ptr..].Count(i => i == 'O'), ptr);
             totalWeight+=weight;
         }
-        return result;
+        return totalWeight.ToString();
     }
 
     private int getWeight(int v, int ptr)
