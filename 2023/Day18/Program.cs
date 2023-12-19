@@ -101,9 +101,11 @@ public class Day18 : Christmas
             for (int i = 0; i < points.Length; i++)
             {
                 int j = (i + 1) % points.Length;
+                Console.WriteLine($"<<{area} += [({points[i].x}*{points[j].y}):({(points[i].x * points[j].y)} )] - [({points[j].x}*{points[i].y}):({(points[j].x * points[i].y)})]>>");
+
                 area += (points[i].x * points[j].y) - (points[j].x * points[i].y);
             }
-
+            Console.WriteLine($"area {area} => {area / 2}");
             area /= 2;
             area = Math.Abs(area);
 
@@ -233,7 +235,7 @@ public class Day18 : Christmas
                 points.Add(paddedNewPoint);
                 lastDirection = direction;
                 ptr = paddedNewPoint;
-                Console.Write($"{paddedNewPoint.x}:{paddedNewPoint.y} ");
+                // Console.Write($"{paddedNewPoint.x}:{paddedNewPoint.y} ");
             }
 
             return points.ToArray();
