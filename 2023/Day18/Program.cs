@@ -164,17 +164,19 @@ public class Day18 : Christmas
             var maxX = points.Max(p => p.x) + 0 - minX;
             var minY = points.Min(p => p.y);
             var maxY = points.Max(p => p.y) + 0 - minY;
-            for (int i = 0; i < maxY; i++)
-            {
-                for (int j = 0; j < maxX; j++)
-                {
-                    if (points.Any(p => p.x == j + minX && p.y == i + minY))
-                        Console.Write("#");
-                    else
-                        Console.Write(".");
-                }
-                Console.WriteLine();
-            }
+
+Console.WriteLine($"{minX}:{maxX} {minY}:{maxY}");
+        //    for (int i = 0; i < maxY; i++)
+     //    {
+         //       for (int j = 0; j < maxX; j++)
+              //  {
+                    //if (points.Any(p => p.x == j + minX && p.y == i + minY))
+                        //Console.Write("#");
+                   // else
+                        ////Console.Write(".");
+      //          }
+               // Console.WriteLine();
+   //         }
         }
 
         private static Point[] findPoints(Instruction[] instructions)
@@ -230,6 +232,7 @@ public class Day18 : Christmas
                 points.Add(paddedNewPoint);
                 lastDirection = direction;
                 ptr = paddedNewPoint;
+Console.Write($"{paddedNewPoint.x}:{paddenNewPoint.y} ");
             }
 
             return points.ToArray();
