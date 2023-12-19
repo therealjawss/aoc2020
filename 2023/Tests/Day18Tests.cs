@@ -190,6 +190,27 @@ namespace Tests
             var result = Calculator.ProcessDataIntelligently(instructions);
             result.Should().Be(40);
         }
+         [Fact]
+ public void Can()
+ {
+     Instruction[] instructions = new[]
+     {
+
+         new Instruction(Direction.Left, 2, "#ff0000"),
+         new Instruction(Direction.Down, 2, "#ff0000"),
+         new Instruction(Direction.Left, 5, "#ff0000"),
+         new Instruction(Direction.Up, 10, "#ff0000"),
+         new Instruction(Direction.Right, 2, "#ff0000"),
+         new Instruction(Direction.Down, 2, "#ff0000"),
+         new Instruction(Direction.Right,8 , "#ff0000"),
+         new Instruction(Direction.Down, 8, "#ff0000"),
+         new Instruction(Direction.Left, 3, "#ff0000"),
+         new Instruction(Direction.Up, 2, "#ff0000"),
+     };
+
+     var result = Calculator.ProcessDataIntelligently(instructions);
+     result.Should().Be(103);
+ }
         //[Fact]
         //public void CanCalculateAreaOfSquare()
         //{

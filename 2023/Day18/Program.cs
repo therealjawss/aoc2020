@@ -1,7 +1,7 @@
 using ChristmasGifts;
 using System.Text.RegularExpressions;
 var d = new Day18();
-Feature.Local = false;
+Feature.Local = true;
 if (Feature.Local)
     await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
 else
@@ -235,9 +235,9 @@ public class Day18 : Christmas
                 points.Add(paddedNewPoint);
                 lastDirection = direction;
                 ptr = paddedNewPoint;
-                // Console.Write($"{paddedNewPoint.x}:{paddedNewPoint.y} ");
+                Console.Write($"{paddedNewPoint.x}:{paddedNewPoint.y} ");
             }
-
+            Console.WriteLine();
             return points.ToArray();
         }
         private int countFill(string line, string before, string after)
