@@ -18,7 +18,7 @@ public class Day18 : Christmas
     public Instruction[] Instructions { get; set; }
     public override string First()
     {
-        Instructions = RawInput.Split("\n", StringSplitOptions.RemoveEmptyEntries).Select(x=>ParseInstruction(x.Trim())).ToArray();
+        Instructions = RawInput.Split("\n", StringSplitOptions.RemoveEmptyEntries).Select(x => ParseInstruction(x.Trim())).ToArray();
         var calculator = new Calculator();
         var longway = calculator.ProcessData(Instructions);
         Console.WriteLine(longway);
@@ -114,7 +114,7 @@ public class Day18 : Christmas
             long maxX = instructions.Where(i => i.Direction == Direction.Right).Sum(i => i.Direction.x * i.Places);
             long maxY = instructions.Where(i => i.Direction == Direction.Down).Sum(i => i.Direction.y * i.Places);
 
-            grid = Enumerable.Range(0,(int) maxX * 2 + 1).Select(x => new string('.',(int) maxY * 2 + 1)).ToArray();
+            grid = Enumerable.Range(0, (int)maxX * 2 + 1).Select(x => new string('.', (int)maxY * 2 + 1)).ToArray();
 
             var first = "%";
             var x = maxX;
@@ -125,8 +125,9 @@ public class Day18 : Christmas
                 {
                     x += instruction.Direction.x;
                     y += instruction.Direction.y;
-                    grid[y] = grid[y][..(int)x] + "#" + grid[y][((int)x + 1)..];
-
+                    grid[y] = grid[y][..(int)x] + first + grid[y][((int)x + 1)..];
+                    if(first == "%")
+                        first = "#";
 
                 }
             }
@@ -154,7 +155,7 @@ public class Day18 : Christmas
         public static double ProcessDataIntelligently(Instruction[] instructions)
         {
             var points = findPoints(instructions);
-          //  PrintPoints(points);
+              PrintPoints(points);
             return CalculatePolygonArea(points);
 
         }
@@ -165,18 +166,18 @@ public class Day18 : Christmas
             var minY = points.Min(p => p.y);
             var maxY = points.Max(p => p.y) + 0 - minY;
 
-Console.WriteLine($"{minX}:{maxX} {minY}:{maxY}");
-        //    for (int i = 0; i < maxY; i++)
-     //    {
-         //       for (int j = 0; j < maxX; j++)
-              //  {
-                    //if (points.Any(p => p.x == j + minX && p.y == i + minY))
-                        //Console.Write("#");
-                   // else
-                        ////Console.Write(".");
-      //          }
-               // Console.WriteLine();
-   //         }
+            Console.WriteLine($" min max  {minX}:{maxX} {minY}:{maxY}");
+            //    for (int i = 0; i < maxY; i++)
+            //    {
+            //       for (int j = 0; j < maxX; j++)
+            //  {
+            //if (points.Any(p => p.x == j + minX && p.y == i + minY))
+            //Console.Write("#");
+            // else
+            ////Console.Write(".");
+            //          }
+            // Console.WriteLine();
+            //         }
         }
 
         private static Point[] findPoints(Instruction[] instructions)
@@ -232,7 +233,7 @@ Console.WriteLine($"{minX}:{maxX} {minY}:{maxY}");
                 points.Add(paddedNewPoint);
                 lastDirection = direction;
                 ptr = paddedNewPoint;
-Console.Write($"{paddedNewPoint.x}:{paddenNewPoint.y} ");
+                Console.Write($"{paddedNewPoint.x}:{paddedNewPoint.y} ");
             }
 
             return points.ToArray();
