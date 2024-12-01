@@ -10,7 +10,7 @@ Console.WriteLine($"Part 1:{d.RunFirst()}");
 //await d.PostFirstAnswer();
 
 Console.WriteLine($"Part 2:{d.RunSecond()}");
-await d.PostSecondAnswer();
+//await d.PostSecondAnswer();
 public class Day01 : Christmas
 {
     public Day01() : base("1", "2024")
