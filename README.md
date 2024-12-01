@@ -1,4 +1,14 @@
-﻿# Advent of Code 2023
+﻿# Advent of Code 2024
+
+## [Day 1](https://adventofcode.com/2024/day/1)
+A good and easy start. But maybe it's all downhill from here 😅 [Here](2024/Day01/Program.cs) is my solution to day 1.
+
+	Elapsed time:20 ms
+	Part 1:1320851
+	Elapsed time:26 ms
+	Part 2:26859182
+
+# Advent of Code 2023
 
 ## [Day11](https://adventofcode.com/2023/day/11)
 Today I learned a valuable lesson on how IEnumerable works.. I was wondering why my solution was taking so long and when I finally stepped through the code, I saw how IEnumerable evaluated multiple times. 😒 [Here](2023/Day11/Program.cs) is my solution to day 11.
