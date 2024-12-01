@@ -15,10 +15,10 @@ namespace Tests
         public void CanProcessInstructions()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 6, "#ff0000"),
-                new Instruction(Direction.Down, 6, "#ff0000"),
-                new Instruction(Direction.Left, 6, "#ff0000"),
-                new Instruction(Direction.Up, 6, "#ff0000"),
+                new Instruction(Direction.R, 6, "#ff0000"),
+                new Instruction(Direction.D, 6, "#ff0000"),
+                new Instruction(Direction.L, 6, "#ff0000"),
+                new Instruction(Direction.U, 6, "#ff0000"),
                 ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -29,10 +29,10 @@ namespace Tests
         public void CanProcessLeftInstructions()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Down, 3, "#ff0000"),
-                new Instruction(Direction.Right, 3, "#ff0000"),
-                new Instruction(Direction.Up, 3, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.D, 3, "#ff0000"),
+                new Instruction(Direction.R, 3, "#ff0000"),
+                new Instruction(Direction.U, 3, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -44,10 +44,10 @@ namespace Tests
         public void CanProcessSmallerInstructions()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 4, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Left,4 , "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
+                new Instruction(Direction.R, 4, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.L,4 , "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -59,12 +59,12 @@ namespace Tests
         public void CanProcessIrregularInstructionss()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 2, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
+                new Instruction(Direction.R, 2, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -75,14 +75,14 @@ namespace Tests
         public void CanProcessUInstructionss()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Right, 2, "#ff0000"),
-                new Instruction(Direction.Up, 1, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 3, "#ff0000"),
-                new Instruction(Direction.Left, 4, "#ff0000"),
-                new Instruction(Direction.Up, 3, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.R, 2, "#ff0000"),
+                new Instruction(Direction.U, 1, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 3, "#ff0000"),
+                new Instruction(Direction.L, 4, "#ff0000"),
+                new Instruction(Direction.U, 3, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -93,14 +93,14 @@ namespace Tests
         public void CanProcessSnakeInstructionss()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 3, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
+                new Instruction(Direction.R, 3, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -110,14 +110,14 @@ namespace Tests
         public void CanProcessSnakeLeftInstructionss()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Right, 3, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.R, 3, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -128,14 +128,14 @@ namespace Tests
         public void CanGoLeft()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Left, 2, "#ff0000"),
-                new Instruction(Direction.Up, 1, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Down, 3, "#ff0000"),
-                new Instruction(Direction.Right, 4, "#ff0000"),
-                new Instruction(Direction.Up, 3, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.L, 2, "#ff0000"),
+                new Instruction(Direction.U, 1, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.D, 3, "#ff0000"),
+                new Instruction(Direction.R, 4, "#ff0000"),
+                new Instruction(Direction.U, 3, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -146,24 +146,24 @@ namespace Tests
         public void CanGoLeftComplex()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Left, 2, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Up, 1, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Up, 1, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Down, 4, "#ff0000"),
-                new Instruction(Direction.Right, 8, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
-                new Instruction(Direction.Left, 2, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Left, 1, "#ff0000"),
-                new Instruction(Direction.Up, 3, "#ff0000"),
+                new Instruction(Direction.L, 2, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.U, 1, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.U, 1, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.D, 4, "#ff0000"),
+                new Instruction(Direction.R, 8, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
+                new Instruction(Direction.L, 2, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.L, 1, "#ff0000"),
+                new Instruction(Direction.U, 3, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -173,18 +173,18 @@ namespace Tests
         public void CanReverseU()
         {
             Instruction[] instructions = [
-                new Instruction(Direction.Right, 8, "#ff0000"),
-                new Instruction(Direction.Down, 4, "#ff0000"),
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Up, 1, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Up, 2, "#ff0000"),
-                new Instruction(Direction.Left, 4, "#ff0000"),
-                new Instruction(Direction.Down, 2, "#ff0000"),
-                new Instruction(Direction.Right, 1, "#ff0000"),
-                new Instruction(Direction.Down, 1, "#ff0000"),
-                new Instruction(Direction.Left, 3, "#ff0000"),
-                new Instruction(Direction.Up, 4, "#ff0000"),
+                new Instruction(Direction.R, 8, "#ff0000"),
+                new Instruction(Direction.D, 4, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.U, 1, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.U, 2, "#ff0000"),
+                new Instruction(Direction.L, 4, "#ff0000"),
+                new Instruction(Direction.D, 2, "#ff0000"),
+                new Instruction(Direction.R, 1, "#ff0000"),
+                new Instruction(Direction.D, 1, "#ff0000"),
+                new Instruction(Direction.L, 3, "#ff0000"),
+                new Instruction(Direction.U, 4, "#ff0000"),
             ];
 
             var result = Calculator.ProcessDataIntelligently(instructions);
@@ -196,16 +196,16 @@ namespace Tests
      Instruction[] instructions = new[]
      {
 
-         new Instruction(Direction.Left, 2, "#ff0000"),
-         new Instruction(Direction.Down, 2, "#ff0000"),
-         new Instruction(Direction.Left, 5, "#ff0000"),
-         new Instruction(Direction.Up, 10, "#ff0000"),
-         new Instruction(Direction.Right, 2, "#ff0000"),
-         new Instruction(Direction.Down, 2, "#ff0000"),
-         new Instruction(Direction.Right,8 , "#ff0000"),
-         new Instruction(Direction.Down, 8, "#ff0000"),
-         new Instruction(Direction.Left, 3, "#ff0000"),
-         new Instruction(Direction.Up, 2, "#ff0000"),
+         new Instruction(Direction.L, 2, "#ff0000"),
+         new Instruction(Direction.D, 2, "#ff0000"),
+         new Instruction(Direction.L, 5, "#ff0000"),
+         new Instruction(Direction.U, 10, "#ff0000"),
+         new Instruction(Direction.R, 2, "#ff0000"),
+         new Instruction(Direction.D, 2, "#ff0000"),
+         new Instruction(Direction.R,8 , "#ff0000"),
+         new Instruction(Direction.D, 8, "#ff0000"),
+         new Instruction(Direction.L, 3, "#ff0000"),
+         new Instruction(Direction.U, 2, "#ff0000"),
      };
 
      var result = Calculator.ProcessDataIntelligently(instructions);

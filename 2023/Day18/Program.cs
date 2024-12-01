@@ -1,7 +1,9 @@
 using ChristmasGifts;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
+using System.Xml.XPath;
 var d = new Day18();
-Feature.Local = true;
+Feature.Local = false;
 if (Feature.Local)
     await d.GetInput(file: "test.txt", pattern: Environment.NewLine);
 else
@@ -38,13 +40,29 @@ public class Day18 : Christmas
         return total.ToString();
     }
 
-    public record Instruction(Direction Direction, long Places, string color);
+    public record Instruction(Direction Direction, long Places, string color)
+    {
+        public Instruction(Direction direction, long Places) : this(direction, Places, string.Empty) { }
+        public Instruction Previous { get; set; }
+    }
     public record Direction(long x, long y)
     {
-        public static Direction Right = new(1, 0);
-        public static Direction Left = new(-1, 0);
-        public static Direction Up = new(0, -1);
-        public static Direction Down = new(0, 1);
+        public static Direction R = new(1, 0);
+        public static Direction L = new(-1, 0);
+        public static Direction U = new(0, -1);
+        public static Direction D = new(0, 1);
+        public bool isHorizontal => x != 0;
+        public bool isVertical => x != 0;
+
+        public bool isClockWise(Direction next)
+        {
+            if (next == Direction.R) return this == Direction.U;
+            else if (next == Direction.D) return this == Direction.R;
+            else if (next == Direction.L) return this == Direction.D;
+            else if (next == Direction.U) return this == Direction.L;
+            else throw new ArgumentException("Invalid direction");
+        }
+
     }
 
     public Instruction ParseInstruction(string input)
@@ -58,10 +76,10 @@ public class Day18 : Christmas
             string color = match.Groups[3].Value;
             Direction parsedDirection = direction switch
             {
-                "R" => Direction.Right,
-                "L" => Direction.Left,
-                "U" => Direction.Up,
-                "D" => Direction.Down,
+                "R" => Direction.R,
+                "L" => Direction.L,
+                "U" => Direction.U,
+                "D" => Direction.D,
                 _ => throw new ArgumentException("Invalid direction"),
             };
             return new Instruction(parsedDirection, places, color);
@@ -80,10 +98,10 @@ public class Day18 : Christmas
 
         var direction = instruction.color[6] switch
         {
-            '0' => Direction.Right,
-            '1' => Direction.Down,
-            '2' => Direction.Left,
-            '3' => Direction.Up,
+            '0' => Direction.R,
+            '1' => Direction.D,
+            '2' => Direction.L,
+            '3' => Direction.U,
             _ => throw new ArgumentException("Invalid direction"),
         };
         return new Instruction(direction, decimalValue, $"#{hex}{direction}");
@@ -113,8 +131,8 @@ public class Day18 : Christmas
         }
         public int ProcessData(Instruction[] instructions)
         {
-            long maxX = instructions.Where(i => i.Direction == Direction.Right).Sum(i => i.Direction.x * i.Places);
-            long maxY = instructions.Where(i => i.Direction == Direction.Down).Sum(i => i.Direction.y * i.Places);
+            long maxX = instructions.Where(i => i.Direction == Direction.R).Sum(i => i.Direction.x * i.Places);
+            long maxY = instructions.Where(i => i.Direction == Direction.D).Sum(i => i.Direction.y * i.Places);
 
             grid = Enumerable.Range(0, (int)maxX * 2 + 1).Select(x => new string('.', (int)maxY * 2 + 1)).ToArray();
 
@@ -128,7 +146,7 @@ public class Day18 : Christmas
                     x += instruction.Direction.x;
                     y += instruction.Direction.y;
                     grid[y] = grid[y][..(int)x] + first + grid[y][((int)x + 1)..];
-                    if(first == "%")
+                    if (first == "%")
                         first = "#";
 
                 }
@@ -156,11 +174,12 @@ public class Day18 : Christmas
 
         public static double ProcessDataIntelligently(Instruction[] instructions)
         {
-            var points = findPoints(instructions);
-              PrintPoints(points);
+            var points = Map(instructions);
+            PrintPoints(points);
             return CalculatePolygonArea(points);
 
         }
+
         public static void PrintPoints(Point[] points)
         {
             var minX = points.Min(p => p.x);
@@ -181,14 +200,96 @@ public class Day18 : Christmas
             // Console.WriteLine();
             //         }
         }
+        public static Point[] Map(Instruction[] instructions)
+        {
+            var points = new List<Point>();
+            var ptr = new Point(0, 0);
 
-        private static Point[] findPoints(Instruction[] instructions)
+            var lastDirection = instructions.Last().Direction;
+            instructions[0].Previous = instructions.Last();
+            instructions.Last().Previous = instructions[^2];
+            bool isXPadded = false; // nstructions[0].Direction.x == Direction.L.x;
+            bool isYPadded = false;// instructions[0].Direction.y == Direction.U.y;
+
+            (var direction, long places, _) = instructions[0];
+            bool clockwise = isClockwise(direction, lastDirection);
+            for (int i = 0; i < instructions.Length; i++)
+            {
+                instructions[(i + 1) % instructions.Length].Previous = instructions[i];
+                var nextDirection = instructions[(i + 1) % instructions.Length].Direction;
+                (direction, places, _) = instructions[i];
+
+                long baseX = ptr.x + (places * direction.x);
+                long baseY = ptr.y + (places * direction.y);
+                long nextX = baseX;
+                long nextY = baseY;
+                bool padX = false;
+                bool padY = false;
+
+                if (direction.isHorizontal)
+                {
+                    isXPadded = direction == Direction.L;
+                    padX = direction.isClockWise(nextDirection) && !isXPadded;
+                    if (!clockwise) 
+                        padX = !padX;
+                    long offsetX;
+                    if (padX )
+                    {
+                        offsetX = (padX && direction.x != 0 ? direction.x : 0);
+                        nextX += offsetX;
+                    }
+                    else if (!padX )
+                    {
+                        nextX -= 1;
+                    }
+                }
+                else
+                {
+                    isYPadded = direction == Direction.U;
+                    padY = (direction.isClockWise(nextDirection) && isYPadded) ;
+                    if (!clockwise)
+                        padY = !padY;
+                    long offsetY;
+                    if (padY && !isYPadded)
+                    {
+                        offsetY = (padY && direction.y != 0 ? direction.y : 0);
+                        nextY += offsetY;
+                    }
+                    else if (!padY&& isYPadded )
+                    {
+                        nextY -= 1;
+                    }
+                }
+
+                var nextPoint = new Point(nextX, nextY);
+
+                points.Add(nextPoint);
+                ptr = nextPoint;
+                lastDirection = direction;
+
+
+            }
+
+            return points.ToArray();
+        }
+
+        private static bool isClockwise(Direction direction, Direction lastDirection)
+        {
+            if (direction == Direction.R) return lastDirection == Direction.U;
+            else if (direction == Direction.D) return lastDirection == Direction.R;
+            else if (direction == Direction.L) return lastDirection == Direction.D;
+            else if (direction == Direction.U) return lastDirection == Direction.L;
+            else throw new ArgumentException("Invalid direction");
+           
+        }
+
+        public static Point[] FindPoints(Instruction[] instructions)
         {
             var points = new List<Point>();
             var lastDirection = instructions.Last().Direction;
 
-            bool isXpadded = instructions[0].Direction.x == Direction.Left.x;
-            bool isYpadded = instructions[0].Direction.y == Direction.Up.y;
+            bool isXpadded = instructions[0].Direction.x == Direction.L.x;
+            bool isYpadded = instructions[0].Direction.y == Direction.U.y;
 
             var ptr = new Point(0, 0);
             for (int i = 0; i < instructions.Length; i++)
