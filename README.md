@@ -1,5 +1,15 @@
 ﻿# Advent of Code 2024
 
+
+## [Day 2](https://adventofcode.com/2024/day/2)
+
+Tricky one because I misread the second part. My Solution is [here](2024/Day02/Program.cs).
+
+	Elapsed time:13 ms
+	Part 1:383
+	Elapsed time:4 ms
+	Part 2:436
+
 ## [Day 1](https://adventofcode.com/2024/day/1)
 A good and easy start. But maybe it's all downhill from here 😅 [Here](2024/Day01/Program.cs) is my solution to day 1.
 
