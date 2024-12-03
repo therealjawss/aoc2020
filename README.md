@@ -1,5 +1,13 @@
 ﻿# Advent of Code 2024
 
+## [Day 3](https://adventofcode.com/2024/day/3) 
+
+Hello regex my old acquaintance... [Here](2024/Day03/Program.cs) is my solution to day 3.
+
+	Elapsed time:21 ms
+	Part 1:182780583
+	Elapsed time:2 ms
+	Part 2:90772405
 
 ## [Day 2](https://adventofcode.com/2024/day/2)
 
