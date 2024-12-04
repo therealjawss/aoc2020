@@ -1,5 +1,13 @@
 ﻿# Advent of Code 2024
 
+
+## [Day 4](https://adventofcode.com/2024/day/4)
+
+	Elapsed time:45 ms
+	Part 1:2593
+	Elapsed time:1 ms
+	Part 2:1950
+	Have a Coffee
 ## [Day 3](https://adventofcode.com/2024/day/3) 
 
 Hello regex my old acquaintance... [Here](2024/Day03/Program.cs) is my solution to day 3.
