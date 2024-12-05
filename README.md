@@ -1,5 +1,14 @@
 ﻿# Advent of Code 2024
 
+## [Day 5](https://adventofcode.com/2024/day/5)
+
+I have long forgotten my sorting algorithms but this felt a bit like a sorting algorithm on some mild narcotics.
+[Here](2024/Day05/Program.cs) is my solution to day 5.
+	
+	Elapsed time:15 ms
+	Part 1:5374
+	Elapsed time:75 ms
+	Part 2:4260
 
 ## [Day 4](https://adventofcode.com/2024/day/4)
 
