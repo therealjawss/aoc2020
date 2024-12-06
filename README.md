@@ -1,5 +1,13 @@
 ﻿# Advent of Code 2024
 
+## [Day 6](https://adventofcode.com/2024/day/6)
+Hello brute force my old friend 😅 [Here](2024/Day06/Program.cs) is my solution to day 6.
+
+	Elapsed time:3 ms
+	Part 1:4721
+	Elapsed time:13027 ms
+	Part 2:1602
+
 ## [Day 5](https://adventofcode.com/2024/day/5)
 
 I have long forgotten my sorting algorithms but this felt a bit like a sorting algorithm on some mild narcotics.

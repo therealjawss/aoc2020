@@ -33,4 +33,3 @@ echo } >> f
 
 move f Day%1\Program.cs
 cd Day%1
-dotnet return
