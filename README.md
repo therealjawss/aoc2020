@@ -1,5 +1,14 @@
 ﻿# Advent of Code 2024
 
+
+## [Day 7](https://adventofcode.com/2024/day/7)
+
+ 
+
+ ![screenshot of puzzle results](images/2024-04.png)
+
+Okay, today deserved a screenshot because it's surprisingly the first time i have ever colored my console output :D. Today was I love ULONG time AND recursion all in one. Writing tests was very helpful in getting the solution right. [Here](2024/Day07/Program.cs) is my solution to day 7.
+
 ## [Day 6](https://adventofcode.com/2024/day/6)
 Hello brute force my old friend 😅 [Here](2024/Day06/Program.cs) is my solution to day 6.
 
