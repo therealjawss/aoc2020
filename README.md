@@ -1,6 +1,16 @@
 ﻿# Advent of Code 2024
 
+## [Day 9](https://adventofcode.com/2024/day/9)
+I guess it just gets harder from now on :D . [Here](2024/Day09/Program.cs) is my solution to day 9.
 
+	Elapsed time:81 ms
+	Part 1:6390180901651
+	Elapsed time:678 ms
+	Part 2:6412390114238
+
+## [Day 8](https://adventofcode.com/2024/day/8)
+// Todo: 😅
+	
 ## [Day 7](https://adventofcode.com/2024/day/7)
 
  
